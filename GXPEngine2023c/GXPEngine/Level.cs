@@ -11,10 +11,14 @@ public class Level : GameObject
 {
     private int xBoundarySize = 500;    // how many pixels can the player be from the sides before scrolling starts
     private int yBoundarySize = 250;    // same but top and bottom
+    private int waveTime = 3;          // max time until next wave spawns
 
+    List<Enemy> enemies = new List<Enemy>();
     private Player player;
     private ShootingEnemy sEnemy;
     private MeleeEnemy mEnemy;
+    private float timePassed;
+    private int waveNumber;
 
 
     public Level()
@@ -44,6 +48,31 @@ public class Level : GameObject
 
     }
 
+    void EnemySpawning()
+    {
+        //Console.WriteLine("enemySpawning");
+        timePassed += Time.deltaTime/100;
+        Console.WriteLine(timePassed);
+        if (timePassed <= 0 || enemies.Count == 0)
+        {
+            waveNumber++;
+            Console.WriteLine("new wave");
+            // spawn the enemies
+            for (int i = 0; i < waveNumber; i++)
+            {
+                enemies.Add(new ShootingEnemy("checkers.png", 1, 1));
+                Console.WriteLine("smt should've happened");
+            }
+
+
+            // reset timer
+            timePassed -= waveTime;
+        }
+
+
+    }
+
+
     void HandleScroll()
     {
         if (player == null) return;
@@ -61,7 +90,9 @@ public class Level : GameObject
 
     void Update()
     {
+        EnemySpawning();
         HandleScroll();
+
     }
 
 
