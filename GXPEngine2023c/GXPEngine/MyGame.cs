@@ -3,20 +3,33 @@ using GXPEngine;                                // GXPEngine contains the engine
 using System.Drawing;                           // System.Drawing contains drawing tools such as Color definitions
 
 public class MyGame : Game {
+
+	private Player player;
+	private ShootingEnemy sEnemy;
+	private MeleeEnemy mEnemy;
+
+
 	public MyGame() : base(800, 600, false)     // Create a window that's 800x600 and NOT fullscreen
 	{
-		// Draw some things on a canvas:
+		// Background:
 		EasyDraw canvas = new EasyDraw(800, 600);
 		canvas.Clear(Color.MediumPurple);
-		canvas.Fill(Color.Yellow);
-		canvas.Ellipse(width / 2, height / 2, 200, 200);
-		canvas.Fill(50);
-		canvas.TextSize(32);
-		canvas.TextAlign(CenterMode.Center, CenterMode.Center);
-		canvas.Text("Welcome!", width / 2, height / 2);
+		
+		player = new Player();
+		player.SetXY(50, 50);
 
-		// Add the canvas to the engine to display it:
-		AddChild(canvas);
+        sEnemy = new ShootingEnemy("checkers.png", 1, 1);
+        sEnemy.SetXY(200, 200);
+
+		mEnemy = new MeleeEnemy("colors.png", 1, 1);
+		mEnemy.SetXY(400, 400);
+
+        AddChild(canvas);
+
+
+		AddChild(player);
+		AddChild(sEnemy);
+		AddChild(mEnemy);
 		Console.WriteLine("MyGame initialized");
 	}
 

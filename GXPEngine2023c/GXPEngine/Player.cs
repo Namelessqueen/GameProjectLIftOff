@@ -14,6 +14,7 @@ class Player : AnimationSprite
     public Player() : base("barry.png", 7, 1)
     {
         speed = 2f;
+        SetOrigin(width/2, height/2);
     }
 
     void Update()
