@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using GXPEngine;
 
-internal class Player : AnimationSprite
+class Player : AnimationSprite
 {
     private float speed;
     private bool isMoving;
