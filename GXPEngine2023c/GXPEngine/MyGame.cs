@@ -6,6 +6,7 @@ public class MyGame : Game {
 
 	private Player player;
 	private ShootingEnemy sEnemy;
+	private MeleeEnemy mEnemy;
 
 
 	public MyGame() : base(800, 600, false)     // Create a window that's 800x600 and NOT fullscreen
@@ -20,11 +21,15 @@ public class MyGame : Game {
         sEnemy = new ShootingEnemy("checkers.png", 1, 1);
         sEnemy.SetXY(200, 200);
 
+		mEnemy = new MeleeEnemy("colors.png", 1, 1);
+		mEnemy.SetXY(400, 400);
+
         AddChild(canvas);
 
 
 		AddChild(player);
 		AddChild(sEnemy);
+		AddChild(mEnemy);
 		Console.WriteLine("MyGame initialized");
 	}
 

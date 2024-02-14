@@ -5,20 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-class ShootingEnemy : Enemy
+class MeleeEnemy : Enemy
 {
 
-    private float speed = 1;            // how fast this enemy is moving
-    private float bulletCooldown = 1;   // how many seconds need to pass until the next bullet is shot
-    private float bulletSpeed = 3;      // how fast is the bullet going
-    private float playerDistance = 150; // how much distance from the player until it stops moving
-    
-    private float time;
+    private float speed = 1.5f;     // how fast this enemy is moving
+
     private Player player;
     private float xPointToPlayer, yPointToPlayer;
 
 
-    public ShootingEnemy(string fileName, int cols, int rows) : base("checkers.png", cols, rows)
+    public MeleeEnemy(string fileName, int cols, int rows) : base("colors.png", cols, rows)
     {
         scale = 1;
         SetOrigin(width / 2, height / 2);
@@ -50,25 +46,7 @@ class ShootingEnemy : Enemy
         //Console.WriteLine(Mathf.Abs(Mathf.Abs(xPointToPlayer) + Mathf.Abs(yPointToPlayer) - 1));
 
 
-        
-
-
-        // SHOOTING
-        time += Time.deltaTime;
-        
-
-        if (time / 1000 >= bulletCooldown)
-        {
-            AddChild(new Bullet(bulletSpeed * xPointToPlayer, bulletSpeed * yPointToPlayer));
-            time -= bulletCooldown * 1000;
-        }
-
-
         // MOVEMENT
-        // if enemy is close enough to player, stop moving
-        if (DistanceTo(player) <= playerDistance) return;
-
-
         x += speed * xPointToPlayer;
         y += speed * yPointToPlayer;
 
