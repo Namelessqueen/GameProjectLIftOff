@@ -5,3 +5,10 @@ C:\Users\Bram\Documents\TryingSomething\GameProjectLIftOff\GXPEngine2023c\GXPEng
 C:\Users\Bram\Documents\TryingSomething\GameProjectLIftOff\GXPEngine2023c\GXPEngine\obj\x86\Debug\GXPEngine.csproj.CoreCompileInputs.cache
 C:\Users\Bram\Documents\TryingSomething\GameProjectLIftOff\GXPEngine2023c\GXPEngine\obj\x86\Debug\GXPEngine.exe
 C:\Users\Bram\Documents\TryingSomething\GameProjectLIftOff\GXPEngine2023c\GXPEngine\obj\x86\Debug\GXPEngine.pdb
+D:\Gebruiker\Saxion\3.1-3.2 Project\GameProjectLIftOff\GXPEngine2023c\GXPEngine\bin\Debug\GXPEngine.exe.config
+D:\Gebruiker\Saxion\3.1-3.2 Project\GameProjectLIftOff\GXPEngine2023c\GXPEngine\bin\Debug\GXPEngine.exe
+D:\Gebruiker\Saxion\3.1-3.2 Project\GameProjectLIftOff\GXPEngine2023c\GXPEngine\bin\Debug\GXPEngine.pdb
+D:\Gebruiker\Saxion\3.1-3.2 Project\GameProjectLIftOff\GXPEngine2023c\GXPEngine\obj\x86\Debug\GXPEngine.csproj.AssemblyReference.cache
+D:\Gebruiker\Saxion\3.1-3.2 Project\GameProjectLIftOff\GXPEngine2023c\GXPEngine\obj\x86\Debug\GXPEngine.csproj.CoreCompileInputs.cache
+D:\Gebruiker\Saxion\3.1-3.2 Project\GameProjectLIftOff\GXPEngine2023c\GXPEngine\obj\x86\Debug\GXPEngine.exe
+D:\Gebruiker\Saxion\3.1-3.2 Project\GameProjectLIftOff\GXPEngine2023c\GXPEngine\obj\x86\Debug\GXPEngine.pdb
