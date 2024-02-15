@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing.Text;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,16 +12,19 @@ class Player : AnimationSprite
 {
     private float speed;
     private bool isMoving;
+    private int health;
     public Player() : base("barry.png", 7, 1)
     {
         speed = 2f;
-        SetOrigin(width/2, height/2);
+        health = 3;
     }
 
     void Update()
     {
+        HealthUpdate();
         Movement();
         Animation();
+        Console.WriteLine(health);
     }
 
     void Movement()
@@ -60,7 +64,18 @@ class Player : AnimationSprite
         else
         { SetCycle(4, 3, 60); }
         Animate();
+    }
 
+    void HealthUpdate()
+    {
+        if (Input.GetKeyDown(Key.SPACE) && health > 0)
+        {
+            health--;
+        }
+        if (health == 0)
+        {
+            this.Destroy();
+        }
     }
 
 }
