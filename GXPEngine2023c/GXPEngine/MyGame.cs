@@ -4,42 +4,25 @@ using System.Drawing;                           // System.Drawing contains drawi
 
 public class MyGame : Game {
 
-	private Player player;
-	private ShootingEnemy sEnemy;
-	private MeleeEnemy mEnemy;
+	
 
 
-	public MyGame() : base(800, 600, false)     // Create a window that's 800x600 and NOT fullscreen
+	public MyGame() : base(1377, 768, false, true, 1366, 768, true)     
 	{
-		// Background:
-		EasyDraw canvas = new EasyDraw(800, 600);
-		canvas.Clear(Color.MediumPurple);
-		
-		player = new Player();
-		player.SetXY(50, 50);
 
-        sEnemy = new ShootingEnemy("checkers.png", 1, 1);
-        sEnemy.SetXY(200, 200);
-
-		mEnemy = new MeleeEnemy("colors.png", 1, 1);
-		mEnemy.SetXY(400, 400);
-
-        AddChild(canvas);
-
-
-		AddChild(player);
-		AddChild(sEnemy);
-		AddChild(mEnemy);
-		Console.WriteLine("MyGame initialized");
+		AddChild(new Level());
 	}
 
-	// For every game object, Update is called every frame, by the engine:
+	
 	void Update() {
-		// Empty
-	}
+        if (Input.GetKeyDown(Key.P))
+        {
+            Console.WriteLine(GetDiagnostics());
+        }
+    }
 
-	static void Main()                          // Main() is the first method that's called when the program is run
+	static void Main()                          
 	{
-		new MyGame().Start();                   // Create a "MyGame" and start it
+		new MyGame().Start();                   
 	}
 }
