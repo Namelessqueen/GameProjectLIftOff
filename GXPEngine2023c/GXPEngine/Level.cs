@@ -17,18 +17,21 @@ public class Level : GameObject
     private Player player;
     private ShootingEnemy sEnemy;
     private MeleeEnemy mEnemy;
+    private TextCanvas canvas;
     private float timePassed;
     private int waveNumber;
 
 
     public Level()
     {
-        // Background:
-        EasyDraw canvas = new EasyDraw(game.width, game.height);
-        canvas.Clear(Color.MediumPurple);
+        // Background + text:
+        canvas = new TextCanvas();
+
+        
 
         player = new Player();
         player.SetXY(50, 50);
+ 
 
         sEnemy = new ShootingEnemy("checkers.png", 1, 1);
         sEnemy.SetXY(200, 200);
@@ -36,8 +39,7 @@ public class Level : GameObject
         mEnemy = new MeleeEnemy("colors.png", 1, 1);
         mEnemy.SetXY(400, 400);
 
-        AddChild(canvas);
-
+        game.AddChild(canvas);
 
         AddChild(player);
         AddChild(sEnemy);
@@ -86,7 +88,7 @@ public class Level : GameObject
     }
 
 
-    void HandleScroll()
+    public void HandleScroll()
     {
         if (player == null) return;
 
@@ -105,8 +107,5 @@ public class Level : GameObject
     {
         EnemySpawning();
         HandleScroll();
-
     }
-
-
 }
