@@ -25,7 +25,6 @@ class Player : AnimationSprite
         Animation();
         collisionPlayer();
         Gameover();
-        Console.WriteLine(HealthUpdate(0));
     }
 
     void Movement()
