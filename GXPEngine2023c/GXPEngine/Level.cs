@@ -11,9 +11,9 @@ public class Level : GameObject
 {
     private int xBoundarySize = 500;    // how many pixels can the player be from the sides before scrolling starts
     private int yBoundarySize = 250;    // same but top and bottom
-    private int waveTime = 3;          // max time until next wave spawns
+    private int waveTime = 3;          // max time in seconds until next wave spawns
 
-    List<Enemy> enemies = new List<Enemy>();
+    private List<Enemy> enemies = new List<Enemy>();
     private Player player;
     private ShootingEnemy sEnemy;
     private MeleeEnemy mEnemy;
@@ -50,23 +50,36 @@ public class Level : GameObject
 
     void EnemySpawning()
     {
-        //Console.WriteLine("enemySpawning");
-        timePassed += Time.deltaTime/100;
-        Console.WriteLine(timePassed);
-        if (timePassed <= 0 || enemies.Count == 0)
+        
+        timePassed += Time.deltaTime;
+        
+        if (timePassed/1000 >= waveTime || enemies.Count == 0)
         {
             waveNumber++;
             Console.WriteLine("new wave");
+
             // spawn the enemies
             for (int i = 0; i < waveNumber; i++)
             {
                 enemies.Add(new ShootingEnemy("checkers.png", 1, 1));
-                Console.WriteLine("smt should've happened");
+
+                // RANDOM ENEMY SPAWNING DOESN'T KEEP THE PLAYER IN MIND YET
+                // ALSO ONLY SPAWNS IN THE SPACE OF THE STARTING SCREEN
+                enemies.Last().SetXY(Utils.Random(100, game.width - 100), Utils.Random(100, game.height - 100));
+
+                AddChild(enemies.Last());
+  
+                // Console.WriteLine(enemies.Count);
+
+                
             }
 
 
             // reset timer
-            timePassed -= waveTime;
+            // timePassed -= waveTime*1000;     // DOESN'T WORK IF WAVE SPAWNS BECAUSE NO ENEMIES ON SCREEN
+            timePassed = 0;
+            Console.WriteLine("new timePassed: " + timePassed);
+            Console.WriteLine("waveNumber: " + waveNumber);
         }
 
 
