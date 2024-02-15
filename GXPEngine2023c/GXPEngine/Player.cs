@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using GXPEngine;
+using System.IO.Ports;
 
 class Player : AnimationSprite
 {
@@ -24,7 +25,7 @@ class Player : AnimationSprite
         HealthUpdate();
         Movement();
         Animation();
-        Console.WriteLine(health);
+        //Console.WriteLine(health);
     }
 
     void Movement()

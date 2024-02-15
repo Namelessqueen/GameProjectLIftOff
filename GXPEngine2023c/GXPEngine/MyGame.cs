@@ -1,6 +1,8 @@
 using System;                                   // System contains a lot of default C# libraries 
 using GXPEngine;                                // GXPEngine contains the engine
 using System.Drawing;                           // System.Drawing contains drawing tools such as Color definitions
+using System.IO.Ports;
+using System.Threading;
 
 public class MyGame : Game {
 
@@ -10,6 +12,7 @@ public class MyGame : Game {
 	public MyGame() : base(1377, 768, false, true, 1366, 768, true)     
 	{
 
+		AddChild(new ArduinoInput());
 		AddChild(new Level());
 	}
 
@@ -23,6 +26,11 @@ public class MyGame : Game {
 
 	static void Main()                          
 	{
-		new MyGame().Start();                   
+
+        
+
+
+        new MyGame().Start();
+
 	}
 }
