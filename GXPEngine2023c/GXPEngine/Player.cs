@@ -12,19 +12,19 @@ class Player : AnimationSprite
 {
     private float speed;
     private bool isMoving;
-    private int health;
+    private int currentHealth;
     public Player() : base("barry.png", 7, 1)
     {
         speed = 2f;
-        health = 3;
+        currentHealth = 3;
     }
 
     void Update()
     {
-        HealthUpdate();
         Movement();
         Animation();
-        Console.WriteLine(health);
+        collisionPlayer();
+        Gameover();
     }
 
     void Movement()
@@ -66,17 +66,39 @@ class Player : AnimationSprite
         Animate();
     }
 
-    void HealthUpdate()
+    public int HealthUpdate(int pHealthChange)
     {
-        if (Input.GetKeyDown(Key.SPACE) && health > 0)
-        {
-            health--;
-        }
-        if (health == 0)
-        {
-            this.Destroy();
-        }
+        int healthChange = pHealthChange;
+
+        currentHealth = currentHealth + healthChange;
+        return currentHealth;
     }
 
-}
+    void Gameover()
+    {
+        if (currentHealth<1)
+        {
+            Destroy();
+        }
+    }
+    void collisionPlayer()
+    {
+        GameObject[] collisions = GetCollisions();
+        for (int i = 0; i < collisions.Length; i++)
+        {
+            GameObject col = collisions[i];
+
+            if (col is Enemy || col is Bullet)
+            {
+                col.Destroy();
+                Console.WriteLine(col.name +" hit player");
+                HealthUpdate(-1);
+            }
+            /*
+            else if (col is PowerUp)
+            {
+            }*/
+        }
+    }
+  }
 
