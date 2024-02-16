@@ -27,9 +27,10 @@ class Player : AnimationSprite
     private List<PlayerBullet> playerBullets = new List<PlayerBullet>();
     private Level level;
 
-    public Player() : base("barry.png", 7, 1)
+    public Player() : base("sprite_sub.png", 1, 1)
     {
         SetOrigin(width/2, height/2);
+        scale = .5f;
         speed = 2f;
         currentHealth = 3;
 
@@ -39,7 +40,7 @@ class Player : AnimationSprite
     {
         Movement();
         Attacking();
-        Animation();
+        //Animation();
         collisionPlayer();
         Gameover();
     }
@@ -53,8 +54,8 @@ class Player : AnimationSprite
         if (Input.GetKey(Key.W)) Move(0, -speed);   // UP
         if (Input.GetKey(Key.S)) Move(0,  speed);   // DOWN
         
-        if (Input.AnyKey()) isMoving = true;
-        else                isMoving = false;
+        /*if (Input.AnyKey()) isMoving = true;
+        else                isMoving = false;*/
 
         // Rotation
         rotation = (float)Mathf.Atan2((lastYPos - y), (lastXPos - x))*360/(2*Mathf.PI)-90;
@@ -118,14 +119,14 @@ class Player : AnimationSprite
     }
 
 
-    void Animation()
+    /*void Animation()
     {
         if (isMoving)
         { SetCycle(0, 3, 30); }
         else
         { SetCycle(4, 3, 60); }
         Animate();
-    }
+    }*/
 
     public int HealthUpdate(int pHealthChange)
     {
