@@ -20,9 +20,29 @@ class Enemy : AnimationSprite
     public void Update()
     {
         Act();
+        collisionCheck();
     }
 
+    void collisionCheck()
+    {
+        GameObject[] collisions = GetCollisions();
+        for (int i = 0; i < collisions.Length; i++)
+        {
+            GameObject col = collisions[i];
 
+            if (col is PlayerBullet)
+            {
+                Console.WriteLine(col.name + " killed an enemy");
+                col.LateDestroy();
+                LateDestroy();
+                
+            }
+            /*
+            else if (col is PowerUp)
+            {
+            }*/
+        }
+    }
 
 
     protected virtual void Act()

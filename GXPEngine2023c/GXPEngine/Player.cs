@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Text;
 using System.Dynamic;
 using System.Linq;
@@ -10,18 +11,34 @@ using GXPEngine;
 
 class Player : AnimationSprite
 {
+    private int bulletSpeed = 3;        // The speed bullets will travel at
+    private float reloadTime = .5f;     // Time in seconds until player can shoot again
+    private float reloadTimeSmall = .2f;
+    
     private float speed;
     private bool isMoving;
+    private bool isAttacking;
+    private int attackState;
+    private float reloadCooldown;
     private int currentHealth;
+    private float lastXPos, lastYPos;
+    private float lastRotation;
+    private float bulletXRotHelp, bulletYRotHelp;
+    private List<PlayerBullet> playerBullets = new List<PlayerBullet>();
+    private Level level;
+
     public Player() : base("barry.png", 7, 1)
     {
+        SetOrigin(width/2, height/2);
         speed = 2f;
         currentHealth = 3;
-    }
 
+    }
+    
     void Update()
     {
         Movement();
+        Attacking();
         Animation();
         collisionPlayer();
         Gameover();
@@ -29,33 +46,77 @@ class Player : AnimationSprite
 
     void Movement()
     {
-        if (Input.GetKey(Key.LEFT))
-        {
-            Move(-speed, 0);
-            _mirrorX = true;
-        }
-        if (Input.GetKey(Key.RIGHT))
-        {
-            Move(speed, 0);
-            _mirrorX = false;
-        }
-        if (Input.GetKey(Key.UP))
-        {
-            Move(0, -speed);
-        }
-        if (Input.GetKey(Key.DOWN))
-        {
-            Move(0, speed);
-        }
-        if (Input.AnyKey())
-        {
-            isMoving = true;
-        }
-        else
-        {
-            isMoving = false;
-        }
+        // Moving
+        rotation = 0;
+        if (Input.GetKey(Key.A)) Move(-speed, 0);   // LEFT
+        if (Input.GetKey(Key.D)) Move( speed, 0);   // RIGHT
+        if (Input.GetKey(Key.W)) Move(0, -speed);   // UP
+        if (Input.GetKey(Key.S)) Move(0,  speed);   // DOWN
+        
+        if (Input.AnyKey()) isMoving = true;
+        else                isMoving = false;
+
+        // Rotation
+        rotation = (float)Mathf.Atan2((lastYPos - y), (lastXPos - x))*360/(2*Mathf.PI)-90;
+        if (lastXPos == x && lastYPos == y) rotation = lastRotation;
+
+        lastXPos = x;
+        lastYPos = y;
+        lastRotation = rotation;
+
     }
+
+    void Attacking()
+    {
+        if (level == null) level = game.FindObjectOfType<Level>();
+        // Changing weapons 
+        if (Input.GetKeyDown(Key.T))
+        {
+            attackState++;
+            attackState %= 2;
+        }
+
+        // Pressing J makes you attack
+        if (Input.GetKey(Key.J)) isAttacking = true;
+        else isAttacking = false;
+
+        if (reloadCooldown/1000 > 0)
+        {
+            reloadCooldown -= Time.deltaTime;
+            return;
+        }
+
+        if (!isAttacking) return;
+
+
+        // helping the bullets getting the right rotation
+        var a = rotation * Mathf.PI / 180.0;
+        float cosa = (float)Math.Cos(a);
+        float sina = (float)Math.Sin(a);
+
+        bulletXRotHelp = (0 * cosa - -5 * sina);
+        bulletYRotHelp = (0 * sina + -5 * cosa);
+
+        switch (attackState)
+        {
+            case 0: // Small bullets
+                playerBullets.Add(new PlayerBullet(bulletSpeed * bulletXRotHelp, bulletSpeed * bulletYRotHelp));
+                playerBullets.Last().SetXY(x, y);
+                playerBullets.Last().scale = .3f;
+                level.AddChild(playerBullets.Last());
+                reloadCooldown += reloadTimeSmall * 1000;
+                break;
+
+            case 1: // Bigger bullets
+                playerBullets.Add(new PlayerBullet(bulletSpeed * bulletXRotHelp, bulletSpeed * bulletYRotHelp));
+                playerBullets.Last().SetXY(x, y);
+                level.AddChild(playerBullets.Last());
+                reloadCooldown += reloadTime * 1000;
+                break;
+
+        }       
+    }
+
 
     void Animation()
     {
@@ -78,7 +139,7 @@ class Player : AnimationSprite
     {
         if (currentHealth<1)
         {
-            Destroy();
+            //Destroy();
         }
     }
     void collisionPlayer()
@@ -94,10 +155,6 @@ class Player : AnimationSprite
                 Console.WriteLine(col.name +" hit player");
                 HealthUpdate(-1);
             }
-            /*
-            else if (col is PowerUp)
-            {
-            }*/
         }
     }
   }

@@ -9,8 +9,8 @@ class ShootingEnemy : Enemy
 {
 
     private float speed = 1;            // how fast this enemy is moving
-    private float bulletCooldown = 1;   // how many seconds need to pass until the next bullet is shot
-    private float bulletSpeed = 3;      // how fast is the bullet going
+    private float bulletCooldown = 3;   // how many seconds need to pass until the next bullet is shot
+    private float bulletSpeed = 2;      // how fast is the bullet going
     private float playerDistance = 150; // how much distance from the player until it stops moving
     
     private float time;
