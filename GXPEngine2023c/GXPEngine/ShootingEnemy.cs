@@ -18,7 +18,7 @@ class ShootingEnemy : Enemy
     private float xPointToPlayer, yPointToPlayer;
 
 
-    public ShootingEnemy(string fileName, int cols, int rows) : base("checkers.png", cols, rows)
+    public ShootingEnemy(string fileName = "checkers.png", int cols = 1, int rows = 1) : base(fileName, cols, rows)
     {
         scale = 1;
         SetOrigin(width / 2, height / 2);

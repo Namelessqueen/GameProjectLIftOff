@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 class Enemy : AnimationSprite
 {
+    private int health;
+    private Level level;
+    private string status;
 
-
-    public Enemy(string fileName, int cols, int rows) : base(fileName, cols, rows)
+    public Enemy(string fileName = "square.png", int cols = 1, int rows = 1, int eHealth = 1) : base(fileName, cols, rows)
     {
-
+        health = eHealth;
         SetOrigin(width / 2, height / 2);
     }
 
@@ -21,10 +23,13 @@ class Enemy : AnimationSprite
     {
         Act();
         collisionCheck();
+        DeathCheck();
     }
 
     void collisionCheck()
     {
+        
+        
         GameObject[] collisions = GetCollisions();
         for (int i = 0; i < collisions.Length; i++)
         {
@@ -32,18 +37,35 @@ class Enemy : AnimationSprite
 
             if (col is PlayerBullet)
             {
-                Console.WriteLine(col.name + " killed an enemy");
-                col.LateDestroy();
-                LateDestroy();
+                health--;
                 
+                Console.WriteLine(col.name + " hit an enemy");
+                col.LateDestroy();
             }
-            /*
-            else if (col is PowerUp)
+            if (col is CoolPlayerBullet)
             {
-            }*/
+                status = "slowed";
+            }
+            
         }
     }
 
+    void DeathCheck()
+    {
+
+        if (level == null) level = game.FindObjectOfType<Level>();
+
+
+        if (health <= 0)
+        {
+            LateDestroy();
+            level.RemoveChild(this);
+        }
+        
+
+
+
+    }
 
     protected virtual void Act()
     {

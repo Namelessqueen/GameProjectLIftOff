@@ -109,7 +109,7 @@ class Player : AnimationSprite
                 break;
 
             case 1: // Bigger bullets
-                playerBullets.Add(new PlayerBullet(bulletSpeed * bulletXRotHelp, bulletSpeed * bulletYRotHelp));
+                playerBullets.Add(new CoolPlayerBullet(bulletSpeed * bulletXRotHelp, bulletSpeed * bulletYRotHelp));
                 playerBullets.Last().SetXY(x, y);
                 level.AddChild(playerBullets.Last());
                 reloadCooldown += reloadTime * 1000;

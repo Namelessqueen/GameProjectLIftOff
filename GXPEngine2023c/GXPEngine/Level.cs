@@ -11,12 +11,12 @@ public class Level : GameObject
 {
     private int xBoundarySize = 500;    // how many pixels can the player be from the sides before scrolling starts
     private int yBoundarySize = 250;    // same but top and bottom
-    private int waveTime = 3;          // max time in seconds until next wave spawns
+    private int waveTime = 10;          // max time in seconds until next wave spawns
 
     private List<Enemy> enemies = new List<Enemy>();
     private Player player;
-    private ShootingEnemy sEnemy;
-    private MeleeEnemy mEnemy;
+    //private ShootingEnemy sEnemy;
+    //private MeleeEnemy mEnemy;
     private float timePassed;
     private int waveNumber;
 
@@ -28,20 +28,20 @@ public class Level : GameObject
         canvas.Clear(Color.MediumPurple);
 
         player = new Player();
-        player.SetXY(50, 50);
+        player.SetXY(game.width/2, game.height/2);
 
-        sEnemy = new ShootingEnemy("checkers.png", 1, 1);
+        /*sEnemy = new ShootingEnemy("checkers.png", 1, 1);
         sEnemy.SetXY(200, 200);
 
         mEnemy = new MeleeEnemy("colors.png", 1, 1);
-        mEnemy.SetXY(400, 400);
+        mEnemy.SetXY(400, 400);*/
 
         AddChild(canvas);
 
 
         AddChild(player);
-        AddChild(sEnemy);
-        AddChild(mEnemy);
+        //AddChild(sEnemy);
+        //AddChild(mEnemy);
 
         player = FindObjectOfType<Player>();
 
@@ -61,7 +61,8 @@ public class Level : GameObject
             // spawn the enemies
             for (int i = 0; i < waveNumber; i++)
             {
-                enemies.Add(new ShootingEnemy("checkers.png", 1, 1));
+                if (i%2 == 0) enemies.Add(new ShootingEnemy());
+                else          enemies.Add(new MeleeEnemy());
 
                 // RANDOM ENEMY SPAWNING DOESN'T KEEP THE PLAYER IN MIND YET
                 // ALSO ONLY SPAWNS IN THE SPACE OF THE STARTING SCREEN
@@ -69,7 +70,7 @@ public class Level : GameObject
 
                 AddChild(enemies.Last());
   
-                // Console.WriteLine(enemies.Count);
+                Console.WriteLine("enemies.count: "+enemies.Count);
 
                 
             }
