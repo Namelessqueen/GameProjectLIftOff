@@ -58,7 +58,7 @@ class Player : AnimationSprite
         else                isMoving = false;*/
 
         // Rotation
-        rotation = (float)Mathf.Atan2((lastYPos - y), (lastXPos - x))*360/(2*Mathf.PI)-90;
+        rotation = (float)Mathf.Atan2((lastYPos - y), (lastXPos - x))*360/(2*Mathf.PI)+90;
         if (lastXPos == x && lastYPos == y) rotation = lastRotation;
 
         lastXPos = x;
@@ -91,7 +91,7 @@ class Player : AnimationSprite
 
 
         // helping the bullets getting the right rotation
-        var a = rotation * Mathf.PI / 180.0;
+        var a = (rotation+180) * Mathf.PI / 180.0;
         float cosa = (float)Math.Cos(a);
         float sina = (float)Math.Sin(a);
 
