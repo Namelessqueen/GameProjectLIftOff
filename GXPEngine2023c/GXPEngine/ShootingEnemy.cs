@@ -15,13 +15,16 @@ class ShootingEnemy : Enemy
     private float playerDistance = 150;            // how much distance from the player until it stops moving
 
     private float slowedMultiplier = .75f;         // how much the enemy is slowed by cool bullets
+    private float poisonedTimer = 1000;
     
-    private float time;
+    private float bulletTime;
     private Player player;
     private float xPointToPlayer, yPointToPlayer;
     private bool hasStatus;
     private float statusCooldown;
     private float originalSpeed;
+    private int poisonHitsTaken;
+    private float poisonTime;
     
 
 
@@ -58,13 +61,13 @@ class ShootingEnemy : Enemy
 
 
         // SHOOTING
-        time += Time.deltaTime;
+        bulletTime += Time.deltaTime;
         
 
-        if (time / 1000 >= bulletCooldown)
+        if (bulletTime / 1000 >= bulletCooldown)
         {
             AddChild(new Bullet(bulletSpeed * xPointToPlayer, bulletSpeed * yPointToPlayer, player));
-            time -= bulletCooldown * 1000;
+            bulletTime -= bulletCooldown * 1000;
         }
 
 
@@ -83,6 +86,7 @@ class ShootingEnemy : Enemy
 
     protected override void StatusCheck()
     {
+        if (status == null) return;
 
         if (hasStatus)
         {
@@ -99,8 +103,32 @@ class ShootingEnemy : Enemy
 
                 hasStatus = false;
                 status = null;
+                return;
             }
             
+
+            if (status == "slowed")
+            {
+                SetColor(.1f, .5f, .9f);
+
+            }
+
+            if (status == "poisoned")
+            {
+                poisonTime += Time.deltaTime;
+                if (poisonTime >= poisonedTimer)
+                {
+                    poisonTime -= poisonedTimer;
+                    health--;        
+                    
+                }
+
+                SetColor(.2f, .8f, .2f);
+
+
+            }
+
+
             return;
         }
 
@@ -130,14 +158,25 @@ class ShootingEnemy : Enemy
             */
 
             SetColor(.1f, .5f, .9f);
-
+            
             speed *= slowedMultiplier;
             statusCooldown = 3000;
             hasStatus = true;
 
         }
         
-        
+        if (status == "poisoned")
+        {
+
+
+            SetColor(.2f, .8f, .2f);
+
+            poisonTime = 0;
+            statusCooldown = 2000;
+            hasStatus = true;
+
+
+        }
         
     }
 
@@ -146,7 +185,7 @@ class ShootingEnemy : Enemy
         
         base.CollisionCheck();
 
-        Console.WriteLine("status: "+status);
+        //Console.WriteLine("status: "+status);
 
 
 

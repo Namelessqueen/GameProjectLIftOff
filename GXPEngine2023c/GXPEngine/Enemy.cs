@@ -9,9 +9,10 @@ class Enemy : AnimationSprite
 {
     
     public string status;
+    public int health;
 
-    private int health;
     private Level level;
+    private bool takingDamage;
 
     public Enemy(string fileName = "square.png", int cols = 1, int rows = 1, int eHealth = 3) : base(fileName, cols, rows)
     {
@@ -23,10 +24,10 @@ class Enemy : AnimationSprite
 
     public void Update()
     {
-        CollisionCheck();
         StatusCheck();
+        CollisionCheck();
         Act();
-        DeathCheck();
+        DamageFunctions();
     }
 
     protected virtual void CollisionCheck()
@@ -43,13 +44,16 @@ class Enemy : AnimationSprite
             if (col is PlayerBullet)
             {
                 health--;
+                takingDamage = true;
+                SetColor(.9f, .3f, .3f);
 
                 Console.WriteLine(col.name + " hit an enemy");
                 col.LateDestroy();
             }
             if (col is CoolPlayerBullet)
             {
-                status = "slowed";
+                // status = "slowed";       // the original code, the code below is placeholder
+                status = "poisoned";
             }
 
         }
@@ -67,7 +71,7 @@ class Enemy : AnimationSprite
     }
 
 
-    void DeathCheck()
+    void DamageFunctions()
     {
 
         if (level == null) level = game.FindObjectOfType<Level>();
@@ -76,7 +80,8 @@ class Enemy : AnimationSprite
         if (health <= 0)
         {
             LateDestroy();
-            level.RemoveChild(this);
+            parent.RemoveChild(this);
+            //level.RemoveChild(this);
         }
         
 
