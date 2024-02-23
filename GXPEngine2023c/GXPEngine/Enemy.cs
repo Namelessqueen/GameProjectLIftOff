@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 class Enemy : AnimationSprite
 {
+    
+    public string status;
+
     private int health;
     private Level level;
-    private string status;
 
-    public Enemy(string fileName = "square.png", int cols = 1, int rows = 1, int eHealth = 1) : base(fileName, cols, rows)
+    public Enemy(string fileName = "square.png", int cols = 1, int rows = 1, int eHealth = 3) : base(fileName, cols, rows)
     {
         health = eHealth;
         SetOrigin(width / 2, height / 2);
@@ -21,24 +23,27 @@ class Enemy : AnimationSprite
 
     public void Update()
     {
+        CollisionCheck();
+        StatusCheck();
         Act();
-        collisionCheck();
         DeathCheck();
     }
 
-    void collisionCheck()
+    protected virtual void CollisionCheck()
     {
         
-        
+
         GameObject[] collisions = GetCollisions();
+        
         for (int i = 0; i < collisions.Length; i++)
         {
             GameObject col = collisions[i];
+            if (col is Enemy || col is Bullet) continue;
 
             if (col is PlayerBullet)
             {
                 health--;
-                
+
                 Console.WriteLine(col.name + " hit an enemy");
                 col.LateDestroy();
             }
@@ -46,9 +51,21 @@ class Enemy : AnimationSprite
             {
                 status = "slowed";
             }
-            
+
         }
     }
+
+
+    protected virtual void StatusCheck()
+    {
+
+
+        Console.WriteLine("Enemy.StatusCheck: not implemented");
+
+
+
+    }
+
 
     void DeathCheck()
     {
@@ -69,7 +86,7 @@ class Enemy : AnimationSprite
 
     protected virtual void Act()
     {
-        Console.WriteLine("Behavior.Act: not implemented");
+        Console.WriteLine("Enemy.Act: not implemented");
         // Even better: make this an *abstract* method to force implementing it in subclasses!
     }
 }
