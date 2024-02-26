@@ -31,8 +31,8 @@ class Player : AnimationSprite
     private Level level;
 
     private bool isDashing;
-    private int dashTimer = 1;
-    private int dashCooldown = 1000;
+    private int dashTimer;
+    private int dashCooldown = 250;
 
     public Player() : base("sprite_sub.png", 1, 1)
     {
@@ -48,6 +48,7 @@ class Player : AnimationSprite
     {
         //Console.WriteLine(HealthUpdate(0).ToString());
         Movement();
+        Dashing();
         Attacking();
         collisionPlayer();
         Gameover();
@@ -77,10 +78,17 @@ class Player : AnimationSprite
 
     public void Dashing()
     {
-        if (Input.GetKeyDown(Key.SPACE)) 
+        Console.WriteLine(isDashing);
+        if (Input.GetKeyDown(Key.SPACE) && isDashing == false) 
         { isDashing = true; }
-        dashCooldown = Time.deltaTime;
-        if ()
+
+
+        dashTimer++;
+        if (isDashing && dashTimer - dashCooldown > 0 )
+        {
+            dashTimer = 0;
+            isDashing = false;
+        }
     }
 
     void Attacking()
