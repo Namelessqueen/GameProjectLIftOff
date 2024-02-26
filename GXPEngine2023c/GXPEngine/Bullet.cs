@@ -8,17 +8,30 @@ using System.Threading.Tasks;
 class Bullet : Sprite
 {
     float vx, vy;
-    public Bullet(float pVx, float pVy) : base("circle.png")
+    Level level;
+
+    public Bullet(float pVx, float pVy, Level lLevel) : base("circle.png")
     {
         scale = 0.4f;
         vx = pVx;
         vy = pVy;
+
+        level = lLevel;
+        SetOrigin(width/2, height/2);
     }
 
     void Update()
     {
         x += vx;
         y += vy;
-        // TODO: Check whether offscreen / hit test, and then remove!
+        
+        // Destroy if off screen
+        if (x < -level.x || x > -level.x + game.width || 
+            y < -level.y || y > -level.y + game.height)
+        {
+            Console.WriteLine("Bullet despawned");
+            LateDestroy();
+        }
+
     }
 }

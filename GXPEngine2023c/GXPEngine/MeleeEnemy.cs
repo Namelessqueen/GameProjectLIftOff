@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 class MeleeEnemy : Enemy
 {
-
-    private float speed = 1.5f;     // how fast this enemy is moving
+    private float speed            = 1.5f;         // (pixels) how fast this enemy is moving
+    private float slowedMultiplier = .75f;         // (math, base = 1) how much the enemy is slowed by cool bullets
 
     private Player player;
     private float xPointToPlayer, yPointToPlayer;
+    private float originalSpeed;
 
 
     public MeleeEnemy(string fileName = "colors.png", int cols = 1, int rows = 1) : base(fileName, cols, rows)
@@ -19,7 +20,7 @@ class MeleeEnemy : Enemy
         scale = 1;
         SetOrigin(width / 2, height / 2);
 
-
+        originalSpeed = speed;
     }
 
 
@@ -54,7 +55,37 @@ class MeleeEnemy : Enemy
 
     }
 
+    protected override void StatusCheck()
+    {
+        base.StatusCheck();
 
+        if (status == "slowed")
+        {
+            speed = originalSpeed * slowedMultiplier;
+
+
+        }
+    }
+
+    protected override void ReturnToNormal()
+    {
+        //base.ReturnToNormal();
+
+        speed = originalSpeed;
+
+
+    }
+
+
+
+    protected override void CollisionCheck()
+    {
+
+        base.CollisionCheck();
+
+        //Console.WriteLine("status: "+status);
+
+    }
 
 
 
