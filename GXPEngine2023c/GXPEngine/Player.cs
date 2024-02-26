@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using GXPEngine;
+using TiledMapParser;
 
 class Player : AnimationSprite
 {
@@ -38,6 +39,7 @@ class Player : AnimationSprite
     
     void Update()
     {
+        //Console.WriteLine(HealthUpdate(0).ToString());
         Movement();
         Attacking();
         //Animation();

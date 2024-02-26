@@ -1,4 +1,4 @@
-﻿using GXPEngine;
+using GXPEngine;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -23,9 +23,10 @@ public class Level : GameObject
 
     public Level()
     {
-        // Background:
-        EasyDraw canvas = new EasyDraw(game.width, game.height);
-        canvas.Clear(Color.MediumPurple);
+        // Background + text:
+        canvas = new TextCanvas();
+
+        
 
         player = new Player();
         player.SetXY(game.width/2, game.height/2);
@@ -36,8 +37,7 @@ public class Level : GameObject
         mEnemy = new MeleeEnemy("colors.png", 1, 1);
         mEnemy.SetXY(400, 400);*/
 
-        AddChild(canvas);
-
+        game.AddChild(canvas);
 
         AddChild(player);
         //AddChild(sEnemy);
@@ -87,7 +87,7 @@ public class Level : GameObject
     }
 
 
-    void HandleScroll()
+    public void HandleScroll()
     {
         if (player == null) return;
 
@@ -106,8 +106,5 @@ public class Level : GameObject
     {
         EnemySpawning();
         HandleScroll();
-
     }
-
-
 }
