@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Printing;
 using System.Drawing.Text;
 using System.Dynamic;
 using System.Linq;
@@ -8,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using GXPEngine;
+using GXPEngine.Core;
 using TiledMapParser;
 
 class Player : AnimationSprite
@@ -17,7 +20,6 @@ class Player : AnimationSprite
     private float reloadTimeSmall = .2f;
     
     private float speed;
-    private bool isMoving;
     private bool isAttacking;
     private int attackState;
     private float reloadCooldown;
@@ -28,12 +30,17 @@ class Player : AnimationSprite
     private List<PlayerBullet> playerBullets = new List<PlayerBullet>();
     private Level level;
 
+    private bool isDashing;
+    private int dashTimer = 1;
+    private int dashCooldown = 1000;
+
     public Player() : base("sprite_sub.png", 1, 1)
     {
         SetOrigin(width/2, height/2);
         scale = .5f;
         speed = 2f;
-        currentHealth = 3;
+        currentHealth = 100;
+        isDashing = false;
 
     }
     
@@ -42,22 +49,20 @@ class Player : AnimationSprite
         //Console.WriteLine(HealthUpdate(0).ToString());
         Movement();
         Attacking();
-        //Animation();
         collisionPlayer();
         Gameover();
     }
 
     void Movement()
     {
-        // Moving
+
         rotation = 0;
-        if (Input.GetKey(Key.A)) Move(-speed, 0);   // LEFT
-        if (Input.GetKey(Key.D)) Move( speed, 0);   // RIGHT
-        if (Input.GetKey(Key.W)) Move(0, -speed);   // UP
-        if (Input.GetKey(Key.S)) Move(0,  speed);   // DOWN
-        
-        /*if (Input.AnyKey()) isMoving = true;
-        else                isMoving = false;*/
+
+            if (Input.GetKey(Key.A)) Move(-speed, 0);   // LEFT
+            if (Input.GetKey(Key.D)) Move(speed, 0);   // RIGHT
+            if (Input.GetKey(Key.W)) Move(0, -speed);   // UP
+            if (Input.GetKey(Key.S)) Move(0, speed);
+        // DOWN
 
         // Rotation
         rotation = (float)Mathf.Atan2((lastYPos - y), (lastXPos - x))*360/(2*Mathf.PI)+90;
@@ -67,6 +72,15 @@ class Player : AnimationSprite
         lastYPos = y;
         lastRotation = rotation;
 
+        
+    }
+
+    public void Dashing()
+    {
+        if (Input.GetKeyDown(Key.SPACE)) 
+        { isDashing = true; }
+        dashCooldown = Time.deltaTime;
+        if ()
     }
 
     void Attacking()
@@ -99,7 +113,7 @@ class Player : AnimationSprite
 
         bulletXRotHelp = (0 * cosa - -5 * sina);
         bulletYRotHelp = (0 * sina + -5 * cosa);
-
+        
         switch (attackState)
         {
             case 0: // Small bullets
@@ -121,14 +135,7 @@ class Player : AnimationSprite
     }
 
 
-    /*void Animation()
-    {
-        if (isMoving)
-        { SetCycle(0, 3, 30); }
-        else
-        { SetCycle(4, 3, 60); }
-        Animate();
-    }*/
+   
 
     public int HealthUpdate(int pHealthChange)
     {

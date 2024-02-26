@@ -11,28 +11,27 @@ using TiledMapParser;
 public class TextCanvas : EasyDraw
 {
     private Player player;
-    private List<Sprite> Hearts = new List<Sprite>();
+
+    private float healthPosX = 50;
+    private float healthPosY = 50;
+
     public TextCanvas() : base(Game.main.width, Game.main.height, false)
     {
-    
+
     }
 
     public void Update()
-    { 
-        //Background updates every frame to remove the pervious text
-        Clear(Color.MediumPurple);
-        /*
-        for (int i = 0; i < Hearts.Count; i++)
-        {
-            Hearts.Add(new Sprite("Heart.png", false, false));
-        }*/
-
+    {
+        
         player = game.FindObjectOfType<Player>();
+
         if (player != null)
         {
-
-            Console.WriteLine(player.HealthUpdate(0).ToString());
-            Text(player.HealthUpdate(0).ToString(), (game.width / 50), (game.height / 25));
+            //Console.WriteLine(player.HealthUpdate(0).ToString());
+            StrokeWeight(4);
+            ShapeAlign(CenterMode.Min, CenterMode.Center);
+            Fill(255);  Rect(healthPosX, healthPosY, 200, 25);
+            Fill(255, 0, 0);  Rect(healthPosX, healthPosY, player.HealthUpdate(0) * 2, 25);
         }
     }
 }

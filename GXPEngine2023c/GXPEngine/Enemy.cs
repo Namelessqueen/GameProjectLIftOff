@@ -23,6 +23,8 @@ class Enemy : AnimationSprite
     private float statusCooldown;
     private bool hasStatus;
 
+    private float lastXPos, lastYPos;
+    private float lastRotation;
     public Enemy(string fileName = "square.png", int cols = 1, int rows = 1, int eHealth = 10) : base(fileName, cols, rows)
     {
         health = eHealth;
@@ -37,6 +39,7 @@ class Enemy : AnimationSprite
         StatusCheck();
         CollisionCheck();
         Act();
+        rotate();
         DamageFunctions();
         DamageColoring();
     }
@@ -174,6 +177,18 @@ class Enemy : AnimationSprite
         }
 
     }
+
+    void rotate()
+    {
+        rotation = (float)Mathf.Atan2((lastYPos - y), (lastXPos - x)) * 360 / (2 * Mathf.PI) + 90;
+        if (lastXPos == x && lastYPos == y) rotation = lastRotation;
+
+        lastXPos = x;
+        lastYPos = y;
+        lastRotation = rotation;
+
+    }
+
 
     protected virtual void Act()
     {

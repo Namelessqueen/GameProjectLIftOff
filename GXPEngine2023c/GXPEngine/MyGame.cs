@@ -15,6 +15,7 @@ public class MyGame : Game {
 
 	
 	void Update() {
+
         if (Input.GetKeyDown(Key.P))
         {
             Console.WriteLine(GetDiagnostics());
