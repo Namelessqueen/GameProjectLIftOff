@@ -17,6 +17,7 @@ class CoolPlayerBullet : PlayerBullet
 
     void Update()
     {
+        if (((MyGame)game).isPaused) return;
         x += vx;
         y += vy;
         // TODO: Check whether offscreen / hit test, and then remove!

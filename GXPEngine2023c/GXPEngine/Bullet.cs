@@ -22,6 +22,7 @@ class Bullet : Sprite
 
     void Update()
     {
+        if (((MyGame)game).isPaused) return;
         x += vx;
         y += vy;
         

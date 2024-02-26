@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TiledMapParser;
 
-public class Level : GameObject
+class Level : GameObject
 {
     private int xBoundarySize = 500;    // how many pixels can the player be from the sides before scrolling starts
     private int yBoundarySize = 250;    // same but top and bottom
@@ -104,6 +104,7 @@ public class Level : GameObject
 
     void Update()
     {
+        if (((MyGame)game).isPaused) return;
         EnemySpawning();
         HandleScroll();
 

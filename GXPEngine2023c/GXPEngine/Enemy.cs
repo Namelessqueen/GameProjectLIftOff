@@ -34,6 +34,7 @@ class Enemy : AnimationSprite
 
     public void Update()
     {
+        if (((MyGame)game).isPaused) return;
         StatusCheck();
         CollisionCheck();
         Act();

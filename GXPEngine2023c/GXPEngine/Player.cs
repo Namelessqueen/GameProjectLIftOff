@@ -38,6 +38,7 @@ class Player : AnimationSprite
     
     void Update()
     {
+        if (((MyGame)game).isPaused) return;
         Movement();
         Attacking();
         //Animation();
@@ -64,7 +65,7 @@ class Player : AnimationSprite
         lastXPos = x;
         lastYPos = y;
         lastRotation = rotation;
-
+        
     }
 
     void Attacking()
@@ -158,5 +159,64 @@ class Player : AnimationSprite
             }
         }
     }
-  }
+
+
+    public void GetCardAbility(int cardNumber)
+    {
+        switch (cardNumber)
+        {
+            case 0:
+                CardAttack();
+                break;
+            case 1:
+                CardHealth();
+                break;
+            case 2:
+                CardSpeed();
+                break;
+            case 3:
+                CardDefense();
+                break;
+            case 4:
+                CardPassive();
+                break;
+        }
+        // add more if more cards are added
+
+    }
+
+
+    void CardAttack()
+    {
+        Console.WriteLine("CardAttack chosen");
+
+    }
+
+    void CardHealth()
+    {
+        Console.WriteLine("CardHealth chosen");
+
+    }
+
+    void CardSpeed()
+    {
+        Console.WriteLine("CardSpeed chosen");
+
+    }
+
+    void CardDefense()
+    {
+        Console.WriteLine("CardDefense chosen");
+
+    }
+
+    void CardPassive()
+    {
+        Console.WriteLine("CardPassive chosen");
+
+    }
+
+
+
+}
 
