@@ -19,7 +19,7 @@ public class Level : GameObject
     //private MeleeEnemy mEnemy;
     private float timePassed;
     private int waveNumber;
-    private TextCanvas canvas;
+
     private Sprite background;
 
 
@@ -29,8 +29,7 @@ public class Level : GameObject
         background = new Sprite("background_idea_1.png", false, false);
         background.scale = 4;   
 
-        //text:
-        canvas = new TextCanvas();
+
 
         
 
@@ -44,7 +43,7 @@ public class Level : GameObject
         mEnemy.SetXY(400, 400);*/
 
         AddChild(background);
-        game.AddChild(canvas);
+
 
 
         AddChild(player);

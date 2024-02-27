@@ -31,16 +31,23 @@ class Player : AnimationSprite
     private Level level;
 
     private bool isDashing;
+    private int dashSpeed;
     private int dashTimer;
     private int dashCooldown;
+    private int dashDuration;
+    private bool isDashingEnemy;
+    
 
     public Player() : base("sprite_sub.png", 1, 1)
     {
         SetOrigin(width/2, height/2);
+
         scale = .5f;
         speed = 2f;
         currentHealth = 100;
         isDashing = false;
+        dashDuration = 30;
+        dashSpeed = 3;
 
     }
     
@@ -56,50 +63,65 @@ class Player : AnimationSprite
 
     void Movement()
     {
+        SetColor(1f, 1f, 1f);
 
         rotation = 0;
-
+        
+        if (!isDashingEnemy)
+        {
             if (Input.GetKey(Key.A)) Move(-speed, 0);   // LEFT
             if (Input.GetKey(Key.D)) Move(speed, 0);   // RIGHT
             if (Input.GetKey(Key.W)) Move(0, -speed);   // UP
-            if (Input.GetKey(Key.S)) Move(0, speed);
-        // DOWN
+            if (Input.GetKey(Key.S)) Move(0, speed);   // DOWN
+        }
 
-        // Rotation
-        rotation = (float)Mathf.Atan2((lastYPos - y), (lastXPos - x))*360/(2*Mathf.PI)+90;
+
+        // Rotationi
+
+        rotation = (float)Mathf.Atan2((lastYPos - y), (lastXPos - x)) * 360 / (2 * Mathf.PI) + 90;
+        //if (isDashingEnemy) { rotation += 180; Move(0, -speed * dashSpeed); }
         if (lastXPos == x && lastYPos == y) rotation = lastRotation;
-
         lastXPos = x;
         lastYPos = y;
-        lastRotation = rotation;
 
-        
+        lastRotation = rotation;
     }
 
     public void Dashing()
     {
-        Console.WriteLine(dashTimer);
         dashCooldown++;
         if (Input.GetKeyDown(Key.SPACE) && isDashing == false && dashCooldown > 200) 
         { 
-            isDashing = true;
-            speed = 7f;
+            isDashing = true;   
             dashCooldown = 0;
-            SetColor(1, .8f, .9f);
+            SetColor(1f, 1f, .0f);
             dashTimer = 0;
+
         }
         if (isDashing)
-        {   
+        {
+            Move(0, speed * dashSpeed);
             dashTimer++;
-            if ( dashTimer > 30)
+            if (dashTimer > dashDuration)
             {
                 dashTimer = 0;
                 isDashing = false;
-                speed = 2f;
                 SetColor(1f, 1f, 1f);
             }
         }
-       
+        // Enemy bounch dash
+        /*
+        if (isDashingEnemy)
+        {
+            dashTimer++;
+            if (dashTimer > dashDuration)
+            {
+                dashTimer = 0;
+                isDashingEnemy = false;
+                SetColor(1f, 1f, 1f);
+            }
+        }*/
+
     }
 
     void Attacking()
@@ -178,13 +200,17 @@ class Player : AnimationSprite
         {
             GameObject col = collisions[i];
 
-            if (col is Enemy || col is Bullet)
-            {
-                isDashing = false;
+            if (col is Bullet || col is Enemy)
+            {   /*
+                if (col is Enemy && isDashing)
+                {
+                    isDashingEnemy = true; isDashing = false;
+                    dashTimer = 0;
+                    return;
+                }*/
                 col.Destroy();
                 Console.WriteLine(col.name +" hit player");
                 HealthUpdate(-1);
-
             }
         }
     }

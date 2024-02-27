@@ -12,6 +12,7 @@ public class TextCanvas : EasyDraw
 {
     private Player player;
 
+
     private float healthPosX = 50;
     private float healthPosY = 50;
 

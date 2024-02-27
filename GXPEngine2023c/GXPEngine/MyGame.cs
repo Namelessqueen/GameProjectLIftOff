@@ -4,14 +4,17 @@ using System.Drawing;                           // System.Drawing contains drawi
 
 public class MyGame : Game {
 
-	
 
+    private TextCanvas canvas;
 
-	public MyGame() : base(1377, 768, false, true, 1366, 768, true)     
+    public MyGame() : base(1377, 768, false, true, 1366, 768, true)     
 	{
+        //text:
+        canvas = new TextCanvas();
 
-		AddChild(new Level());
-	}
+        AddChild(new Level());
+        AddChild(canvas);
+    }
 
 	
 	void Update() {
