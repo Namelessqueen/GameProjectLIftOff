@@ -32,7 +32,7 @@ class Player : AnimationSprite
 
     private bool isDashing;
     private int dashTimer;
-    private int dashCooldown = 250;
+    private int dashCooldown;
 
     public Player() : base("sprite_sub.png", 1, 1)
     {
@@ -78,17 +78,28 @@ class Player : AnimationSprite
 
     public void Dashing()
     {
-        Console.WriteLine(isDashing);
-        if (Input.GetKeyDown(Key.SPACE) && isDashing == false) 
-        { isDashing = true; }
-
-
-        dashTimer++;
-        if (isDashing && dashTimer - dashCooldown > 0 )
-        {
+        Console.WriteLine(dashTimer);
+        dashCooldown++;
+        if (Input.GetKeyDown(Key.SPACE) && isDashing == false && dashCooldown > 200) 
+        { 
+            isDashing = true;
+            speed = 7f;
+            dashCooldown = 0;
+            SetColor(1, .8f, .9f);
             dashTimer = 0;
-            isDashing = false;
         }
+        if (isDashing)
+        {   
+            dashTimer++;
+            if ( dashTimer > 30)
+            {
+                dashTimer = 0;
+                isDashing = false;
+                speed = 2f;
+                SetColor(1f, 1f, 1f);
+            }
+        }
+       
     }
 
     void Attacking()
@@ -169,9 +180,11 @@ class Player : AnimationSprite
 
             if (col is Enemy || col is Bullet)
             {
+                isDashing = false;
                 col.Destroy();
                 Console.WriteLine(col.name +" hit player");
                 HealthUpdate(-1);
+
             }
         }
     }
