@@ -28,7 +28,11 @@ class Player : AnimationSprite
     private float lastRotation;
     private float bulletXRotHelp, bulletYRotHelp;
     private List<PlayerBullet> playerBullets = new List<PlayerBullet>();
+    private List<PlayerSecondary> PlayerSecondarys = new List<PlayerSecondary>();
     private Level level;
+
+    private int sBulletAmount;
+    private int bulletOfset;
 
     private bool isDashing;
     private int dashSpeed;
@@ -48,6 +52,8 @@ class Player : AnimationSprite
         isDashing = false;
         dashDuration = 30;
         dashSpeed = 3;
+        sBulletAmount = 5;
+        bulletOfset = 10;
 
     }
     
@@ -165,13 +171,25 @@ class Player : AnimationSprite
                 reloadCooldown += reloadTimeSmall * 1000;
                 break;
 
+            case 1: // Secondary
+
+                PlayerSecondarys.Add(new PlayerSecondary(width /2 , height));
+                //PlayerSecondarys.Last().SetXY(x, y);
+                PlayerSecondarys.Last().scale = .3f;
+                AddChild(PlayerSecondarys.Last());
+                reloadCooldown += reloadTimeSmall * 1000;
+                break;
+
+
+                break;
+            /*
             case 1: // Bigger bullets
                 playerBullets.Add(new CoolPlayerBullet(bulletSpeed * bulletXRotHelp, bulletSpeed * bulletYRotHelp));
                 playerBullets.Last().SetXY(x, y);
                 level.AddChild(playerBullets.Last());
                 reloadCooldown += reloadTime * 1000;
                 break;
-
+            */
         }       
     }
 
