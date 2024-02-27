@@ -92,6 +92,7 @@
     <Compile Include="Player.cs" />
     <Compile Include="PlayerBullet.cs" />
     <Compile Include="ShootingEnemy.cs" />
+    <Compile Include="TextCanvas.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

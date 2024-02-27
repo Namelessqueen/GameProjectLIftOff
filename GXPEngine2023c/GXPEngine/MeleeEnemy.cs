@@ -15,7 +15,7 @@ class MeleeEnemy : Enemy
     private float originalSpeed;
 
 
-    public MeleeEnemy(string fileName = "colors.png", int cols = 1, int rows = 1) : base(fileName, cols, rows)
+    public MeleeEnemy(string fileName = "sprite_enemy2.png", int cols = 1, int rows = 1) : base(fileName, cols, rows)
     {
         scale = 1;
         SetOrigin(width / 2, height / 2);

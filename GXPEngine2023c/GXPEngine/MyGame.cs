@@ -6,11 +6,16 @@ public class MyGame : Game {
 
 	public bool isPaused;   // THIS IS IN ALMOST EVERY UPDATE FUNCTION if (((MyGame)game).isPaused) return;
 
+    private TextCanvas canvas;
 
     public MyGame() : base(1377, 768, false, true, 1366, 768, true)     
 	{
-		AddChild(new Level());
-	}
+        //text:
+        canvas = new TextCanvas();
+
+        AddChild(new Level());
+        AddChild(canvas);
+    }
 
 	
 	void Update() {

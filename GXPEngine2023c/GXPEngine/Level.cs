@@ -1,4 +1,4 @@
-﻿using GXPEngine;
+using GXPEngine;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -20,12 +20,18 @@ class Level : GameObject
     private float timePassed;
     private int waveNumber;
 
+    private Sprite background;
+
 
     public Level()
     {
-        // Background:
-        EasyDraw canvas = new EasyDraw(game.width, game.height);
-        canvas.Clear(Color.MediumPurple);
+        //Background:
+        background = new Sprite("background_idea_1.png", false, false);
+        background.scale = 4;   
+
+
+
+        
 
         player = new Player();
         player.SetXY(game.width/2, game.height/2);
@@ -36,7 +42,8 @@ class Level : GameObject
         mEnemy = new MeleeEnemy("colors.png", 1, 1);
         mEnemy.SetXY(400, 400);*/
 
-        AddChild(canvas);
+        AddChild(background);
+
 
 
         AddChild(player);
@@ -87,7 +94,7 @@ class Level : GameObject
     }
 
 
-    void HandleScroll()
+    public void HandleScroll()
     {
         if (player == null) return;
 
@@ -107,8 +114,5 @@ class Level : GameObject
         if (((MyGame)game).isPaused) return;
         EnemySpawning();
         HandleScroll();
-
     }
-
-
 }

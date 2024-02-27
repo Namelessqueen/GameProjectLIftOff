@@ -20,7 +20,7 @@ class ShootingEnemy : Enemy
     private float xPointToPlayer, yPointToPlayer;
     private float originalSpeed;
 
-    public ShootingEnemy(string fileName = "checkers.png", int cols = 1, int rows = 1) : base(fileName, cols, rows)
+    public ShootingEnemy(string fileName = "sprite_enemy1.png", int cols = 1, int rows = 1) : base(fileName, cols, rows)
     {
         scale = 1;
         SetOrigin(width / 2, height / 2);
