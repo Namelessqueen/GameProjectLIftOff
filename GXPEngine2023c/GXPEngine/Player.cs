@@ -23,11 +23,16 @@ class Player : AnimationSprite
     private bool isAttacking;
     private int attackState;
     private float reloadCooldown;
+
     private int currentHealth;
+    private float currentFuel;
+    private int currentCooldown;
+
     private float lastXPos, lastYPos;
     private float lastRotation;
     private float bulletXRotHelp, bulletYRotHelp;
     private List<PlayerBullet> playerBullets = new List<PlayerBullet>();
+    private List<PlayerSecondary> PlayerSecondarys = new List<PlayerSecondary>();
     private Level level;
 
     private bool isDashing;
@@ -35,7 +40,9 @@ class Player : AnimationSprite
     private int dashTimer;
     private int dashCooldown;
     private int dashDuration;
-    private bool isDashingEnemy;
+
+    private int sliderInput;
+
     
 
     public Player() : base("sprite_sub.png", 1, 1)
@@ -49,6 +56,7 @@ class Player : AnimationSprite
         dashDuration = 30;
         dashSpeed = 3;
 
+        currentFuel = 510;
     }
     
     void Update()
@@ -59,6 +67,8 @@ class Player : AnimationSprite
         Attacking();
         collisionPlayer();
         Gameover();
+        
+        
     }
 
     void Movement()
@@ -66,25 +76,28 @@ class Player : AnimationSprite
         SetColor(1f, 1f, 1f);
 
         rotation = 0;
-        
-        if (!isDashingEnemy)
-        {
+
             if (Input.GetKey(Key.A)) Move(-speed, 0);   // LEFT
             if (Input.GetKey(Key.D)) Move(speed, 0);   // RIGHT
             if (Input.GetKey(Key.W)) Move(0, -speed);   // UP
             if (Input.GetKey(Key.S)) Move(0, speed);   // DOWN
-        }
 
 
         // Rotationi
 
         rotation = (float)Mathf.Atan2((lastYPos - y), (lastXPos - x)) * 360 / (2 * Mathf.PI) + 90;
-        //if (isDashingEnemy) { rotation += 180; Move(0, -speed * dashSpeed); }
+        rotation = (float)Mathf.Atan2((lastYPos - y), (lastXPos - x)) * 360 / (2 * Mathf.PI) + 90;
         if (lastXPos == x && lastYPos == y) rotation = lastRotation;
         lastXPos = x;
         lastYPos = y;
 
         lastRotation = rotation;
+
+
+        //slider input
+        sliderInput = (int)Mathf.Clamp(sliderInput, 0, 100);
+        if (Input.GetKey(Key.UP)) sliderInput++;
+        if (Input.GetKey(Key.DOWN)) sliderInput--;
     }
 
     public void Dashing()
@@ -109,19 +122,6 @@ class Player : AnimationSprite
                 SetColor(1f, 1f, 1f);
             }
         }
-        // Enemy bounch dash
-        /*
-        if (isDashingEnemy)
-        {
-            dashTimer++;
-            if (dashTimer > dashDuration)
-            {
-                dashTimer = 0;
-                isDashingEnemy = false;
-                SetColor(1f, 1f, 1f);
-            }
-        }*/
-
     }
 
     void Attacking()
@@ -134,9 +134,22 @@ class Player : AnimationSprite
             attackState %= 2;
         }
 
+        // helping the bullets getting the right rotation
+        var a = (rotation + 180) * Mathf.PI / 180.0;
+        float cosa = (float)Math.Cos(a);
+        float sina = (float)Math.Sin(a);
+
+        bulletXRotHelp = (0 * cosa - -5 * sina);
+        bulletYRotHelp = (0 * sina + -5 * cosa);
+
+
+
         // Pressing J makes you attack
-        if (Input.GetKey(Key.J)) isAttacking = true;
+        if (Input.GetKey(Key.J))isAttacking = true;
+      
         else isAttacking = false;
+
+      
 
         if (reloadCooldown/1000 > 0)
         {
@@ -144,16 +157,22 @@ class Player : AnimationSprite
             return;
         }
 
+        if (Input.GetKey(Key.H) && fuelUpdate() > 1)
+        {
+            PlayerSecondarys.Add(new PlayerSecondary((speed / 5) * bulletXRotHelp, (speed / 5) * bulletYRotHelp, sliderInput, "square.png"));
+            PlayerSecondarys.Last().SetXY(x + (9 * bulletXRotHelp), y + (9 * bulletYRotHelp));
+            level.AddChild(PlayerSecondarys.Last());
+            reloadCooldown += reloadTime * 250;
+
+            currentFuel = currentFuel - sliderInput / 10;
+            currentCooldown = 0;
+        }
+
+
         if (!isAttacking) return;
 
 
-        // helping the bullets getting the right rotation
-        var a = (rotation+180) * Mathf.PI / 180.0;
-        float cosa = (float)Math.Cos(a);
-        float sina = (float)Math.Sin(a);
 
-        bulletXRotHelp = (0 * cosa - -5 * sina);
-        bulletYRotHelp = (0 * sina + -5 * cosa);
         
         switch (attackState)
         {
@@ -172,11 +191,11 @@ class Player : AnimationSprite
                 reloadCooldown += reloadTime * 1000;
                 break;
 
-        }       
+        }
     }
 
 
-   
+   //STATS UPDATES
 
     public int HealthUpdate(int pHealthChange)
     {
@@ -184,6 +203,19 @@ class Player : AnimationSprite
 
         currentHealth = currentHealth + healthChange;
         return currentHealth;
+    }
+
+
+    public float fuelUpdate()
+    {
+        Console.WriteLine(currentFuel);
+        currentFuel = Mathf.Clamp(currentFuel, 0, 509);
+        currentCooldown++;
+        if (currentCooldown > 300)
+        {   if (currentFuel < 10) currentFuel++;
+            currentFuel *= 1.01f;
+        }
+        return currentFuel;
     }
 
     void Gameover()
@@ -201,13 +233,7 @@ class Player : AnimationSprite
             GameObject col = collisions[i];
 
             if (col is Bullet || col is Enemy)
-            {   /*
-                if (col is Enemy && isDashing)
-                {
-                    isDashingEnemy = true; isDashing = false;
-                    dashTimer = 0;
-                    return;
-                }*/
+            {  
                 col.Destroy();
                 Console.WriteLine(col.name +" hit player");
                 HealthUpdate(-1);
