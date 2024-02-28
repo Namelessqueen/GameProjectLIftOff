@@ -222,15 +222,19 @@ class Player : AnimationSprite
         {
             case 0:
                 CardAttack();
+                CardPassive();
                 break;
             case 1:
                 CardHealth();
+                CardPassive();
                 break;
             case 2:
                 CardSpeed();
+                CardPassive();
                 break;
             case 3:
                 CardDefense();
+                CardPassive();
                 break;
             case 4:
                 CardPassive();
@@ -268,7 +272,7 @@ class Player : AnimationSprite
     void CardPassive()
     {
         Console.WriteLine("CardPassive chosen");
-
+        AddChild(new PassiveFish());
     }
 
 

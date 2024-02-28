@@ -11,6 +11,7 @@ class Enemy : AnimationSprite
     private float poisonedTimer        = 1000;     // (milliseconds) time between ticks of poison damage
     private float slowStatusCooldown   = 3000;     // (milliseconds) time until slow status is removed
     private float poisonStatusCooldown = 2000;     // (milliseconds) time until poison status is removed
+    private float passiveFishIFrames   =  200;     // (milliseconds) time before enemy takes damage from passive fish again
 
     public Level level;
     public string status;           // needs to be public because status affects speed and speed is type specific
@@ -19,6 +20,8 @@ class Enemy : AnimationSprite
     private int damageTaken;
     private float damageAnimTime;
     private float poisonTime;
+    private float fishTime;
+    private bool fishHitAble;
     private string statusBulletHit;
     private float statusCooldown;
     private bool hasStatus;
@@ -30,6 +33,7 @@ class Enemy : AnimationSprite
         health = eHealth;
         SetOrigin(width / 2, height / 2);
         level = game.FindObjectOfType<Level>();
+        fishTime = passiveFishIFrames;
     }
 
 
@@ -47,7 +51,9 @@ class Enemy : AnimationSprite
 
     protected virtual void CollisionCheck()
     {
-        
+        if (!fishHitAble) fishTime -= Time.deltaTime;
+        if (fishTime <= 0) fishHitAble = true;
+
         // could this be optimized in a way so it only checks collision for one specific class?
         GameObject[] collisions = GetCollisions();
         
@@ -56,11 +62,23 @@ class Enemy : AnimationSprite
             GameObject col = collisions[i];
             if (col is Enemy || col is Bullet) continue;
 
-            if (col is PlayerBullet)
+            if (col is PassiveFish)
+            {
+               
+                if (!fishHitAble) continue;
+                
+                damageTaken++;
+                fishHitAble = false;
+                fishTime = passiveFishIFrames;
+
+                Console.WriteLine(col.name + " hit an enemy");
+            }
+            else if (col is PlayerBullet)
             {
                 damageTaken++;
 
                 Console.WriteLine(col.name + " hit an enemy");
+
                 col.LateDestroy();
             }
             if (col is CoolPlayerBullet)
