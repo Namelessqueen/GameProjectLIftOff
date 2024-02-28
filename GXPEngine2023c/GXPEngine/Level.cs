@@ -26,7 +26,7 @@ class Level : GameObject
     public Level()
     {
         //Background:
-        background = new Sprite("background_idea_1.png", false, false);
+        background = new Sprite("backku groundu.png", false, false);
         background.scale = 4;   
 
 
