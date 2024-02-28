@@ -123,12 +123,12 @@ class Enemy : AnimationSprite
             {
                 statusBulletHit = "slowed";
             }
-            /*
-            if (col is PoisonPlayerBullet)      // this bullet doesn't exist yet, but the functionality exists
+            
+            if (col is PoisonPlayerBullet) 
             {
                 statusBulletHit = "poisoned";
             }
-            */
+            
 
         }
 

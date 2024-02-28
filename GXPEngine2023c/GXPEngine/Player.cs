@@ -17,15 +17,26 @@ class Player : AnimationSprite
 {
     private float bulletSpeed = 1.5f;        // The speed bullets will travel at
     private float reloadTime = .9f;     // Time in seconds until player can shoot again
-    private float reloadTimeSmall = .2f;
-    
-    private float speed;
+    //private float reloadTimeSmall = .2f;    // kinda outdated ngl
+    private int baseMaxHealth = 100;    // max hp at start
+    private int baseAttack = 5;         // attack at start
+    private float speed = 2f;   // own speed
+
+    private float cardHpIncrease = 1.2f;
+    private float cardAtkIncrease = 1.2f;
+    private float cardAtkSpdIncrease = 1.2f;
+
+    private string primaryType = "normal";
+    private string secondaryType = "normal";
+
     private bool isAttacking;
     private int attackState;
     private float reloadCooldown;
+    private float currentAttack;
 
+    private int maxHealth;
     private int currentHealth;
-    private float currentFuel;
+    private float currentFuel = 510;
     private int currentCooldown;
 
     private float lastXPos, lastYPos;
@@ -35,11 +46,11 @@ class Player : AnimationSprite
     private List<PlayerSecondary> PlayerSecondarys = new List<PlayerSecondary>();
     private Level level;
 
-    private bool isDashing;
-    private int dashSpeed;
+    private bool isDashing = false;
+    private int dashSpeed = 3;
     private int dashTimer;
     private int dashCooldown;
-    private int dashDuration;
+    private int dashDuration = 30;
 
     private int sliderInput;
 
@@ -50,13 +61,15 @@ class Player : AnimationSprite
         SetOrigin(width/2, height/2);
 
         scale = .5f;
-        speed = 2f;
-        currentHealth = 100;
+        //speed = 2f;
+        maxHealth = baseMaxHealth;
+        currentHealth = maxHealth;
+        currentAttack = baseAttack;
         isDashing = false;
-        dashDuration = 30;
-        dashSpeed = 3;
+        //dashDuration = 30;
+        //dashSpeed = 3;
 
-        currentFuel = 510;
+        //currentFuel = 510;
     }
     
     void Update()
@@ -128,11 +141,10 @@ class Player : AnimationSprite
     {
         if (level == null) level = game.FindObjectOfType<Level>();
         // Changing weapons 
-        if (Input.GetKeyDown(Key.T))
-        {
-            attackState++;
-            attackState %= 2;
-        }
+        if (Input.GetKeyDown(Key.B)) primaryType = "normal";
+        if (Input.GetKeyDown(Key.N)) primaryType = "slow";
+        if (Input.GetKeyDown(Key.M)) primaryType = "poison";
+
 
         // helping the bullets getting the right rotation
         var a = (rotation + 180) * Mathf.PI / 180.0;
@@ -174,24 +186,25 @@ class Player : AnimationSprite
 
 
         
-        switch (attackState)
+        switch (primaryType)
         {
-            case 0: // Small bullets
+            case "normal": 
                 playerBullets.Add(new PlayerBullet(bulletSpeed * bulletXRotHelp, bulletSpeed * bulletYRotHelp));
-                playerBullets.Last().SetXY(x, y);
-                playerBullets.Last().scale = .3f;
-                level.AddChild(playerBullets.Last());
-                reloadCooldown += reloadTimeSmall * 1000;
                 break;
 
-            case 1: // Bigger bullets
+            case "slow": 
                 playerBullets.Add(new CoolPlayerBullet(bulletSpeed * bulletXRotHelp, bulletSpeed * bulletYRotHelp));
-                playerBullets.Last().SetXY(x, y);
-                level.AddChild(playerBullets.Last());
-                reloadCooldown += reloadTime * 1000;
+                break;
+
+            case "poison":
+                playerBullets.Add(new PoisonPlayerBullet(bulletSpeed * bulletXRotHelp, bulletSpeed * bulletYRotHelp));
                 break;
 
         }
+        playerBullets.Last().SetXY(x, y);
+        playerBullets.Last().rotation = rotation + 180;
+        level.AddChild(playerBullets.Last());
+        reloadCooldown += reloadTime * 1000;
     }
 
 
@@ -248,22 +261,36 @@ class Player : AnimationSprite
         {
             case 0:
                 CardAttack();
-                CardPassive();
                 break;
             case 1:
                 CardHealth();
-                CardPassive();
                 break;
             case 2:
-                CardSpeed();
-                CardPassive();
+                CardAtkSpeed();
                 break;
             case 3:
-                CardDefense();
-                CardPassive();
+                CardPassiveFish();
                 break;
             case 4:
-                CardPassive();
+                CardPassiveTurret();
+                break;
+            case 5:
+                primaryType = "normal";
+                break;
+            case 6:
+                primaryType = "slow";
+                break;
+            case 7:
+                primaryType = "poison";
+                break;
+            case 8:
+                secondaryType = "normal";
+                break;
+            case 9:
+                secondaryType = "slow";
+                break;
+            case 10:
+                secondaryType = "poison";
                 break;
         }
         // add more if more cards are added
@@ -274,31 +301,35 @@ class Player : AnimationSprite
     void CardAttack()
     {
         Console.WriteLine("CardAttack chosen");
+        float newAttack = currentAttack * cardAtkIncrease;
+        currentAttack = (int)newAttack;
 
     }
 
     void CardHealth()
     {
         Console.WriteLine("CardHealth chosen");
+        float newHealth = maxHealth * cardHpIncrease;
+        maxHealth = (int)newHealth;
+    }
+
+    void CardAtkSpeed()
+    {
+        Console.WriteLine("CardAtkSpeed chosen");
+        float newAtkSpd = reloadCooldown / cardAtkSpdIncrease;
+        reloadCooldown = newAtkSpd;
 
     }
 
-    void CardSpeed()
+    void CardPassiveFish()
     {
-        Console.WriteLine("CardSpeed chosen");
-
-    }
-
-    void CardDefense()
-    {
-        Console.WriteLine("CardDefense chosen");
-
-    }
-
-    void CardPassive()
-    {
-        Console.WriteLine("CardPassive chosen");
+        Console.WriteLine("CardPassiveFish chosen");
         AddChild(new PassiveFish());
+    }
+
+    void CardPassiveTurret()
+    {
+        Console.WriteLine("CardPassiveTurret chosen");
     }
 
 

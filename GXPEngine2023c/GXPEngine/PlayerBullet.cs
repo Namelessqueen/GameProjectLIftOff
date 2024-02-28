@@ -11,10 +11,10 @@ class PlayerBullet : AnimationSprite
 {
     float vx, vy;
     Level level;
-    public PlayerBullet(float pVx, float pVy, string filename = "circle.png", int cols = 1, int rows = 1) : base(filename, cols, rows)
+    public PlayerBullet(float pVx, float pVy, string filename = "sprite_basePlayerProjectile.png", int cols = 1, int rows = 1) : base(filename, cols, rows)
     {
         SetOrigin(width/2, height/2);
-        scale = 0.6f;
+        //scale = 0.6f;
         vx = pVx;
         vy = pVy;
         level = game.FindObjectOfType<Level>();

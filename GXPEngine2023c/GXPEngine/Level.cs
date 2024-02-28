@@ -18,12 +18,11 @@ class Level : GameObject
     private float rangedEnemyMinSpawnRange = 1;
     private float rangedEnemyMaxSpawnRange = 3;
 
+    public int waveNumber;
+
     private List<Enemy> enemies = new List<Enemy>();
     private Player player;
-    //private ShootingEnemy sEnemy;
-    //private MeleeEnemy mEnemy;
     private float timePassed;
-    private int waveNumber;
     private int meleeEnemiesSpawning;
     private int rangedEnemiesSpawning;
 
