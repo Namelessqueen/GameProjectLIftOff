@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 class ShootingEnemy : Enemy
 {
     private float bulletCooldown    = 3;            // (seconds) how many seconds need to pass until the next bullet is shot
-    private float bulletSpeed       = 2;            // (pixels) how fast is the bullet going
+    private float bulletSpeed       = 5;            // (pixels) how fast is the bullet going
     private float playerDistance    = 150;          // (pixels) how much distance from the player until it stops moving
     private float slowedMultiplier  = .75f;         // (math, base = 1) how much the enemy is slowed by cool bullets
 
