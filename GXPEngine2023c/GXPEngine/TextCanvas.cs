@@ -19,7 +19,7 @@ public class TextCanvas : EasyDraw
     private float healthPosY = cornerOfset;
     private float fuelPosX = Game.main.width - cornerOfset - 25/2 - 2;
     private float fuelPosY = Game.main.height - cornerOfset - 62;
-
+    
 
     public TextCanvas() : base(Game.main.width, Game.main.height, false)
     {

@@ -9,9 +9,9 @@ class MeleeEnemy4 : MeleeEnemy
     // Big purple: High HP, High DMG, Low SPD
 
     public MeleeEnemy4(string fileName = "sprite_meleeEnemy4.png", int cols = 4, int rows = 2,
-                       int hp = 30,
-                       int dmg = 10,
-                       float spd = 1.5f
+                       int hp = 10,
+                       int dmg = 5,
+                       float spd = 1f
                         ) : base(fileName, cols, rows, hp, dmg, spd)
     {
         enemyType = 4;
