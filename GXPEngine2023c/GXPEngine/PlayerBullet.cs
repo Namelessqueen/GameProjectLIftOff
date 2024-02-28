@@ -27,7 +27,7 @@ class PlayerBullet : AnimationSprite
     }
 }
 
-// SECONDERY BULLET CLASS
+// SECONDARY BULLET CLASS
 
 class PlayerSecondary : PlayerBullet
 {
@@ -50,7 +50,6 @@ class PlayerSecondary : PlayerBullet
             Circles.Last().SetOrigin(width / 2, height / 2);
             Circles.Last().width = 50;
             //Console.WriteLine("Circle generated");
-            
         }
     }
 
@@ -59,17 +58,13 @@ class PlayerSecondary : PlayerBullet
         if (((MyGame)game).isPaused) return;
         base.Update();
 
-        width += 2;
+        //width += 2;
 
         if (DistanceTo(player) > slider*3)
         {
             Destroy();
         }
     }
-
-   
-
-
 }
 
 
@@ -78,10 +73,12 @@ class AnimationCircles : AnimationSprite
 {
     public AnimationCircles(string filename = "circle.png", int cols = 1, int rows = 1) : base(filename, cols, rows)
     {
-
+        
     }
+
     void Update()
     {
-
+        //width /= 2;
+        height = 50;
     }
 }

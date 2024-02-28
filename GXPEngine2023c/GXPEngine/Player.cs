@@ -159,7 +159,7 @@ class Player : AnimationSprite
 
         if (Input.GetKey(Key.H) && fuelUpdate() > 1)
         {
-            PlayerSecondarys.Add(new PlayerSecondary((speed / 2) * bulletXRotHelp, (speed / 2) * bulletYRotHelp, sliderInput, "square.png"));
+            PlayerSecondarys.Add(new PlayerSecondary((speed / 5) * bulletXRotHelp, (speed / 5) * bulletYRotHelp, sliderInput, "square.png"));
             PlayerSecondarys.Last().SetXY(x + (9 * bulletXRotHelp), y + (9 * bulletYRotHelp));
             level.AddChild(PlayerSecondarys.Last());
             reloadCooldown += reloadTime * 250;
@@ -189,14 +189,6 @@ class Player : AnimationSprite
                 playerBullets.Last().SetXY(x, y);
                 level.AddChild(playerBullets.Last());
                 reloadCooldown += reloadTime * 1000;
-                break;
-
-            case 3:
-                //Console.WriteLine(PlayerSecondarys);
-                PlayerSecondarys.Add(new PlayerSecondary((speed/2) * bulletXRotHelp, (speed / 2) * bulletYRotHelp, sliderInput, "square.png"));
-                PlayerSecondarys.Last().SetXY(x + (9 * bulletXRotHelp), y + (9 * bulletYRotHelp));
-                level.AddChild(PlayerSecondarys.Last());
-                reloadCooldown += reloadTime * 250;
                 break;
 
         }
