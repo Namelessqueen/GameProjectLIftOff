@@ -51,6 +51,10 @@
     <Compile Include="Level.cs" />
     <Compile Include="LevelUpCard.cs" />
     <Compile Include="MeleeEnemy.cs" />
+    <Compile Include="MeleeEnemy1.cs" />
+    <Compile Include="MeleeEnemy2.cs" />
+    <Compile Include="MeleeEnemy3.cs" />
+    <Compile Include="MeleeEnemy4.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="GXPEngine\Core\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />
@@ -93,6 +97,8 @@
     <Compile Include="Player.cs" />
     <Compile Include="PlayerBullet.cs" />
     <Compile Include="ShootingEnemy.cs" />
+    <Compile Include="ShootingEnemy1.cs" />
+    <Compile Include="ShootingEnemy2.cs" />
     <Compile Include="TextCanvas.cs" />
   </ItemGroup>
   <ItemGroup>

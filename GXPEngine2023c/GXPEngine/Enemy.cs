@@ -13,8 +13,16 @@ class Enemy : AnimationSprite
     private float poisonStatusCooldown = 2000;     // (milliseconds) time until poison status is removed
     private float passiveFishIFrames   =  200;     // (milliseconds) time before enemy takes damage from passive fish again
 
+    private byte melee1AnimTime = 3;         // (frames) all of these are frames before next animation frame starts
+    private byte melee2AnimTime = 10;
+    private byte melee3AnimTime = 10;
+    private byte melee4AnimTime = 10;
+    private byte ranged1AnimTime = 10;
+    private byte ranged2AnimTime = 10;
+
     public Level level;
     public string status;           // needs to be public because status affects speed and speed is type specific
+    public int enemyType;
 
     private int health;
     private int damageTaken;
@@ -44,10 +52,40 @@ class Enemy : AnimationSprite
         StatusCheck();
         CollisionCheck();
         Act();
+        Animation();
         rotate();
         DamageFunctions();
         DamageColoring();
     }
+
+    void Animation()
+    {
+        switch (enemyType)
+        {
+            case 1: //Animate(melee1AnimTime);
+                SetCycle(0, 12, melee1AnimTime);
+                break;
+            case 2:
+                SetCycle(0, 8, melee2AnimTime);
+                break;
+            case 3:  
+                SetCycle(0, 7, melee3AnimTime); 
+                break;
+            case 4: 
+                SetCycle(0, 5, melee4AnimTime); 
+                break;
+            case 5:
+                SetCycle(0, 7, ranged1AnimTime);
+                break;
+            case 6:
+                SetCycle(0, 8, ranged2AnimTime); 
+                break;
+        }
+
+        Animate();
+
+    }
+
 
     protected virtual void CollisionCheck()
     {
