@@ -91,7 +91,6 @@
     <Compile Include="GXPEngine\SoLoud\SoloudSoundSystem.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerBullet.cs" />
-    <Compile Include="PlayerSecondary.cs" />
     <Compile Include="ShootingEnemy.cs" />
     <Compile Include="TextCanvas.cs" />
   </ItemGroup>

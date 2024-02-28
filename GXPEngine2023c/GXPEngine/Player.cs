@@ -23,7 +23,11 @@ class Player : AnimationSprite
     private bool isAttacking;
     private int attackState;
     private float reloadCooldown;
+
     private int currentHealth;
+    private float currentFuel;
+    private int currentCooldown;
+
     private float lastXPos, lastYPos;
     private float lastRotation;
     private float bulletXRotHelp, bulletYRotHelp;
@@ -31,15 +35,14 @@ class Player : AnimationSprite
     private List<PlayerSecondary> PlayerSecondarys = new List<PlayerSecondary>();
     private Level level;
 
-    private int sBulletAmount;
-    private int bulletOfset;
-
     private bool isDashing;
     private int dashSpeed;
     private int dashTimer;
     private int dashCooldown;
     private int dashDuration;
-    private bool isDashingEnemy;
+
+    private int sliderInput;
+
     
 
     public Player() : base("sprite_sub.png", 1, 1)
@@ -52,9 +55,8 @@ class Player : AnimationSprite
         isDashing = false;
         dashDuration = 30;
         dashSpeed = 3;
-        sBulletAmount = 5;
-        bulletOfset = 10;
 
+        currentFuel = game.height / 2;
     }
     
     void Update()
@@ -65,6 +67,8 @@ class Player : AnimationSprite
         Attacking();
         collisionPlayer();
         Gameover();
+        
+        
     }
 
     void Movement()
@@ -72,14 +76,11 @@ class Player : AnimationSprite
         SetColor(1f, 1f, 1f);
 
         rotation = 0;
-        
-        if (!isDashingEnemy)
-        {
+
             if (Input.GetKey(Key.A)) Move(-speed, 0);   // LEFT
             if (Input.GetKey(Key.D)) Move(speed, 0);   // RIGHT
             if (Input.GetKey(Key.W)) Move(0, -speed);   // UP
             if (Input.GetKey(Key.S)) Move(0, speed);   // DOWN
-        }
 
 
         // Rotationi
@@ -91,6 +92,12 @@ class Player : AnimationSprite
         lastYPos = y;
 
         lastRotation = rotation;
+
+
+        //slider input
+        sliderInput = (int)Mathf.Clamp(sliderInput, 0, 100);
+        if (Input.GetKey(Key.UP)) sliderInput++;
+        if (Input.GetKey(Key.DOWN)) sliderInput--;
     }
 
     public void Dashing()
@@ -140,9 +147,22 @@ class Player : AnimationSprite
             attackState %= 2;
         }
 
+        // helping the bullets getting the right rotation
+        var a = (rotation + 180) * Mathf.PI / 180.0;
+        float cosa = (float)Math.Cos(a);
+        float sina = (float)Math.Sin(a);
+
+        bulletXRotHelp = (0 * cosa - -5 * sina);
+        bulletYRotHelp = (0 * sina + -5 * cosa);
+
+
+
         // Pressing J makes you attack
-        if (Input.GetKey(Key.J)) isAttacking = true;
+        if (Input.GetKey(Key.J))isAttacking = true;
+      
         else isAttacking = false;
+
+      
 
         if (reloadCooldown/1000 > 0)
         {
@@ -150,16 +170,19 @@ class Player : AnimationSprite
             return;
         }
 
+        if (Input.GetKey(Key.H))
+        {
+            PlayerSecondarys.Add(new PlayerSecondary((speed / 2) * bulletXRotHelp, (speed / 2) * bulletYRotHelp, sliderInput, "square.png"));
+            PlayerSecondarys.Last().SetXY(x + (9 * bulletXRotHelp), y + (9 * bulletYRotHelp));
+            level.AddChild(PlayerSecondarys.Last());
+            reloadCooldown += reloadTime * 250;
+        }
+
+
         if (!isAttacking) return;
 
 
-        // helping the bullets getting the right rotation
-        var a = (rotation+180) * Mathf.PI / 180.0;
-        float cosa = (float)Math.Cos(a);
-        float sina = (float)Math.Sin(a);
 
-        bulletXRotHelp = (0 * cosa - -5 * sina);
-        bulletYRotHelp = (0 * sina + -5 * cosa);
         
         switch (attackState)
         {
@@ -171,26 +194,33 @@ class Player : AnimationSprite
                 reloadCooldown += reloadTimeSmall * 1000;
                 break;
 
-            case 1: // Secondary
-
-                PlayerSecondarys.Add(new PlayerSecondary(width /2 , height));
-                //PlayerSecondarys.Last().SetXY(x, y);
-                PlayerSecondarys.Last().scale = .3f;
-                AddChild(PlayerSecondarys.Last());
-                reloadCooldown += reloadTimeSmall * 1000;
-                break;
-
-
-                break;
-            /*
             case 1: // Bigger bullets
                 playerBullets.Add(new CoolPlayerBullet(bulletSpeed * bulletXRotHelp, bulletSpeed * bulletYRotHelp));
                 playerBullets.Last().SetXY(x, y);
                 level.AddChild(playerBullets.Last());
                 reloadCooldown += reloadTime * 1000;
                 break;
-            */
-        }       
+
+            case 3:
+                //Console.WriteLine(PlayerSecondarys);
+                PlayerSecondarys.Add(new PlayerSecondary((speed/2) * bulletXRotHelp, (speed / 2) * bulletYRotHelp, sliderInput, "square.png"));
+                PlayerSecondarys.Last().SetXY(x + (9 * bulletXRotHelp), y + (9 * bulletYRotHelp));
+                level.AddChild(PlayerSecondarys.Last());
+                reloadCooldown += reloadTime * 250;
+                break;
+
+        }
+
+        /*
+        if (Input.GetKey(Key.R))
+        {
+            PlayerSecondarys.Add(new PlayerSecondary(bulletSpeed/3 * bulletXRotHelp, bulletSpeed/3 * bulletYRotHelp));
+            PlayerSecondarys.Last().SetXY(x, y);
+            AddChild(PlayerSecondarys.Last());
+            reloadCooldown += reloadTimeSmall * 1000;
+
+        }*/
+
     }
 
 
@@ -202,6 +232,26 @@ class Player : AnimationSprite
 
         currentHealth = currentHealth + healthChange;
         return currentHealth;
+    }
+
+
+    public float fuelUpdate()
+    {
+        Console.WriteLine(sliderInput);
+        currentFuel = Mathf.Clamp(currentFuel, 0, Game.main.height / 2);
+        currentCooldown++;
+        if (currentCooldown > 300)
+        {
+            currentFuel *= 1.008f;
+        }
+
+        if (Input.GetKey(Key.H))
+        {
+           currentFuel = currentFuel - sliderInput / 20;
+           currentCooldown = 0;
+        }
+
+        return currentFuel;
     }
 
     void Gameover()

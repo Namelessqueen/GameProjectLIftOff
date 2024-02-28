@@ -12,12 +12,11 @@ public class TextCanvas : EasyDraw
 {
     private Player player;
 
-    private static int cornerOfset = 40;
 
-    private float healthPosX = cornerOfset;
-    private float healthPosY = cornerOfset;
-    private float fuelPosX = Game.main.width - cornerOfset - 25;
-    private float fuelPosY = Game.main.height - cornerOfset;
+    private float healthPosX = 50;
+    private float healthPosY = 50;
+    private float fuelPosX = Game.main.width -40;
+    private float fuelPosY = Game.main.height/2 - 40;
 
 
     public TextCanvas() : base(Game.main.width, Game.main.height, false)
@@ -50,11 +49,11 @@ public class TextCanvas : EasyDraw
     {
         if (player != null)
         {
-            //Console.WriteLine(player.fuelUpdate().ToString());
+            //Console.WriteLine(player.HealthUpdate(0).ToString());
             StrokeWeight(4);
-            ShapeAlign(CenterMode.Min, CenterMode.Max);
+            ShapeAlign(CenterMode.Center, CenterMode.Center);
             Fill(255); Rect(fuelPosX, fuelPosY, 25, Game.main.height / 2);
-            Fill(164, 148, 104); Rect(fuelPosX, fuelPosY, 25, (int)player.fuelUpdate());
+            Fill(164, 148, 104); Rect(fuelPosX, fuelPosY, 25, Game.main.height / 2);
         }
     }
 }
