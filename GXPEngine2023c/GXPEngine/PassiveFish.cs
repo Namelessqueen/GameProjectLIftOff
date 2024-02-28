@@ -23,7 +23,7 @@ class PassiveFish : PlayerBullet
         x -= 15;
         y -= 15;
         y -= 300;
-        scale = 1.5f;
+        scale = 2;
         rotation = 270;
     }
 

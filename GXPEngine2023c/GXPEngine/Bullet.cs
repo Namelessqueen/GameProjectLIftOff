@@ -9,15 +9,16 @@ class Bullet : Sprite
 {
     float vx, vy;
     Level level;
+    public int damage;
 
-    public Bullet(float pVx, float pVy, Level lLevel) : base("circle.png")
+    public Bullet(float pVx, float pVy, Level lLevel, int dmg) : base("sprite_enemyProjectile.png")
     {
-        scale = 0.4f;
+        SetOrigin(width/2, height/2);
+
         vx = pVx;
         vy = pVy;
-
         level = lLevel;
-        SetOrigin(width/2, height/2);
+        damage = dmg;
     }
 
     void Update()
@@ -25,12 +26,13 @@ class Bullet : Sprite
         if (((MyGame)game).isPaused) return;
         x += vx;
         y += vy;
+        rotation += 5;
         
         // Destroy if off screen
         if (x < -level.x || x > -level.x + game.width || 
             y < -level.y || y > -level.y + game.height)
         {
-            Console.WriteLine("Bullet despawned");
+            Console.WriteLine("Enemy bullet despawned");
             LateDestroy();
         }
 
