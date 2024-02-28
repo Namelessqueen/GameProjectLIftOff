@@ -1,4 +1,4 @@
-﻿using GXPEngine;
+using GXPEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +11,10 @@ class PlayerBullet : AnimationSprite
 {
     float vx, vy;
     Level level;
-    public PlayerBullet(float pVx, float pVy, string filename = "sprite_basePlayerProjectile.png", int cols = 1, int rows = 1) : base(filename, cols, rows)
+    public PlayerBullet(float pVx, float pVy, string filename = "circle.png", int cols = 1, int rows = 1) : base(filename, cols, rows)
     {
-        SetOrigin(width/2, height/2);
-        //scale = 0.6f;
+        SetOrigin(width / 2, height / 2);
+        scale = 0.6f;
         vx = pVx;
         vy = pVy;
         level = game.FindObjectOfType<Level>();
@@ -40,14 +40,16 @@ class PlayerBullet : AnimationSprite
 
 class PlayerSecondary : PlayerBullet
 {
-    int oldHeight = 0;
+    float originalWidth = 0;
+    float originalHeight = 0;
     int slider;
     private Player player;
     private List<AnimationCircles> Circles = new List<AnimationCircles>();
 
     public PlayerSecondary(float pVx, float pVy, int pSlider, string filename = "circle.png", int cols = 1, int rows = 1) : base(pVx, pVy, filename, cols, rows)
     {
-        oldHeight = height;
+        originalWidth = width;
+        originalHeight = height;
         height = 5;
         alpha = 0.5f;
         player = game.FindObjectOfType<Player>();
@@ -56,11 +58,13 @@ class PlayerSecondary : PlayerBullet
 
         for (int i = 0; i < 10; i++)
         {
-            Circles.Add(new AnimationCircles("circle.png", 1, 1));
-            LateAddChild(Circles.Last());
-            Circles.Last().SetOrigin(width / 2, height / 2);
-            Circles.Last().width = 50;
-            //Console.WriteLine("Circle generated");
+            AnimationCircles circle = new AnimationCircles("circle.png", 1, 1);
+            Circles.Add(circle);
+            LateAddChild(circle);
+            circle.SetOrigin(width / 2, height / 2);
+            circle.x = (i - 5) * width / 10;
+
+            //Console.WriteLine("Circle generated, height = " + oldHeight + " , " + (oldHeight / height ) );
         }
     }
 
@@ -70,16 +74,18 @@ class PlayerSecondary : PlayerBullet
         base.Update();
 
         width += 2;
+        float widthFactor = originalWidth / width;
         for (int i = 0; i < 10; i++)
         {
             AnimationCircles circle = Circles[i];
-            circle.width = 50;
-            circle.height = height * oldHeight / width;
-            //Console.WriteLine("Circle generated");
+            circle.width = (int)(circle.originalWidth * originalWidth / width / 2);
+            circle.height = (int)((circle.originalHeight * originalHeight) / height / 2);
+            //Console.WriteLine("Circleupdated " + circle.scale );
         }
 
-        if (DistanceTo(player) > slider*3)
+        if (DistanceTo(player) > slider * 3)
         {
+            Console.WriteLine("Removed SecondaryBullet");
             Destroy();
         }
     }
@@ -89,14 +95,12 @@ class PlayerSecondary : PlayerBullet
 
 class AnimationCircles : AnimationSprite
 {
+    public int originalWidth;
+    public int originalHeight;
     public AnimationCircles(string filename = "circle.png", int cols = 1, int rows = 1) : base(filename, cols, rows)
     {
-        
-    }
-
-    void Update()
-    {
-        //width /= 2;
-       // height = width;
+        originalWidth = width;
+        originalHeight = height;
+        //scale = .5f;
     }
 }

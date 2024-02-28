@@ -40,6 +40,7 @@ class Player : AnimationSprite
 
     private int maxHealth;
     private int currentCooldown;
+    private float currentXP;
 
     private float lastXPos, lastYPos;
     private float lastRotation;
@@ -242,6 +243,14 @@ class Player : AnimationSprite
             currentFuel *= 1.01f;
         }
         return currentFuel;
+    }
+
+    public float XPUpdate(float pChange)
+    {
+        float change = pChange;
+
+        currentXP = currentXP + change;
+        return currentXP;
     }
 
     void Gameover()

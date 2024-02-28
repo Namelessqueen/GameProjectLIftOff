@@ -19,6 +19,8 @@ public class TextCanvas : EasyDraw
     private float healthPosY = cornerOfset;
     private float fuelPosX = Game.main.width - cornerOfset - 25/2 - 2;
     private float fuelPosY = Game.main.height - cornerOfset - 62;
+    private float XPPosX = cornerOfset - 2;
+    private float XPPosY = cornerOfset + 48;
 
     
     public TextCanvas() : base(Game.main.width, Game.main.height, false)
@@ -33,15 +35,16 @@ public class TextCanvas : EasyDraw
 
         DrawSprite(backgroundUI);
         NoStroke();
-
+        if (player == null) return;
         HealthBar();
         FuelBar();
-       
+        XPBar();
+
+
     }
 
     void HealthBar()
     {
-        if (player == null) return;
             ShapeAlign(CenterMode.Min, CenterMode.Min);
             Fill(255); Rect(healthPosX, healthPosY, 410, 25);
             Fill(255, 0, 0); Rect(healthPosX, healthPosY, Mathf.Clamp((player.HealthUpdate(0) * 4.1f), 0, 509), 25);
@@ -50,10 +53,15 @@ public class TextCanvas : EasyDraw
 
     void FuelBar()
     {
-        if (player == null) return;
             ShapeAlign(CenterMode.Center, CenterMode.Max);
             Fill(255); Rect(fuelPosX, fuelPosY, 30, 510);
             Fill(164, 148, 104); Rect(fuelPosX, fuelPosY, 30, player.fuelUpdate());
+    }
+    void XPBar()
+    {
+        ShapeAlign(CenterMode.Min, CenterMode.Min);
+        Fill(255); Rect(XPPosX, XPPosY, 415, 9);
+        Fill(102, 255, 153); Rect(XPPosX, XPPosY, 415, 9);
     }
 }
 
