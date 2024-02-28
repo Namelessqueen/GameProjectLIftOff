@@ -26,15 +26,15 @@ class Level : GameObject
     public Level()
     {
         //Background:
-        background = new Sprite("backku groundu.png", false, false);
-        background.scale = 4;   
+        background = new Sprite("background2.png", false, false);
+        //background.scale = 4;   
 
 
 
         
 
         player = new Player();
-        player.SetXY(game.width/2, game.height/2);
+        player.SetXY(2754, 1536);
 
         /*sEnemy = new ShootingEnemy("checkers.png", 1, 1);
         sEnemy.SetXY(200, 200);
