@@ -170,7 +170,7 @@ class Player : AnimationSprite
             return;
         }
 
-        if (Input.GetKey(Key.H))
+        if (Input.GetKey(Key.H) && fuelUpdate() > 0)
         {
             PlayerSecondarys.Add(new PlayerSecondary((speed / 2) * bulletXRotHelp, (speed / 2) * bulletYRotHelp, sliderInput, "square.png"));
             PlayerSecondarys.Last().SetXY(x + (9 * bulletXRotHelp), y + (9 * bulletYRotHelp));
@@ -241,7 +241,7 @@ class Player : AnimationSprite
         currentFuel = Mathf.Clamp(currentFuel, 0, Game.main.height / 2);
         currentCooldown++;
         if (currentCooldown > 300)
-        {
+        {   if (currentFuel < 10) currentFuel++;
             currentFuel *= 1.008f;
         }
 
