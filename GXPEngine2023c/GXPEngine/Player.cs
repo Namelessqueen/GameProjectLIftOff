@@ -15,8 +15,8 @@ using TiledMapParser;
 
 class Player : AnimationSprite
 {
-    private int bulletSpeed = 3;        // The speed bullets will travel at
-    private float reloadTime = .5f;     // Time in seconds until player can shoot again
+    private int bulletSpeed = 2;        // The speed bullets will travel at
+    private float reloadTime = .9f;     // Time in seconds until player can shoot again
     private float reloadTimeSmall = .2f;
     
     private float speed;

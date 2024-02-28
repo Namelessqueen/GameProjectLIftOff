@@ -19,3 +19,10 @@ E:\Juliettte\Saxion\Project T.3\GameProjectLIftOff\GXPEngine2023c\GXPEngine\obj\
 E:\Juliettte\Saxion\Project T.3\GameProjectLIftOff\GXPEngine2023c\GXPEngine\obj\x86\Debug\GXPEngine.csproj.CoreCompileInputs.cache
 E:\Juliettte\Saxion\Project T.3\GameProjectLIftOff\GXPEngine2023c\GXPEngine\obj\x86\Debug\GXPEngine.exe
 E:\Juliettte\Saxion\Project T.3\GameProjectLIftOff\GXPEngine2023c\GXPEngine\obj\x86\Debug\GXPEngine.pdb
+C:\Users\Martin's laptop\OneDrive - Saxion\Term 3\Project pf1\GameProjectLIftOff\GXPEngine2023c\GXPEngine\bin\Debug\GXPEngine.exe.config
+C:\Users\Martin's laptop\OneDrive - Saxion\Term 3\Project pf1\GameProjectLIftOff\GXPEngine2023c\GXPEngine\bin\Debug\GXPEngine.exe
+C:\Users\Martin's laptop\OneDrive - Saxion\Term 3\Project pf1\GameProjectLIftOff\GXPEngine2023c\GXPEngine\bin\Debug\GXPEngine.pdb
+C:\Users\Martin's laptop\OneDrive - Saxion\Term 3\Project pf1\GameProjectLIftOff\GXPEngine2023c\GXPEngine\obj\x86\Debug\GXPEngine.csproj.AssemblyReference.cache
+C:\Users\Martin's laptop\OneDrive - Saxion\Term 3\Project pf1\GameProjectLIftOff\GXPEngine2023c\GXPEngine\obj\x86\Debug\GXPEngine.csproj.CoreCompileInputs.cache
+C:\Users\Martin's laptop\OneDrive - Saxion\Term 3\Project pf1\GameProjectLIftOff\GXPEngine2023c\GXPEngine\obj\x86\Debug\GXPEngine.exe
+C:\Users\Martin's laptop\OneDrive - Saxion\Term 3\Project pf1\GameProjectLIftOff\GXPEngine2023c\GXPEngine\obj\x86\Debug\GXPEngine.pdb
