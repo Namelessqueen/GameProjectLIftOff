@@ -193,7 +193,8 @@ class Enemy : AnimationSprite
         if (health <= 0)
         {
             LateDestroy();
-            parent.RemoveChild(this);
+            level.SomethingDied(x, y);
+            //parent.RemoveChild(this);
             //level.RemoveChild(this);  // AAAAAAAAAAAAAAAAAAAAAAAAAAAA
         }
 

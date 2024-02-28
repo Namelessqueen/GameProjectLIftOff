@@ -22,6 +22,8 @@ class Player : AnimationSprite
     private int baseAttack = 5;         // attack at start
     private float speed = 2f;   // own speed
 
+    private int playerMinDistanceFromBorder = 100;  // this is about the level itself, not the camera
+
     private float cardHpIncrease = 1.2f;
     private float cardAtkIncrease = 1.2f;
     private float cardAtkSpdIncrease = 1.2f;
@@ -90,10 +92,10 @@ class Player : AnimationSprite
 
         rotation = 0;
 
-            if (Input.GetKey(Key.A)) Move(-speed, 0);   // LEFT
-            if (Input.GetKey(Key.D)) Move(speed, 0);   // RIGHT
-            if (Input.GetKey(Key.W)) Move(0, -speed);   // UP
-            if (Input.GetKey(Key.S)) Move(0, speed);   // DOWN
+            if (Input.GetKey(Key.A) || Input.GetKeyDown(Key.A)) Move(-speed, 0);   // LEFT
+            if (Input.GetKey(Key.D) || Input.GetKeyDown(Key.D)) Move(speed, 0);   // RIGHT
+            if (Input.GetKey(Key.W) || Input.GetKeyDown(Key.W)) Move(0, -speed);   // UP
+            if (Input.GetKey(Key.S) || Input.GetKeyDown(Key.S)) Move(0, speed);   // DOWN
 
 
         // Rotationi
@@ -106,6 +108,10 @@ class Player : AnimationSprite
 
         lastRotation = rotation;
 
+        x = Mathf.Clamp(x, 0 + playerMinDistanceFromBorder, 5508 - playerMinDistanceFromBorder);
+        y = Mathf.Clamp(y, 0 + playerMinDistanceFromBorder, 3072 - playerMinDistanceFromBorder);
+
+        // 5508, 3072
 
         //slider input
         sliderInput = (int)Mathf.Clamp(sliderInput, 0, 100);
@@ -157,7 +163,7 @@ class Player : AnimationSprite
 
 
         // Pressing J makes you attack
-        if (Input.GetKey(Key.J))isAttacking = true;
+        if (Input.GetKey(Key.J) || Input.GetKeyDown(Key.J)) isAttacking = true;
       
         else isAttacking = false;
 
@@ -169,7 +175,7 @@ class Player : AnimationSprite
             return;
         }
 
-        if (Input.GetKey(Key.H) && fuelUpdate() > 1)
+        if ((Input.GetKey(Key.H) || Input.GetKeyDown(Key.H)) && fuelUpdate() > 1)
         {
             PlayerSecondarys.Add(new PlayerSecondary((speed / 5) * bulletXRotHelp, (speed / 5) * bulletYRotHelp, sliderInput, "square.png"));
             PlayerSecondarys.Last().SetXY(x + (9 * bulletXRotHelp), y + (9 * bulletYRotHelp));
@@ -221,7 +227,7 @@ class Player : AnimationSprite
 
     public float fuelUpdate()
     {
-        Console.WriteLine(currentFuel);
+        //Console.WriteLine(currentFuel);
         currentFuel = Mathf.Clamp(currentFuel, 0, 509);
         currentCooldown++;
         if (currentCooldown > 300)
@@ -236,6 +242,7 @@ class Player : AnimationSprite
         if (currentHealth<1)
         {
             //Destroy();
+            level.SomethingDied(x, y);
         }
     }
     void collisionPlayer()
@@ -245,11 +252,17 @@ class Player : AnimationSprite
         {
             GameObject col = collisions[i];
 
-            if (col is Bullet || col is Enemy)
+            if (col is Bullet)
             {  
                 col.Destroy();
                 Console.WriteLine(col.name +" hit player");
                 HealthUpdate(-1);
+            }
+            if (col is Enemy)
+            {
+                Console.WriteLine(col.name + " hit player");
+                HealthUpdate(-1);
+                col.Destroy();
             }
         }
     }

@@ -25,7 +25,9 @@ class Level : GameObject
     private float timePassed;
     private int meleeEnemiesSpawning;
     private int rangedEnemiesSpawning;
-
+    private float enemyxSpawn;
+    private float enemyySpawn;
+    private Random random;
     private Sprite background;
 
 
@@ -33,28 +35,15 @@ class Level : GameObject
     {
         //Background:
         background = new Sprite("background2.png", false, false);
-        //background.scale = 4;   
 
-
-
-        
-
+        random = new Random();
         player = new Player();
         player.SetXY(2754, 1536);
 
-        /*sEnemy = new ShootingEnemy("checkers.png", 1, 1);
-        sEnemy.SetXY(200, 200);
-
-        mEnemy = new MeleeEnemy("colors.png", 1, 1);
-        mEnemy.SetXY(400, 400);*/
-
         AddChild(background);
 
-
-
         AddChild(player);
-        //AddChild(sEnemy);
-        //AddChild(mEnemy);
+
 
         player = FindObjectOfType<Player>();
 
@@ -72,30 +61,62 @@ class Level : GameObject
             Console.WriteLine("new wave");
 
             // spawn melee enemies
-            meleeEnemiesSpawning = Utils.Random((int)meleeEnemyMinSpawnRange, (int)meleeEnemyMaxSpawnRange);
+            meleeEnemiesSpawning = Utils.Random((int)meleeEnemyMinSpawnRange, (int)meleeEnemyMaxSpawnRange+1);
             meleeEnemyMinSpawnRange *= enemyWaveRangeMultiplier;
             meleeEnemyMaxSpawnRange *= enemyWaveRangeMultiplier;
 
             for (int i = 0; i < meleeEnemiesSpawning; i++)
             {
-                int rand = Utils.Random(1, 4);
+                int rand = Utils.Random(0, 4);
                 switch (rand)
                 {
-                    case 1:
+                    case 0:
                         enemies.Add(new MeleeEnemy1());
                         break;
-                    case 2:
+                    case 1:
                         enemies.Add(new MeleeEnemy2());
                         break;
-                    case 3:
+                    case 2:
                         enemies.Add(new MeleeEnemy3());
                         break;
-                    case 4:
+                    case 3:
                         enemies.Add(new MeleeEnemy4());
                         break;
                 }
 
-                enemies.Last().SetXY(Utils.Random(100, game.width - 100), Utils.Random(100, game.height - 100));
+                // random spawn position
+                if (random.Next(1, 3) == 1)
+                {
+                    if (random.Next(1, 3) == 1)
+                    {
+                        // spawn above screen
+                        enemyxSpawn = -x + random.Next(0, game.width); 
+                        enemyySpawn = -y - 100;
+                    }
+                    else
+                    {
+                        // spawn below screen
+                        enemyxSpawn = -x + random.Next(0, game.width); 
+                        enemyySpawn = -y + game.height + 100;
+                    }
+                }
+                else
+                {
+                    if (random.Next(1, 3) == 1)
+                    {
+                        // spawn left of screen
+                        enemyxSpawn = -x - 100;
+                        enemyySpawn = -y + random.Next(0, game.height);
+                    }
+                    else
+                    {
+                        // spawn right of screen
+                        enemyxSpawn = -x + game.width + 100;
+                        enemyySpawn = -y + random.Next(0, game.height);
+                    }
+                }
+
+                enemies.Last().SetXY(enemyxSpawn, enemyySpawn);
 
                 AddChild(enemies.Last());
 
@@ -103,48 +124,59 @@ class Level : GameObject
             }
 
             // spawn ranged enemies
-            rangedEnemiesSpawning = Utils.Random((int)rangedEnemyMinSpawnRange, (int)rangedEnemyMaxSpawnRange);
+            rangedEnemiesSpawning = Utils.Random((int)rangedEnemyMinSpawnRange, (int)rangedEnemyMaxSpawnRange+1);
             rangedEnemyMinSpawnRange *= enemyWaveRangeMultiplier;
             rangedEnemyMaxSpawnRange *= enemyWaveRangeMultiplier;
 
             for (int i = 0; i < rangedEnemiesSpawning; i++)
             {
-                int rand = Utils.Random(1, 2);
+                int rand = Utils.Random(0, 2);
                 switch (rand)
                 {
-                    case 1:
+                    case 0:
                         enemies.Add(new ShootingEnemy1());
                         break;
-                    case 2:
+                    case 1:
                         enemies.Add(new ShootingEnemy2());
                         break;
                 }
 
-                enemies.Last().SetXY(Utils.Random(100, game.width - 100), Utils.Random(100, game.height - 100));
+                // random spawn position
+                if (random.Next(1, 3) == 1)
+                {
+                    if (random.Next(1, 3) == 1)
+                    {
+                        // spawn above screen
+                        enemyxSpawn = -x + random.Next(0, game.width);
+                        enemyySpawn = -y - 100;
+                    }
+                    else
+                    {
+                        // spawn below screen
+                        enemyxSpawn = -x + random.Next(0, game.width);
+                        enemyySpawn = -y + game.height + 100;
+                    }
+                }
+                else
+                {
+                    if (random.Next(1, 3) == 1)
+                    {
+                        // spawn left of screen
+                        enemyxSpawn = -x - 100;
+                        enemyySpawn = -y + random.Next(0, game.height);
+                    }
+                    else
+                    {
+                        // spawn right of screen
+                        enemyxSpawn = -x + game.width + 100;
+                        enemyySpawn = -y + random.Next(0, game.height);
+                    }
+                }
+
+                enemies.Last().SetXY(enemyxSpawn, enemyySpawn);
 
                 AddChild(enemies.Last());
-
-
             }
-
-            /*
-            // spawn the enemies
-            for (int i = 0; i < waveNumber; i++)
-            {
-                if (i%2 == 0) enemies.Add(new ShootingEnemy2());
-                else          enemies.Add(new MeleeEnemy4());
-
-                // RANDOM ENEMY SPAWNING DOESN'T KEEP THE PLAYER IN MIND YET
-                // ALSO ONLY SPAWNS IN THE SPACE OF THE STARTING SCREEN
-                enemies.Last().SetXY(Utils.Random(100, game.width - 100), Utils.Random(100, game.height - 100));
-
-                AddChild(enemies.Last());
-  
-                Console.WriteLine("enemies.count: "+enemies.Count);
-
-                
-            }
-            */
 
             // reset timer
             // timePassed -= waveTime*1000;     // DOESN'T WORK IF WAVE SPAWNS BECAUSE NO ENEMIES ON SCREEN
@@ -156,6 +188,14 @@ class Level : GameObject
 
     }
 
+    public void SomethingDied(float xpos, float ypos)
+    {
+        DeathExplosion deathExplosion = new DeathExplosion();
+        deathExplosion.SetXY(xpos, ypos);
+        AddChild(deathExplosion);
+
+
+    }
 
     public void HandleScroll()
     {
@@ -168,8 +208,11 @@ class Level : GameObject
         if (player.y + y > game.height - yBoundarySize) y = game.height - yBoundarySize - player.y;
 
         if (x > 0) x = 0;   // making sure the camera doesn't see the void on the left
-        if (y > 0) y = 0;
-        // same but on top
+        if (y > 0) y = 0;   // same but on top
+
+        if (-x > background.width - game.width) x = -(background.width - game.width);   // right
+        if (-y > background.height - game.height) y = -(background.height - game.height); // bottom
+
     }
 
     void Update()
