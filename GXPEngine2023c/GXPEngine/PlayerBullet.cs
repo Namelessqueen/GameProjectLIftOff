@@ -40,12 +40,14 @@ class PlayerBullet : AnimationSprite
 
 class PlayerSecondary : PlayerBullet
 {
+    int oldHeight = 0;
     int slider;
     private Player player;
     private List<AnimationCircles> Circles = new List<AnimationCircles>();
 
     public PlayerSecondary(float pVx, float pVy, int pSlider, string filename = "circle.png", int cols = 1, int rows = 1) : base(pVx, pVy, filename, cols, rows)
     {
+        oldHeight = height;
         height = 5;
         alpha = 0.5f;
         player = game.FindObjectOfType<Player>();
@@ -67,7 +69,14 @@ class PlayerSecondary : PlayerBullet
         if (((MyGame)game).isPaused) return;
         base.Update();
 
-        //width += 2;
+        width += 2;
+        for (int i = 0; i < 10; i++)
+        {
+            AnimationCircles circle = Circles[i];
+            circle.width = 50;
+            circle.height = height * oldHeight / width;
+            //Console.WriteLine("Circle generated");
+        }
 
         if (DistanceTo(player) > slider*3)
         {
@@ -88,6 +97,6 @@ class AnimationCircles : AnimationSprite
     void Update()
     {
         //width /= 2;
-        height = 50;
+       // height = width;
     }
 }

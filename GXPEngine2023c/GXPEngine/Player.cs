@@ -80,8 +80,10 @@ class Player : AnimationSprite
         Attacking();
         collisionPlayer();
         Gameover();
-        
-        
+        DataVoid();
+
+
+
     }
 
     void Movement()
@@ -177,7 +179,7 @@ class Player : AnimationSprite
             reloadCooldown += reloadTime * 250;
 
             currentFuel = currentFuel - sliderInput / 10;
-            currentCooldown = 0;
+            FuelCooldown = 0;
         }
 
 
@@ -210,22 +212,31 @@ class Player : AnimationSprite
 
    //STATS UPDATES
 
-    public int HealthUpdate(int pHealthChange)
+    public float HealthUpdate(float pHealthChange)
     {
-        int healthChange = pHealthChange;
-
+        float healthChange = pHealthChange;
+        currentHealth = Mathf.Clamp(currentHealth, 0, 100);
         currentHealth = currentHealth + healthChange;
         return currentHealth;
+        
     }
 
+    void DataVoid()
+    {
+        HealthCoolDown++;
+        if (HealthCoolDown > 300)
+        {
+            currentHealth += 0.1f;
+        }
+    }
 
     public float fuelUpdate()
     {
-        Console.WriteLine(currentFuel);
+        //Console.WriteLine(currentFuel);
         currentFuel = Mathf.Clamp(currentFuel, 0, 509);
-        currentCooldown++;
-        if (currentCooldown > 300)
-        {   if (currentFuel < 10) currentFuel++;
+        FuelCooldown++;
+        if (FuelCooldown > 300)
+        {   if (FuelCooldown < 10) currentFuel++;
             currentFuel *= 1.01f;
         }
         return currentFuel;
@@ -248,8 +259,10 @@ class Player : AnimationSprite
             if (col is Bullet || col is Enemy)
             {  
                 col.Destroy();
-                Console.WriteLine(col.name +" hit player");
-                HealthUpdate(-1);
+                Console.WriteLine(col.name + " hit player");
+                HealthUpdate(-5);
+                HealthCoolDown = 0;
+                
             }
         }
     }
