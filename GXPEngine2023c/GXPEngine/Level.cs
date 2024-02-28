@@ -27,7 +27,7 @@ class Level : GameObject
     {
         //Background:
         background = new Sprite("background_idea_1.png", false, false);
-        background.scale = 4;   
+        background.scale = 3;   
 
 
 
@@ -104,9 +104,9 @@ class Level : GameObject
         if (player.x + x > game.width - xBoundarySize) x = game.width - xBoundarySize - player.x;
         if (player.y + y > game.height - yBoundarySize) y = game.height - yBoundarySize - player.y;
 
-
         if (x > 0) x = 0;   // making sure the camera doesn't see the void on the left
-        if (y > 0) y = 0;   // same but on top
+        if (y > 0) y = 0;
+        // same but on top
     }
 
     void Update()

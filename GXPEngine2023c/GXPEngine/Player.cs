@@ -56,7 +56,7 @@ class Player : AnimationSprite
         dashDuration = 30;
         dashSpeed = 3;
 
-        currentFuel = game.height / 2;
+        currentFuel = 510;
     }
     
     void Update()
@@ -86,7 +86,7 @@ class Player : AnimationSprite
         // Rotationi
 
         rotation = (float)Mathf.Atan2((lastYPos - y), (lastXPos - x)) * 360 / (2 * Mathf.PI) + 90;
-        //if (isDashingEnemy) { rotation += 180; Move(0, -speed * dashSpeed); }
+        rotation = (float)Mathf.Atan2((lastYPos - y), (lastXPos - x)) * 360 / (2 * Mathf.PI) + 90;
         if (lastXPos == x && lastYPos == y) rotation = lastRotation;
         lastXPos = x;
         lastYPos = y;
@@ -122,19 +122,6 @@ class Player : AnimationSprite
                 SetColor(1f, 1f, 1f);
             }
         }
-        // Enemy bounch dash
-        /*
-        if (isDashingEnemy)
-        {
-            dashTimer++;
-            if (dashTimer > dashDuration)
-            {
-                dashTimer = 0;
-                isDashingEnemy = false;
-                SetColor(1f, 1f, 1f);
-            }
-        }*/
-
     }
 
     void Attacking()
@@ -170,12 +157,15 @@ class Player : AnimationSprite
             return;
         }
 
-        if (Input.GetKey(Key.H) && fuelUpdate() > 0)
+        if (Input.GetKey(Key.H) && fuelUpdate() > 1)
         {
             PlayerSecondarys.Add(new PlayerSecondary((speed / 2) * bulletXRotHelp, (speed / 2) * bulletYRotHelp, sliderInput, "square.png"));
             PlayerSecondarys.Last().SetXY(x + (9 * bulletXRotHelp), y + (9 * bulletYRotHelp));
             level.AddChild(PlayerSecondarys.Last());
             reloadCooldown += reloadTime * 250;
+
+            currentFuel = currentFuel - sliderInput / 10;
+            currentCooldown = 0;
         }
 
 
@@ -210,21 +200,10 @@ class Player : AnimationSprite
                 break;
 
         }
-
-        /*
-        if (Input.GetKey(Key.R))
-        {
-            PlayerSecondarys.Add(new PlayerSecondary(bulletSpeed/3 * bulletXRotHelp, bulletSpeed/3 * bulletYRotHelp));
-            PlayerSecondarys.Last().SetXY(x, y);
-            AddChild(PlayerSecondarys.Last());
-            reloadCooldown += reloadTimeSmall * 1000;
-
-        }*/
-
     }
 
 
-   
+   //STATS UPDATES
 
     public int HealthUpdate(int pHealthChange)
     {
@@ -237,20 +216,13 @@ class Player : AnimationSprite
 
     public float fuelUpdate()
     {
-        Console.WriteLine(sliderInput);
-        currentFuel = Mathf.Clamp(currentFuel, 0, Game.main.height / 2);
+        Console.WriteLine(currentFuel);
+        currentFuel = Mathf.Clamp(currentFuel, 0, 509);
         currentCooldown++;
         if (currentCooldown > 300)
         {   if (currentFuel < 10) currentFuel++;
-            currentFuel *= 1.008f;
+            currentFuel *= 1.01f;
         }
-
-        if (Input.GetKey(Key.H))
-        {
-           currentFuel = currentFuel - sliderInput / 20;
-           currentCooldown = 0;
-        }
-
         return currentFuel;
     }
 
@@ -269,13 +241,7 @@ class Player : AnimationSprite
             GameObject col = collisions[i];
 
             if (col is Bullet || col is Enemy)
-            {   /*
-                if (col is Enemy && isDashing)
-                {
-                    isDashingEnemy = true; isDashing = false;
-                    dashTimer = 0;
-                    return;
-                }*/
+            {  
                 col.Destroy();
                 Console.WriteLine(col.name +" hit player");
                 HealthUpdate(-1);
