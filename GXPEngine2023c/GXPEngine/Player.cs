@@ -33,10 +33,12 @@ class Player : AnimationSprite
     private int attackState;
     private float reloadCooldown;
     private float currentAttack;
+    private float currentHealth;
+    private int HealthCoolDown;
+    private float currentFuel = 510;
+    private int FuelCooldown;
 
     private int maxHealth;
-    private int currentHealth;
-    private float currentFuel = 510;
     private int currentCooldown;
 
     private float lastXPos, lastYPos;
