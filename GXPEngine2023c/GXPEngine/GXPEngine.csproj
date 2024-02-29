@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArduinoInput.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="CoolPlayerBullet.cs" />
