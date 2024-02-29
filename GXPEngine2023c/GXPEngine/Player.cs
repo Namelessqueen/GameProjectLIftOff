@@ -16,8 +16,9 @@ using TiledMapParser;
 class Player : AnimationSprite
 {
     private float bulletSpeed = 1.5f;        // The speed bullets will travel at
-    private float reloadTime = .9f;     // Time in seconds until player can shoot again
-    //private float reloadTimeSmall = .2f;    // kinda outdated ngl
+    private float reloadTime = 0.3f;     // Time in seconds until player can shoot again
+    private float reloadTimeSmall = .2f;
+    
     private int baseMaxHealth = 100;    // max hp at start
     private int baseAttack = 5;         // attack at start
     private float speed = 2f;   // own speed
@@ -126,7 +127,7 @@ class Player : AnimationSprite
     public void Dashing()
     {
         dashCooldown++;
-        if (Input.GetKeyDown(Key.SPACE) && isDashing == false && dashCooldown > 200) 
+        if (Input.GetKeyDown(Key.O) && isDashing == false && dashCooldown > 100) 
         { 
             isDashing = true;   
             dashCooldown = 0;

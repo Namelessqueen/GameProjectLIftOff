@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -26,7 +26,6 @@ public class TextCanvas : EasyDraw
     private float XPPosX = cornerOfset - 2;
     private float XPPosY = cornerOfset + 48;
 
-    
     public TextCanvas() : base(Game.main.width, Game.main.height, false)
     {
         backgroundUI = new Sprite("sprite_fullUI.png", false);
