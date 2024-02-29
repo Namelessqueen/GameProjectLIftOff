@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 class LevelUpCard : GameObject
 {
     private int allCardsCount = 11;  // total number of ability cards
+    private float cardHeight = 400; // position based on pixels, bigger number moves it lower
 
     private int cardAmount;     // number of cards being drawn, defaults to 3
     private int cardNumber;     // specifies the card used
@@ -27,7 +28,7 @@ class LevelUpCard : GameObject
         cardAmount = cardCount;
         random = new Random();
 
-        selectionArrow = new Sprite("PlaceholderAbilityArrow.png");
+        selectionArrow = new Sprite("sprite_levelUpCard_selectionOutline.png");
         selectionArrow.SetOrigin(selectionArrow.width / 2, selectionArrow.height / 2);
         AddChild(selectionArrow);
 
@@ -47,7 +48,7 @@ class LevelUpCard : GameObject
             selectedCards.Add(cardNumber);
             arrowxPos.Add(cardX);
 
-            cards.Last().SetXY(cardX, 300);
+            cards.Last().SetXY(cardX, cardHeight);
             AddChild(cards.Last());
         }
         initialDone = true;
@@ -62,7 +63,7 @@ class LevelUpCard : GameObject
         if (cardSelected < 0) cardSelected = arrowxPos.Count - 1;
         if (cardSelected >= arrowxPos.Count) cardSelected = 0;
 
-        selectionArrow.SetXY(arrowxPos[cardSelected], 550);
+        selectionArrow.SetXY(arrowxPos[cardSelected], cardHeight);
 
         if (Input.GetKeyDown(Key.ENTER)) SelectCard();
 

@@ -14,7 +14,7 @@ public class Card : Sprite
     public Card(int cardNr = 0) : base("sprite_levelUpCard_"+cardNr+".png")
     {
         cardNumber = cardNr;
-        alpha = .7f;
+        alpha = .9f;
         SetOrigin(width / 2, height / 2);
 
     }
