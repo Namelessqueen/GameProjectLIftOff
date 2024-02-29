@@ -32,7 +32,7 @@ class Bullet : Sprite
         if (x < -level.x || x > -level.x + game.width || 
             y < -level.y || y > -level.y + game.height)
         {
-            Console.WriteLine("Enemy bullet despawned");
+            //Console.WriteLine("Enemy bullet despawned");
             LateDestroy();
         }
 

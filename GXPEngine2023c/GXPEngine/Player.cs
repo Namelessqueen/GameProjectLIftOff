@@ -35,11 +35,13 @@ class Player : AnimationSprite
     private int attackState;
     private float reloadCooldown;
     private float currentAttack;
+    private float currentHealth;
+    private int HealthCoolDown;
+    private float currentFuel = 510;
+    private int FuelCooldown;
 
     private int maxHealth;
-    private int currentHealth;
-    private float currentFuel = 510;
-    private int currentCooldown;
+
 
     private float lastXPos, lastYPos;
     private float lastRotation;
@@ -82,8 +84,10 @@ class Player : AnimationSprite
         Attacking();
         collisionPlayer();
         Gameover();
-        
-        
+        DataVoid();
+
+
+
     }
 
     void Movement()
@@ -182,8 +186,9 @@ class Player : AnimationSprite
             level.AddChild(PlayerSecondarys.Last());
             reloadCooldown += reloadTime * 250;
 
-            currentFuel = currentFuel - sliderInput / 10;
-            currentCooldown = 0;
+      
+            currentFuel = currentFuel - ((float)sliderInput / 100) * 10 ;
+            FuelCooldown = 0;
         }
 
 
@@ -216,22 +221,37 @@ class Player : AnimationSprite
 
    //STATS UPDATES
 
-    public int HealthUpdate(int pHealthChange)
+    public float HealthUpdate(float pHealthChange)
     {
-        int healthChange = pHealthChange;
-
+        float healthChange = pHealthChange;
+        currentHealth = Mathf.Clamp(currentHealth, 0, 100);
         currentHealth = currentHealth + healthChange;
         return currentHealth;
+        
     }
 
+    void DataVoid()
+    {
+        HealthCoolDown++;
+        if (HealthCoolDown > 300)
+        {
+            currentHealth += 0.1f;
+        }
+        HealthCoolDown++;
+        if (HealthCoolDown > 300)
+        {
+            currentHealth += 0.1f;
+        }
+    }
 
     public float fuelUpdate()
     {
-        //Console.WriteLine(currentFuel);
+       
         currentFuel = Mathf.Clamp(currentFuel, 0, 509);
-        currentCooldown++;
-        if (currentCooldown > 300)
-        {   if (currentFuel < 10) currentFuel++;
+        FuelCooldown++;
+        if (FuelCooldown > 300)
+        {
+            currentFuel++;
             currentFuel *= 1.01f;
         }
         return currentFuel;
@@ -255,8 +275,10 @@ class Player : AnimationSprite
             if (col is Bullet)
             {  
                 col.Destroy();
-                Console.WriteLine(col.name +" hit player");
-                HealthUpdate(-1);
+                Console.WriteLine(col.name + " hit player");
+                HealthUpdate(-5);
+                HealthCoolDown = 0;
+                
             }
             if (col is Enemy)
             {
