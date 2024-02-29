@@ -226,15 +226,17 @@ class Player : AnimationSprite
 
     void DataVoid()
     {
+        if (((MyGame)game).isPaused) return;
         HealthCoolDown++;
         if (HealthCoolDown > 300)
         {
             currentHealth += 0.1f;
         }
         HealthCoolDown++;
-        if (HealthCoolDown > 300)
+        if (FuelCooldown > 300)
         {
-            currentHealth += 0.1f;
+            currentFuel++;
+            currentFuel *= 1.01f;
         }
     }
 
@@ -243,11 +245,7 @@ class Player : AnimationSprite
        
         currentFuel = Mathf.Clamp(currentFuel, 0, 509);
         FuelCooldown++;
-        if (FuelCooldown > 300)
-        {
-            currentFuel++;
-            currentFuel *= 1.01f;
-        }
+       
         return currentFuel;
     }
 

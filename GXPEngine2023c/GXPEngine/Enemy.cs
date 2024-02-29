@@ -196,7 +196,7 @@ class Enemy : AnimationSprite
         {
             LateDestroy();
             parent.RemoveChild(this);
-            canvas.XPUpdate(5); //XP added
+            canvas.XPUpdate(25); //XP added
             //level.RemoveChild(this);  // AAAAAAAAAAAAAAAAAAAAAAAAAAAA
         }
 
