@@ -14,7 +14,7 @@ public class MyGame : Game {
 	{
         //text
         canvas = new TextCanvas();
-        AddChild(new ArduinoInput());
+        //AddChild(new ArduinoInput());
         AddChild(new Level());
         AddChild(canvas);
     }

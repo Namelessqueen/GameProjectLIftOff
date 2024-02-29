@@ -11,7 +11,7 @@ class MeleeEnemy4 : MeleeEnemy
     public MeleeEnemy4(string fileName = "sprite_meleeEnemy4.png", int cols = 4, int rows = 2,
                        int hp = 4,
                        int dmg = 5,
-                       float spd = 1f
+                       float spd = 2f
                         ) : base(fileName, cols, rows, hp, dmg, spd)
     {
         enemyType = 4;

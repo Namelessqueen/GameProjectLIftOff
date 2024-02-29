@@ -15,7 +15,7 @@ using TiledMapParser;
 
 class Player : AnimationSprite
 {
-    private float bulletSpeed = 1.5f;        // The speed bullets will travel at
+    private float bulletSpeed = 3f;        // The speed bullets will travel at
     private float reloadTime = 0.3f;     // Time in seconds until player can shoot again
     private float reloadTimeSmall = .2f;
     
@@ -54,10 +54,10 @@ class Player : AnimationSprite
     private List<Enemy> AllEnemys;
     private Enemy[] foundEnemies;
     private Level level;
-    private ArduinoInput arduinoInput;
+    //private ArduinoInput arduinoInput;
 
     private bool isDashing = false;
-    private int dashSpeed = 3;
+    private int dashSpeed = 2;
     private int dashTimer;
     private int dashCooldown;
     private int dashDuration = 15;
@@ -75,7 +75,7 @@ class Player : AnimationSprite
         currentAttack = baseAttack;
         isDashing = false;
 
-        arduinoInput = game.FindObjectOfType<ArduinoInput>();
+        //arduinoInput = game.FindObjectOfType<ArduinoInput>();
         //currentFuel = 510;
         AllEnemys = new List<Enemy>();
 
@@ -150,7 +150,7 @@ class Player : AnimationSprite
         // 5508, 3072
 
         Console.WriteLine(game.currentFps);
-        sliderInput = arduinoInput.SliderValue();
+        //sliderInput = arduinoInput.SliderValue();
         //Console.WriteLine("player called slider input: "+ sliderInput);
         //slider input
         //sliderInput = arduinoInput.sliderValue;
