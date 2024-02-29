@@ -30,7 +30,7 @@ class PlayerBullet : AnimationSprite
         if (x < -level.x || x > -level.x + game.width ||
             y < -level.y || y > -level.y + game.height)
         {
-            Console.WriteLine("Enemy bullet despawned");
+            //Console.WriteLine("Enemy bullet despawned");
             LateDestroy();
         }
     }
@@ -48,7 +48,7 @@ class PlayerSecondary : PlayerBullet
     private Player player;
     private List<AnimationCircles> Circles = new List<AnimationCircles>();
 
-    public PlayerSecondary(float pVx, float pVy, int pSlider, string filename = "circle.png", int cols = 1, int rows = 1) : base(pVx, pVy, filename, cols, rows)
+    public PlayerSecondary(float pVx, float pVy, int pSlider, string CircleImage = "SecondaryNormal.png") : base(pVx, pVy, CircleImage)
     {
         originalWidth = width;
         originalHeight = height;
@@ -60,18 +60,18 @@ class PlayerSecondary : PlayerBullet
 
         for (int i = 0; i < 10; i++)
         {
-            AnimationCircles circle = new AnimationCircles("circle.png", 1, 1);
+            AnimationCircles circle = new AnimationCircles(CircleImage);
             Circles.Add(circle);
             LateAddChild(circle);
             circle.SetOrigin(width / 2, height / 2);
             circle.x = (i - 5) * width / 10;
-
             //Console.WriteLine("Circle generated, height = " + oldHeight + " , " + (oldHeight / height ) );
         }
+      
     }
 
     protected override void Update()
-    {
+    { 
         if (((MyGame)game).isPaused) return;
         base.Update();
         coolDown++;
@@ -92,6 +92,21 @@ class PlayerSecondary : PlayerBullet
         }
     }
 }
+class PlayerSecondarySlowed : PlayerSecondary
+{
+    public PlayerSecondarySlowed(float pVx, float pVy, int pSlider, string CircleImage = "circle.png") : base(pVx, pVy, pSlider, CircleImage)
+    {
+
+    }
+}
+
+class PlayerSecondaryPoison : PlayerSecondary
+{
+    public PlayerSecondaryPoison(float pVx, float pVy, int pSlider, string CircleImage = "circle.png") : base(pVx, pVy, pSlider, CircleImage)
+    {
+
+    }
+}
 
 
 
@@ -99,10 +114,9 @@ class AnimationCircles : AnimationSprite
 {
     public int originalWidth;
     public int originalHeight;
-    public AnimationCircles(string filename = "circle.png", int cols = 1, int rows = 1) : base(filename, cols, rows)
+    public AnimationCircles(string filename = "SecondaryNormal.png") : base(filename, 1, 1)
     {
         originalWidth = width;
         originalHeight = height;
-        //scale = .5f;
     }
 }

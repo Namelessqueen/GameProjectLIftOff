@@ -15,6 +15,7 @@ public class MyGame : Game {
     
     // THIS IS IN ALMOST EVERY UPDATE FUNCTION if (((MyGame)game).isPaused) return;
     private TextCanvas canvas;
+    private EasyDraw deathCanvas;
     FMODSoundSystem soundSystem;
 
     public MyGame() : base(1377, 768, false, false, 1366, 768, true)     
@@ -29,6 +30,7 @@ public class MyGame : Game {
         //text
         MainMenu mainMenu = game.FindObjectOfType<MainMenu>();
         mainMenu.LateDestroy();
+        if(deathCanvas != null) deathCanvas.LateDestroy();
         canvas = new TextCanvas();
         //AddChild(new ArduinoInput()); ///////////////////////////////////////////////////////////
         AddChild(new Level());
@@ -41,10 +43,14 @@ public class MyGame : Game {
 
     public void GameOver() 
     {
+        deathCanvas = new EasyDraw(game.width,game.height);
         Level level = game.FindObjectOfType<Level>();
         level.LateDestroy();
         canvas.LateDestroy();
         AddChild(new MainMenu("Game over screen2.png"));
+        AddChild(deathCanvas);
+        deathCanvas.TextFont(TextCanvas.gameFont); deathCanvas.TextAlign(CenterMode.Center,CenterMode.Center);
+        deathCanvas.Text("Your final wave is : " + level.WaveNumber(), game.width / 2, game.height / 3);
     }
 
     public bool XPReset()

@@ -14,7 +14,7 @@ public class TextCanvas : EasyDraw
     private Level level;
     private Sprite backgroundUI;
     private MyGame myGame;
-    private Font gameFont;
+    public static Font gameFont = new Font("04b", 25);
 
     private static int cornerOfset = 51;
 
@@ -35,10 +35,12 @@ public class TextCanvas : EasyDraw
     private float sliderPosX = Game.main.width - 106;
     private float sliderPosY = Game.main.height - 113;
 
+    private int Cooldown;
+    private bool UltFlash;
+
     public TextCanvas() : base(Game.main.width, Game.main.height, false)
     {
         backgroundUI = new Sprite("sprite_fullUI.png", false);
-        gameFont = new Font("04b", 25);
     }
 
     public void Update()
@@ -100,8 +102,8 @@ public class TextCanvas : EasyDraw
         ShapeAlign(CenterMode.Min, CenterMode.Min);
         Fill(255); Rect(UltPosX, UltPosY, 412, 12);
         Fill(255, 0, 0); Rect(UltPosX, UltPosY, Mathf.Clamp((player.UltValue(0) * 4.12f),0, 412),12);
-
     }
+
     void WaveText()
     {
         TextAlign(CenterMode.Center, CenterMode.Center);
