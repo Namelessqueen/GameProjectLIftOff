@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 class LevelUpCard : GameObject
 {
-    private int allCardsCount = 5;  // total number of ability cards
+    private int allCardsCount = 11;  // total number of ability cards
 
     private int cardAmount;     // number of cards being drawn, defaults to 3
     private int cardNumber;     // specifies the card used

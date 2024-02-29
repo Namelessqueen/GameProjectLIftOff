@@ -11,7 +11,7 @@ public class Card : Sprite
     private int cardNumber;
     Player player;
 
-    public Card(int cardNr = 0) : base("PlaceholderAbilityCard_"+cardNr+".png")
+    public Card(int cardNr = 0) : base("sprite_levelUpCard_"+cardNr+".png")
     {
         cardNumber = cardNr;
         alpha = .7f;
