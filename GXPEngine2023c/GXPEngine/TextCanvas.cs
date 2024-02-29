@@ -15,6 +15,10 @@ public class TextCanvas : EasyDraw
 
     private static int cornerOfset = 51;
 
+    private float currentXP;
+    private float neededXP;
+    private float multiplierXP = 1f;
+
     private float healthPosX = cornerOfset;
     private float healthPosY = cornerOfset;
     private float fuelPosX = Game.main.width - cornerOfset - 25/2 - 2;
@@ -40,6 +44,7 @@ public class TextCanvas : EasyDraw
         FuelBar();
         XPBar();
 
+        //Console.WriteLine(currentXP);
 
     }
 
@@ -55,13 +60,26 @@ public class TextCanvas : EasyDraw
     {
             ShapeAlign(CenterMode.Center, CenterMode.Max);
             Fill(255); Rect(fuelPosX, fuelPosY, 30, 510);
-            Fill(164, 148, 104); Rect(fuelPosX, fuelPosY, 30, player.fuelUpdate());
+            Fill(164, 148, 104); Rect(fuelPosX, fuelPosY, 30, Mathf.Clamp(player.fuelUpdate(),0, 510));
     }
     void XPBar()
     {
         ShapeAlign(CenterMode.Min, CenterMode.Min);
         Fill(255); Rect(XPPosX, XPPosY, 415, 9);
-        Fill(102, 255, 153); Rect(XPPosX, XPPosY, 415, 9);
+        Fill(102, 255, 153); Rect(XPPosX, XPPosY, Mathf.Clamp(XPUpdate(0) *(4.15f / multiplierXP), 0, (4.15f/ multiplierXP) * neededXP), 9);
+    }
+
+    public float XPUpdate(float pChange)
+    {
+        float change = pChange;
+        neededXP = 100 * multiplierXP;
+        if (currentXP >= neededXP)
+        {
+            multiplierXP += 0.2f;
+            currentXP = 0;
+        }
+        currentXP = currentXP + change;
+        return currentXP;
     }
 }
 

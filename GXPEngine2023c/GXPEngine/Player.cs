@@ -39,8 +39,7 @@ class Player : AnimationSprite
     private int FuelCooldown;
 
     private int maxHealth;
-    private int currentCooldown;
-    private float currentXP;
+
 
     private float lastXPos, lastYPos;
     private float lastRotation;
@@ -181,7 +180,8 @@ class Player : AnimationSprite
             level.AddChild(PlayerSecondarys.Last());
             reloadCooldown += reloadTime * 250;
 
-            currentFuel = currentFuel - sliderInput / 10;
+      
+            currentFuel = currentFuel - ((float)sliderInput / 100) * 10 ;
             FuelCooldown = 0;
         }
 
@@ -231,26 +231,24 @@ class Player : AnimationSprite
         {
             currentHealth += 0.1f;
         }
+        HealthCoolDown++;
+        if (HealthCoolDown > 300)
+        {
+            currentHealth += 0.1f;
+        }
     }
 
     public float fuelUpdate()
     {
-        //Console.WriteLine(currentFuel);
+       
         currentFuel = Mathf.Clamp(currentFuel, 0, 509);
         FuelCooldown++;
         if (FuelCooldown > 300)
-        {   if (FuelCooldown < 10) currentFuel++;
+        {
+            currentFuel++;
             currentFuel *= 1.01f;
         }
         return currentFuel;
-    }
-
-    public float XPUpdate(float pChange)
-    {
-        float change = pChange;
-
-        currentXP = currentXP + change;
-        return currentXP;
     }
 
     void Gameover()

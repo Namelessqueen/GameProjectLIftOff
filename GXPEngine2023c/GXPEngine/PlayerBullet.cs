@@ -42,7 +42,9 @@ class PlayerSecondary : PlayerBullet
 {
     float originalWidth = 0;
     float originalHeight = 0;
-    int slider;
+    private int slider;
+    private float coolDown;
+
     private Player player;
     private List<AnimationCircles> Circles = new List<AnimationCircles>();
 
@@ -51,7 +53,7 @@ class PlayerSecondary : PlayerBullet
         originalWidth = width;
         originalHeight = height;
         height = 5;
-        alpha = 0.5f;
+        alpha = 0f;
         player = game.FindObjectOfType<Player>();
         rotation = player.rotation;
         slider = pSlider;
@@ -72,7 +74,7 @@ class PlayerSecondary : PlayerBullet
     {
         if (((MyGame)game).isPaused) return;
         base.Update();
-
+        coolDown++;
         width += 2;
         float widthFactor = originalWidth / width;
         for (int i = 0; i < 10; i++)
@@ -83,7 +85,7 @@ class PlayerSecondary : PlayerBullet
             //Console.WriteLine("Circleupdated " + circle.scale );
         }
 
-        if (DistanceTo(player) > slider * 3)
+        if (coolDown > (float)slider)
         {
             Console.WriteLine("Removed SecondaryBullet");
             Destroy();
