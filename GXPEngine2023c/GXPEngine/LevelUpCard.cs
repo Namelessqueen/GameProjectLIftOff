@@ -71,8 +71,8 @@ class LevelUpCard : GameObject
             selectionCooldown = 100;
 
 
-            soundSystem.PlaySound(soundSystem.LoadSound("Universal ping_select_menu_sound.wav", false), 14, false);
-           // new Sound("Universal ping_select_menu_sound.wav", false, true).Play();
+            soundSystem.PlaySound(soundSystem.LoadSound("Universal ping_select_menu_sound.wav", false), 14, false, channelVolume14, 0);
+            // new Sound("Universal ping_select_menu_sound.wav", false, true).Play();
         }
         if (Input.GetKeyDown(Key.D))
         {
@@ -80,7 +80,7 @@ class LevelUpCard : GameObject
             selectionCooldown = 100;
 
 
-            soundSystem.PlaySound(soundSystem.LoadSound("Universal ping_select_menu_sound.wav", false), 14, false);
+            soundSystem.PlaySound(soundSystem.LoadSound("Universal ping_select_menu_sound.wav", false), 14, false, channelVolume14, 0);
             //new Sound("Universal ping_select_menu_sound.wav", false, true).Play();
         }
         if (cardSelected < 0) cardSelected = arrowxPos.Count - 1;
