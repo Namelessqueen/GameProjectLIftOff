@@ -11,8 +11,10 @@ using TiledMapParser;
 public class TextCanvas : EasyDraw
 {
     private Player player;
+    private Level level;
     private Sprite backgroundUI;
     private MyGame myGame;
+    private Font gameFont;
 
     private static int cornerOfset = 51;
 
@@ -26,16 +28,20 @@ public class TextCanvas : EasyDraw
     private float fuelPosY = Game.main.height - cornerOfset - 62;
     private float XPPosX = cornerOfset - 2;
     private float XPPosY = cornerOfset + 48;
+    private float wavePosX = Game.main.width/2;
+    private float wavePosY = 40;
 
     public TextCanvas() : base(Game.main.width, Game.main.height, false)
     {
         backgroundUI = new Sprite("sprite_fullUI.png", false);
+        gameFont = new Font("04b", 25);
     }
 
     public void Update()
     {
         
         player = game.FindObjectOfType<Player>();
+        level = game.FindObjectOfType<Level>();
         myGame = game.FindObjectOfType<MyGame>();
 
         DrawSprite(backgroundUI);
@@ -44,8 +50,7 @@ public class TextCanvas : EasyDraw
         HealthBar();
         FuelBar();
         XPBar();
-        if (myGame == null) return;
-        //Console.WriteLine(currentXP);
+        WaveText();
 
     }
 
@@ -75,6 +80,12 @@ public class TextCanvas : EasyDraw
             multiplierXP += 0.2f;
             currentXP = 0;
         }
+    }
+    void WaveText()
+    {
+        TextAlign(CenterMode.Center, CenterMode.Center);
+        TextFont(gameFont);
+        Fill(255); Text(("WAVE " + level.WaveNumber()), wavePosX, wavePosY);
     }
 
     public float XPUpdate(float pChange)

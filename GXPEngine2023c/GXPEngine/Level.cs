@@ -189,6 +189,10 @@ class Level : GameObject
 
     }
 
+    public int WaveNumber()
+    {
+        return waveNumber;
+    }
     public void SomethingDied(float xpos, float ypos)
     {
         DeathExplosion deathExplosion = new DeathExplosion();
