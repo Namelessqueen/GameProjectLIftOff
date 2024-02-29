@@ -1,4 +1,4 @@
-﻿using GXPEngine;
+using GXPEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +21,7 @@ class Enemy : AnimationSprite
     private byte ranged2AnimTime = 10;
 
     public Level level;
+    private TextCanvas canvas;
     public string status;           // needs to be public because status affects speed and speed is type specific
     public int enemyType;
 
@@ -41,6 +42,7 @@ class Enemy : AnimationSprite
         health = eHealth;
         SetOrigin(width / 2, height / 2);
         level = game.FindObjectOfType<Level>();
+        canvas = game.FindObjectOfType<TextCanvas>();
         fishTime = passiveFishIFrames;
     }
 
@@ -123,12 +125,12 @@ class Enemy : AnimationSprite
             {
                 statusBulletHit = "slowed";
             }
-            /*
-            if (col is PoisonPlayerBullet)      // this bullet doesn't exist yet, but the functionality exists
+            
+            if (col is PoisonPlayerBullet) 
             {
                 statusBulletHit = "poisoned";
             }
-            */
+            
 
         }
 
@@ -193,7 +195,10 @@ class Enemy : AnimationSprite
         if (health <= 0)
         {
             LateDestroy();
+            level.SomethingDied(x, y);
+            //parent.RemoveChild(this);
             parent.RemoveChild(this);
+            canvas.XPUpdate(5); //XP added
             //level.RemoveChild(this);  // AAAAAAAAAAAAAAAAAAAAAAAAAAAA
         }
 

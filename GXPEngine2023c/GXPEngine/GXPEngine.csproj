@@ -44,6 +44,7 @@
     <Compile Include="Bullet.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="CoolPlayerBullet.cs" />
+    <Compile Include="DeathExplosion.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="PassiveFish.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerBullet.cs" />
+    <Compile Include="PoisonPlayerBullet.cs" />
     <Compile Include="ShootingEnemy.cs" />
     <Compile Include="ShootingEnemy1.cs" />
     <Compile Include="ShootingEnemy2.cs" />

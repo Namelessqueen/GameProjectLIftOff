@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -15,11 +15,16 @@ public class TextCanvas : EasyDraw
 
     private static int cornerOfset = 51;
 
+    private float currentXP;
+    private float neededXP;
+    private float multiplierXP = 1f;
+
     private float healthPosX = cornerOfset;
     private float healthPosY = cornerOfset;
     private float fuelPosX = Game.main.width - cornerOfset - 25/2 - 2;
     private float fuelPosY = Game.main.height - cornerOfset - 62;
-    
+    private float XPPosX = cornerOfset - 2;
+    private float XPPosY = cornerOfset + 48;
 
     public TextCanvas() : base(Game.main.width, Game.main.height, false)
     {
@@ -33,15 +38,17 @@ public class TextCanvas : EasyDraw
 
         DrawSprite(backgroundUI);
         NoStroke();
-
+        if (player == null) return;
         HealthBar();
         FuelBar();
-       
+        XPBar();
+
+        //Console.WriteLine(currentXP);
+
     }
 
     void HealthBar()
     {
-        if (player == null) return;
             ShapeAlign(CenterMode.Min, CenterMode.Min);
             Fill(255); Rect(healthPosX, healthPosY, 410, 25);
             Fill(255, 0, 0); Rect(healthPosX, healthPosY, Mathf.Clamp((player.HealthUpdate(0) * 4.1f), 0, 509), 25);
@@ -50,10 +57,28 @@ public class TextCanvas : EasyDraw
 
     void FuelBar()
     {
-        if (player == null) return;
             ShapeAlign(CenterMode.Center, CenterMode.Max);
             Fill(255); Rect(fuelPosX, fuelPosY, 30, 510);
-            Fill(164, 148, 104); Rect(fuelPosX, fuelPosY, 30, player.fuelUpdate());
+            Fill(164, 148, 104); Rect(fuelPosX, fuelPosY, 30, Mathf.Clamp(player.fuelUpdate(),0, 510));
+    }
+    void XPBar()
+    {
+        ShapeAlign(CenterMode.Min, CenterMode.Min);
+        Fill(255); Rect(XPPosX, XPPosY, 415, 9);
+        Fill(102, 255, 153); Rect(XPPosX, XPPosY, Mathf.Clamp(XPUpdate(0) *(4.15f / multiplierXP), 0, (4.15f/ multiplierXP) * neededXP), 9);
+    }
+
+    public float XPUpdate(float pChange)
+    {
+        float change = pChange;
+        neededXP = 100 * multiplierXP;
+        if (currentXP >= neededXP)
+        {
+            multiplierXP += 0.2f;
+            currentXP = 0;
+        }
+        currentXP = currentXP + change;
+        return currentXP;
     }
 }
 
