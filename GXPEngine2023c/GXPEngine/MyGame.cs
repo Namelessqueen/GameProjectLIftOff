@@ -14,7 +14,6 @@ public class MyGame : Game {
 	{
         //text:
         canvas = new TextCanvas();
-
         AddChild(new Level());
         AddChild(canvas);
     }
@@ -26,7 +25,7 @@ public class MyGame : Game {
 	
 	void Update() {
 
-		if (canvas.XPUpdate(0) >= canvas.XPNeeded())
+		if (canvas.XPUpdate(0) >= canvas.XPNeeded() || Input.GetKeyDown(Key.P))
 		{
 			AddChild(new LevelUpCard());
             resetXP = true;

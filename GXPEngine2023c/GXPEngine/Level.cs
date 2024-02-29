@@ -55,8 +55,9 @@ class Level : GameObject
     {
         
         timePassed += Time.deltaTime;
+        Console.WriteLine(player.AmmountEnemy());
         
-        if (timePassed/1000 >= waveTime || enemies.Count == 0)
+        if (timePassed/1000 >= waveTime || enemies.Count == 0 || player.AmmountEnemy() == 0)
         {
             waveNumber++;
             Console.WriteLine("new wave");
@@ -189,6 +190,10 @@ class Level : GameObject
 
     }
 
+    public int WaveNumber()
+    {
+        return waveNumber;
+    }
     public void SomethingDied(float xpos, float ypos)
     {
         DeathExplosion deathExplosion = new DeathExplosion();

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using TiledMapParser;
 
 class Enemy : AnimationSprite
 {
@@ -22,6 +23,7 @@ class Enemy : AnimationSprite
     private byte ranged2AnimTime = 10;
 
     public Level level;
+    private Player player;
     private TextCanvas canvas;
     public string status;           // needs to be public because status affects speed and speed is type specific
     public int enemyType;
@@ -45,6 +47,7 @@ class Enemy : AnimationSprite
         SetOrigin(width / 2, height / 2);
         level = game.FindObjectOfType<Level>();
         canvas = game.FindObjectOfType<TextCanvas>();
+        player = game.FindObjectOfType<Player>();   
         fishTime = passiveFishIFrames;
     }
 
@@ -90,11 +93,16 @@ class Enemy : AnimationSprite
 
     }
 
-    public void UltTest()
+    public void UltDamagaPercent()
     {
-        UltDamage = health * 0.3f;
+        UltDamage = health * 0.5f;
         health = (int)UltDamage;
-        Console.WriteLine("ULT");
+        Console.WriteLine("ULT Percent");
+    }
+    public void UltDamagaKill()
+    {
+        health = 0;
+        Console.WriteLine("ULT Kill");
     }
 
 
@@ -208,6 +216,7 @@ class Enemy : AnimationSprite
             //parent.RemoveChild(this);
             parent.RemoveChild(this);
             canvas.XPUpdate(5); //XP added
+            player.UltValue(3f); // Ult value
             //level.RemoveChild(this);  // AAAAAAAAAAAAAAAAAAAAAAAAAAAA
         }
 

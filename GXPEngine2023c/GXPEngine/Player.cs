@@ -42,6 +42,7 @@ class Player : AnimationSprite
     private int HealthCoolDown;
     private float currentFuel = 510;
     private int FuelCooldown;
+    private float currentUlt;
 
     private int maxHealth;
 
@@ -54,6 +55,7 @@ class Player : AnimationSprite
     private List<Enemy> AllEnemys;
     private Enemy[] foundEnemies;
     private Level level;
+    private int lengthFoundEnemies = 1;
 
     private bool isDashing = false;
     private int dashSpeed = 3;
@@ -95,16 +97,10 @@ class Player : AnimationSprite
         collisionPlayer();
         Gameover();
         DataVoid();
+        Ultimate(); UltValue(0.005f);
 
-        Enemy[] foundEnemies = game.FindObjectsOfType<Enemy>();
-        if (foundEnemies == null) return;
-        if (Input.GetKeyDown(Key.U))
-        {
-            for (int i = 0; i < foundEnemies.Length; i++)
-            {
-                foundEnemies[i].UltTest();
-            }
-        }
+
+
     }
 
     void IFrameFunctions()
@@ -252,36 +248,56 @@ class Player : AnimationSprite
         reloadCooldown += reloadTime * 1000;
     }
 
+    //Ultability
+    public int AmmountEnemy()
+    {
+        return lengthFoundEnemies;
+    }
+
+    public int InputSlider()
+    {
+        return sliderInput;
+    }
     void Ultimate()
     {
-        if (Input.GetKey(Key.U))
+        
+        Enemy[] foundEnemies = game.FindObjectsOfType<Enemy>();
+        if (foundEnemies == null) return;
+        Console.WriteLine(foundEnemies.Length);
+        lengthFoundEnemies = foundEnemies.Length;
+        for (int i = 0; i < foundEnemies.Length; i++)
         {
-            for(int i = 0; i < AllEnemys.Count; i++)
-            {
-                Console.WriteLine(AllEnemys[i]);
+            if ((Input.GetKeyDown(Key.U) && UltValue(0) >= 100) || Input.GetKeyDown(Key.Q))
+            {   
+                if (i >= foundEnemies.Length/2) foundEnemies[i].UltDamagaPercent();
+                if (i < foundEnemies.Length/2) foundEnemies[i].UltDamagaKill();
+                currentUlt = 0;
             }
         }
+        
     }
+    
 
 
    //STATS UPDATES
-
-    public float HealthUpdate(float pHealthChange)
+   
+    public float UltValue(float pChange)
     {
+          float Change = pChange;
+          currentUlt += Change;
 
-        if (pHealthChange != 0 && iFrameCooldown <= 0)
+          return currentUlt;
+    }
+    public float HealthUpdate(float pChange)
+    {
+        if (pChange != 0 && iFrameCooldown <= 0)
         {
-
-            float healthChange = pHealthChange;
-            currentHealth = currentHealth + healthChange;
+            float Change = pChange;
+            currentHealth += Change;
 
             iFrameCooldown = iFrameDuration;
-
         }
-
         currentHealth = Mathf.Clamp(currentHealth, 0, 100);
-
-
         return currentHealth;
         
     }
