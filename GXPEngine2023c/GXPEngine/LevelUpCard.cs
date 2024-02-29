@@ -1,4 +1,5 @@
 ﻿using GXPEngine;
+using GXPEngine.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ class LevelUpCard : GameObject
     private float cardHeight = 400; // position based on pixels, bigger number moves it lower
     private int selectionCooldown = 100;
 
+    private float channelVolume14 = .8f; // Universal ping_select_menu_sound.wav
+
     private int cardAmount;     // number of cards being drawn, defaults to 3
     private int cardNumber;     // specifies the card used
     private Random random;
@@ -23,6 +26,7 @@ class LevelUpCard : GameObject
     private List<int> selectedCards = new List<int>();
     private List<int> arrowxPos = new List<int>();
 
+    FMODSoundSystem soundSystem;
 
     public LevelUpCard(int cardCount = 3)
     {
@@ -32,6 +36,7 @@ class LevelUpCard : GameObject
         selectionArrow = new Sprite("sprite_levelUpCard_selectionOutline.png");
         selectionArrow.SetOrigin(selectionArrow.width / 2, selectionArrow.height / 2);
         AddChild(selectionArrow);
+        soundSystem = new FMODSoundSystem();
 
     }
 
@@ -60,14 +65,30 @@ class LevelUpCard : GameObject
     {
         selectionCooldown -= Time.deltaTime;
         if (selectionCooldown > 0) return;
-        if (Input.GetKeyDown(Key.A)) cardSelected--; selectionCooldown = 100;
-        if (Input.GetKeyDown(Key.D)) cardSelected++; selectionCooldown = 100;
+        if (Input.GetKeyDown(Key.A))
+        {
+            cardSelected--; 
+            selectionCooldown = 100;
+
+
+            soundSystem.PlaySound(soundSystem.LoadSound("Universal ping_select_menu_sound.wav", false), 14, false);
+           // new Sound("Universal ping_select_menu_sound.wav", false, true).Play();
+        }
+        if (Input.GetKeyDown(Key.D))
+        {
+            cardSelected++; 
+            selectionCooldown = 100;
+
+
+            soundSystem.PlaySound(soundSystem.LoadSound("Universal ping_select_menu_sound.wav", false), 14, false);
+            //new Sound("Universal ping_select_menu_sound.wav", false, true).Play();
+        }
         if (cardSelected < 0) cardSelected = arrowxPos.Count - 1;
         if (cardSelected >= arrowxPos.Count) cardSelected = 0;
 
         selectionArrow.SetXY(arrowxPos[cardSelected], cardHeight);
 
-        if (Input.GetKeyDown(Key.U)) SelectCard();
+        if (Input.GetKeyDown(Key.O)) SelectCard();
 
     }
 
@@ -78,6 +99,10 @@ class LevelUpCard : GameObject
         cards[cardSelected].GetAbility();
         LateDestroy();
         ((MyGame)game).isPaused = false;
+
+
+        soundSystem.PlaySound(soundSystem.LoadSound("Universal ping_select_menu_sound.wav", false), 14, false, channelVolume14, 0);
+        //new Sound("Universal ping_select_menu_sound.wav", false, true).Play();
     }
 
     void Update()

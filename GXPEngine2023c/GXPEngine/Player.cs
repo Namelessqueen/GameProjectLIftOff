@@ -31,6 +31,15 @@ class Player : AnimationSprite
     private float cardAtkIncrease = 1.2f;
     private float cardAtkSpdIncrease = 1.2f;
 
+    float channelVolume1 = .1f; // Engine Humming.wav
+    float channelVolume2 = .8f; // Dash.wav
+    float channelVolume3 = .8f; // Secondary.wav
+    float channelVolume4 = .8f; // Shooting Sound.wav
+    float channelVolume5 = .8f; // UltimateSound.wav
+    float channelVolume6 = .8f; // PlayerIsHitSound.wav
+    float channelVolume7 = .8f; // DeathOfPlayer.wav
+
+
     private string primaryType = "normal";
     private string secondaryType = "normal";
 
@@ -56,7 +65,7 @@ class Player : AnimationSprite
     private Enemy[] foundEnemies;
     private Level level;
     private int lengthFoundEnemies = 1;
-    //private ArduinoInput arduinoInput;
+    //private ArduinoInput arduinoInput;    ////////////////////////////////////////////////
 
     private bool isDashing = false;
     private int dashSpeed = 2;
@@ -66,7 +75,8 @@ class Player : AnimationSprite
 
     private int sliderInput;
 
-    
+    SoundChannel soundChannel;
+    FMODSoundSystem soundSystem;
 
     public Player() : base("sprite_player.png", 8, 3, 21)
     {
@@ -77,9 +87,14 @@ class Player : AnimationSprite
         currentAttack = baseAttack;
         isDashing = false;
 
-        //arduinoInput = game.FindObjectOfType<ArduinoInput>();
+        //arduinoInput = game.FindObjectOfType<ArduinoInput>(); /////////////////////////////////////////
         //currentFuel = 510;
         AllEnemys = new List<Enemy>();
+
+        
+        
+        soundSystem = new FMODSoundSystem();
+        soundSystem.PlaySound(soundSystem.LoadSound("Engine Humming.wav", true), 1, false, channelVolume1, 0);
 
         //Enemy[] foundEnemies = game.FindObjectsOfType<Enemy>();
     }
@@ -124,13 +139,13 @@ class Player : AnimationSprite
 
         rotation = 0;
 
-            if (Input.GetKey(Key.A) || Input.GetKeyDown(Key.A)) Move(-speed, 0);   // LEFT
-            if (Input.GetKey(Key.D) || Input.GetKeyDown(Key.D)) Move(speed, 0);   // RIGHT
-            if (Input.GetKey(Key.W) || Input.GetKeyDown(Key.W)) Move(0, -speed);   // UP
-            if (Input.GetKey(Key.S) || Input.GetKeyDown(Key.S)) Move(0, speed);   // DOWN
+        if (Input.GetKey(Key.A) || Input.GetKeyDown(Key.A)) Move(-speed, 0);   // LEFT
+        if (Input.GetKey(Key.D) || Input.GetKeyDown(Key.D)) Move(speed, 0);   // RIGHT
+        if (Input.GetKey(Key.W) || Input.GetKeyDown(Key.W)) Move(0, -speed);   // UP
+        if (Input.GetKey(Key.S) || Input.GetKeyDown(Key.S)) Move(0, speed);   // DOWN
 
 
-        // Rotationi
+        // Rotation
 
         rotation = (float)Mathf.Atan2((lastYPos - y), (lastXPos - x)) * 360 / (2 * Mathf.PI) + 90;
         rotation = (float)Mathf.Atan2((lastYPos - y), (lastXPos - x)) * 360 / (2 * Mathf.PI) + 90;
@@ -145,26 +160,31 @@ class Player : AnimationSprite
 
         // 5508, 3072
 
-        Console.WriteLine(game.currentFps);
-        //sliderInput = arduinoInput.SliderValue();
+        //Console.WriteLine(game.currentFps);
+        //sliderInput = arduinoInput.SliderValue(); ////////////////////////////////////////////
         //Console.WriteLine("player called slider input: "+ sliderInput);
-        //slider input
+        // slider input
         //sliderInput = arduinoInput.sliderValue;
-        /*
-        sliderInput = (int)Mathf.Clamp(sliderInput, 0, 100);
-        if (Input.GetKey(Key.UP)) sliderInput++;
-        if (Input.GetKey(Key.DOWN)) sliderInput--;*/
+
+        
+        sliderInput = (int)Mathf.Clamp(sliderInput, 0, 100); //////////////////////////////////
+        if (Input.GetKey(Key.UP)) sliderInput++; //////////////////////////////////////////////
+        if (Input.GetKey(Key.DOWN)) sliderInput--; ////////////////////////////////////////////
     }
 
     public void Dashing()
     {
         dashCooldown++;
-        if (Input.GetKeyDown(Key.O) && isDashing == false && dashCooldown > 50) 
+        if (Input.GetKeyDown(Key.L) && isDashing == false && dashCooldown > 50) 
         { 
             isDashing = true;   
             dashCooldown = 0;
             SetColor(1f, 1f, .0f);
             dashTimer = 0;
+
+
+            soundSystem.PlaySound(soundSystem.LoadSound("Dash.wav", false), 2, false, channelVolume2, 0);
+            //new Sound("Dash.wav", false, true).Play();
 
         }
         if (isDashing)
@@ -212,7 +232,7 @@ class Player : AnimationSprite
             return;
         }
 
-        if ((Input.GetKey(Key.H) || Input.GetKeyDown(Key.H)) && fuelUpdate() > 1)
+        if ((Input.GetKey(Key.K) || Input.GetKeyDown(Key.K)) && fuelUpdate() > 1)
         {
             PlayerSecondarys.Add(new PlayerSecondary((speed / 5) * bulletXRotHelp, (speed / 5) * bulletYRotHelp, sliderInput, "square.png"));
             PlayerSecondarys.Last().SetXY(x + (9 * bulletXRotHelp), y + (9 * bulletYRotHelp));
@@ -222,6 +242,10 @@ class Player : AnimationSprite
       
             currentFuel = currentFuel - ((float)sliderInput / 100) * 10 ;
             FuelCooldown = 0;
+
+
+            //soundSystem.PlaySound(soundSystem.LoadSound("Secondary.wav", false), 3, false);
+            new Sound("Secondary.wav", false, true).Play(false, 0, channelVolume3);
         }
 
 
@@ -249,6 +273,11 @@ class Player : AnimationSprite
         playerBullets.Last().rotation = rotation + 180;
         level.AddChild(playerBullets.Last());
         reloadCooldown += reloadTime * 1000;
+
+
+
+        soundSystem.PlaySound(soundSystem.LoadSound("Shooting Sound.wav", false), 4, false, channelVolume4, 0);
+        //new Sound("Shooting Sound.wav", false, true).Play();
     }
 
     //Ultability
@@ -270,11 +299,15 @@ class Player : AnimationSprite
         lengthFoundEnemies = foundEnemies.Length;
         for (int i = 0; i < foundEnemies.Length; i++)
         {
-            if ((Input.GetKeyDown(Key.U) && UltValue(0) >= 100) || Input.GetKeyDown(Key.Q))
+            if ((Input.GetKeyDown(Key.O) && UltValue(0) >= 100) || Input.GetKeyDown(Key.Q))
             {   
                 if (i >= foundEnemies.Length/2) foundEnemies[i].UltDamagaPercent();
                 if (i < foundEnemies.Length/2) foundEnemies[i].UltDamagaKill();
                 currentUlt = 0;
+
+
+                soundSystem.PlaySound(soundSystem.LoadSound("UltimateSound.wav", false), 5, false, channelVolume5, 0);
+                //new Sound("UltimateSound.wav", false, true).Play();
             }
         }
         
@@ -299,6 +332,10 @@ class Player : AnimationSprite
             currentHealth += Change;
 
             iFrameCooldown = iFrameDuration;
+
+
+            soundSystem.PlaySound(soundSystem.LoadSound("PlayerIsHitSound.wav", false), 6, false, channelVolume6, 0);
+            //new Sound("PlayerIsHitSound.wav", false, true).Play();
         }
         currentHealth = Mathf.Clamp(currentHealth, 0, 100);
         return currentHealth;
@@ -338,6 +375,10 @@ class Player : AnimationSprite
             level.SomethingDied(x, y);
             MyGame supergame = game.FindObjectOfType<MyGame>();
             supergame.GameOver();
+
+
+            soundSystem.PlaySound(soundSystem.LoadSound("DeathOfPlayer.wav", false), 7, false, channelVolume7, 0);
+            //new Sound("DeathOfPlayer.wav", false, true).Play();
         }
     }
     void collisionPlayer()
@@ -367,7 +408,6 @@ class Player : AnimationSprite
 
     public void GetCardAbility(int cardNumber)
     {
-        CardPassiveTurret();
         switch (cardNumber)
         {
             case 0:

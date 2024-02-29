@@ -1,4 +1,5 @@
 using GXPEngine;
+using GXPEngine.Core;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -18,6 +19,8 @@ class Level : GameObject
     private float rangedEnemyMinSpawnRange = 1;
     private float rangedEnemyMaxSpawnRange = 2;
 
+    float channelVolume17 = .5f; // Ingame_BGM_Loopable.wav
+
     public int waveNumber;
 
     private List<Enemy> enemies = new List<Enemy>();
@@ -30,7 +33,7 @@ class Level : GameObject
     private Random random;
     private Sprite background;
 
-
+    FMODSoundSystem soundSystem;
     public Level()
     {
         //Background:
@@ -45,12 +48,12 @@ class Level : GameObject
 
         AddChild(player);
 
-        
+        soundSystem = new FMODSoundSystem();
         player = FindObjectOfType<Player>();
 
 
+        soundSystem.PlaySound(soundSystem.CreateStream("Ingame_BGM_Loopable.wav", true), 17, false, channelVolume17, 0);
     }
-
     void EnemySpawning()
     {
         

@@ -1,4 +1,5 @@
 using GXPEngine;
+using GXPEngine.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,13 @@ class Enemy : AnimationSprite
     private byte ranged1AnimTime = 10;
     private byte ranged2AnimTime = 10;
 
+    private float channelVolume8  = .8f; // Torpedo Hit on Enemy.wav
+    private float channelVolume9  = .8f; // TorpedoHitsoundFreeze.wav
+    private float channelVolume10 = .8f; // TorpedoHitsoundPoison.wav
+    private float channelVolume11 = .8f; // DeathOfMonster[i].wav
+    private float channelVolume12 = .8f; // Universal Freeze sound.wav
+    private float channelVolume13 = .8f; // Universal poison sound.wav
+
     public Level level;
     private Player player;
     private TextCanvas canvas;
@@ -41,6 +49,9 @@ class Enemy : AnimationSprite
 
     private float lastXPos, lastYPos;
     private float lastRotation;
+
+    FMODSoundSystem soundSystem;
+
     public Enemy(string fileName = "square.png", int cols = 1, int rows = 1, int eHealth = 10) : base(fileName, cols, rows)
     {
         health = eHealth;
@@ -49,6 +60,7 @@ class Enemy : AnimationSprite
         canvas = game.FindObjectOfType<TextCanvas>();
         player = game.FindObjectOfType<Player>();   
         fishTime = passiveFishIFrames;
+        soundSystem = new FMODSoundSystem();
     }
 
 
@@ -137,15 +149,27 @@ class Enemy : AnimationSprite
                 Console.WriteLine(col.name + " hit an enemy");
 
                 col.LateDestroy();
+
+
+                soundSystem.PlaySound(soundSystem.LoadSound("Torpedo Hit on Enemy.wav", false), 8, false, channelVolume8, 0);
+                //new Sound("Torpedo Hit on Enemy.wav", false, true).Play();
             }
             if (col is CoolPlayerBullet)
             {
                 statusBulletHit = "slowed";
+
+
+                soundSystem.PlaySound(soundSystem.LoadSound("TorpedoHitsoundFreeze.wav", false), 9, false, channelVolume9, 0);
+                //new Sound("TorpedoHitsoundFreeze.wav", false, true).Play();
             }
             
             if (col is PoisonPlayerBullet) 
             {
                 statusBulletHit = "poisoned";
+
+
+                soundSystem.PlaySound(soundSystem.LoadSound("TorpedoHitsoundPoison.wav", false), 10, false, channelVolume10, 0);
+                //new Sound("TorpedoHitsoundPoison.wav", false, true).Play();
             }
             
 
@@ -218,6 +242,12 @@ class Enemy : AnimationSprite
             canvas.XPUpdate(5); //XP added
             player.UltValue(3f); // Ult value
             //level.RemoveChild(this);  // AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            Random random = new Random();
+
+
+
+            soundSystem.PlaySound(soundSystem.LoadSound("DeathOfMonster"+random.Next(1,5)+".wav", false), 11, false, channelVolume11, 0);
+            //new Sound("DeathOfMonster"+random.Next(1,5)+".wav", false, true).Play();
         }
 
 
@@ -244,6 +274,10 @@ class Enemy : AnimationSprite
             status = statusBulletHit;
             statusBulletHit = null;
             hasStatus = true;
+
+
+            soundSystem.PlaySound(soundSystem.LoadSound("Universal Freeze sound.wav", false), 12, false, channelVolume12, 0);
+            //new Sound("Universal Freeze sound.wav", false, true).Play();
         }
         // Initial reactions for poison effect
         if (statusBulletHit == "poisoned")
@@ -254,6 +288,10 @@ class Enemy : AnimationSprite
             status = statusBulletHit;
             statusBulletHit = null;
             hasStatus = true;
+
+
+            soundSystem.PlaySound(soundSystem.LoadSound("Universal poison sound.wav", false), 13, false, channelVolume13, 0);
+            //new Sound("Universal poison sound.wav", false, true).Play();
         }
 
     }

@@ -18,7 +18,7 @@ public class ArduinoInput : GameObject
         if (port == null)
         {
             port = new SerialPort();
-            port.PortName = "COM9";
+            port.PortName = "COM9"; ////////////////////////////////////
             port.BaudRate = 9600;
             port.RtsEnable = true;
             port.DtrEnable = true;
@@ -31,15 +31,8 @@ public class ArduinoInput : GameObject
     {
 
         string a = port.ReadLine();
-        //Console.WriteLine(a);
-        //string b = a.ToString();
-        //b.Normalize();
-        //b.ToCharArray();
-        //string c = "10";
-        //Console.WriteLine(c.GetType().ToString());
-        //Console.WriteLine(b.GetType());
+
         sliderValue = int.Parse(a);
-        //Console.WriteLine("sliderValue: "+sliderValue);
 
         return sliderValue;
     }
