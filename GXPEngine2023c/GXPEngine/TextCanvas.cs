@@ -32,6 +32,8 @@ public class TextCanvas : EasyDraw
     private float wavePosY = 40;
     private float UltPosX = 50;
     private float UltPosY = 135;
+    private float sliderPosX = Game.main.width - 106;
+    private float sliderPosY = Game.main.height - 113;
 
     public TextCanvas() : base(Game.main.width, Game.main.height, false)
     {
@@ -54,6 +56,7 @@ public class TextCanvas : EasyDraw
         XPBar();
         WaveText();
         UltBar();
+        SliderBar();
 
     }
 
@@ -69,13 +72,20 @@ public class TextCanvas : EasyDraw
     {
             ShapeAlign(CenterMode.Center, CenterMode.Max);
             Fill(255); Rect(fuelPosX, fuelPosY, 30, 510);
-            Fill(164, 148, 104); Rect(fuelPosX, fuelPosY, 30, Mathf.Clamp(player.fuelUpdate(),0, 510));
+            Fill(153, 204, 255); Rect(fuelPosX, fuelPosY, 30, Mathf.Clamp(player.fuelUpdate(),0, 510));
+    }
+    void SliderBar()
+    {
+        player.InputSlider();
+        ShapeAlign(CenterMode.Center, CenterMode.Max);
+        Fill(255); Rect(sliderPosX, sliderPosY, 13, 510);
+        Fill(247, 219, 116); Rect(sliderPosX, sliderPosY, 13, player.InputSlider() * 5.1f);
     }
     void XPBar()
     {
         ShapeAlign(CenterMode.Min, CenterMode.Min);
         Fill(255); Rect(XPPosX, XPPosY, 415, 9);
-        Fill(102, 255, 153); Rect(XPPosX, XPPosY, Mathf.Clamp(XPUpdate(0) *(4.15f / multiplierXP), 0, (4.15f/ multiplierXP) * neededXP), 9);
+        Fill(166, 166, 166); Rect(XPPosX, XPPosY, Mathf.Clamp(XPUpdate(0) *(4.15f / multiplierXP), 0, (4.15f/ multiplierXP) * neededXP), 9);
 
         if (myGame == null) return;
         if (currentXP >= neededXP)
@@ -89,14 +99,17 @@ public class TextCanvas : EasyDraw
     {
         ShapeAlign(CenterMode.Min, CenterMode.Min);
         Fill(255); Rect(UltPosX, UltPosY, 412, 12);
-        Fill(102, 255, 102); Rect(UltPosX, UltPosY, 350,12);
+        Fill(255, 0, 0); Rect(UltPosX, UltPosY, 350,12);
 
     }
     void WaveText()
     {
         TextAlign(CenterMode.Center, CenterMode.Center);
+        ShapeAlign(CenterMode.Center, CenterMode.Center);
         TextFont(gameFont);
-        Fill(255); Text(("WAVE " + level.WaveNumber()), wavePosX, wavePosY);
+        Fill(22, 56, 102); Rect(wavePosX, (wavePosY - 3), 200, 40); 
+        Ellipse(wavePosX - 100, (wavePosY - 3), 40, 40); Ellipse(wavePosX + 100, (wavePosY - 3), 40, 40);
+        Fill(255); Text(("WAVE " + level.WaveNumber()), wavePosX+2, wavePosY);
     }
 
     public float XPUpdate(float pChange)

@@ -252,6 +252,11 @@ class Player : AnimationSprite
     {
         return lengthFoundEnemies;
     }
+
+    public int InputSlider()
+    {
+        return sliderInput;
+    }
     void Ultimate()
     {
         
