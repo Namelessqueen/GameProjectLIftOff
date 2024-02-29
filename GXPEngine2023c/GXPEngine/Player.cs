@@ -23,7 +23,9 @@ class Player : AnimationSprite
     private int baseAttack = 5;         // attack at start
     private float speed = 2f;   // own speed
 
-    private int playerMinDistanceFromBorder = 100;  // this is about the level itself, not the camera
+    private int playerMinDistanceFromBorder = 35;  // this is about the level itself, not the camera
+    private float iFrameDuration = 500;
+    private float iFrameCooldown;
 
     private float cardHpIncrease = 1.2f;
     private float cardAtkIncrease = 1.2f;
@@ -63,7 +65,7 @@ class Player : AnimationSprite
 
     
 
-    public Player() : base("sprite_sub.png", 1, 1)
+    public Player() : base("sprite_player.png", 8, 3, 21)
     {
         SetOrigin(width/2, height/2);
         scale = .5f;
@@ -72,6 +74,7 @@ class Player : AnimationSprite
         currentHealth = maxHealth;
         currentAttack = baseAttack;
         isDashing = false;
+        //iFrameCooldown = iFrameDuration;
         //dashDuration = 30;
         //dashSpeed = 3;
 
@@ -88,6 +91,7 @@ class Player : AnimationSprite
         Movement();
         Dashing();
         Attacking();
+        IFrameFunctions();
         collisionPlayer();
         Gameover();
         DataVoid();
@@ -101,6 +105,23 @@ class Player : AnimationSprite
                 foundEnemies[i].UltTest();
             }
         }
+    }
+
+    void IFrameFunctions()
+    {
+
+        if (iFrameCooldown > 0)
+        {
+            iFrameCooldown -= Time.deltaTime;
+
+            if (iFrameCooldown / iFrameDuration > .75f) alpha = .5f;
+            else if (iFrameCooldown / iFrameDuration > .5f) alpha = 1;
+            else if (iFrameCooldown / iFrameDuration > .25f) alpha = .5f;
+            else alpha = 1;
+
+        }
+
+
     }
 
     void Movement()
@@ -139,7 +160,7 @@ class Player : AnimationSprite
     public void Dashing()
     {
         dashCooldown++;
-        if (Input.GetKeyDown(Key.O) && isDashing == false && dashCooldown > 100) 
+        if (Input.GetKeyDown(Key.O) && isDashing == false && dashCooldown > 50) 
         { 
             isDashing = true;   
             dashCooldown = 0;
@@ -163,11 +184,11 @@ class Player : AnimationSprite
     void Attacking()
     {
         if (level == null) level = game.FindObjectOfType<Level>();
-        // Changing weapons 
+        /*// Changing weapons 
         if (Input.GetKeyDown(Key.B)) primaryType = "normal";
         if (Input.GetKeyDown(Key.N)) primaryType = "slow";
         if (Input.GetKeyDown(Key.M)) primaryType = "poison";
-
+        */
 
         // helping the bullets getting the right rotation
         var a = (rotation + 180) * Mathf.PI / 180.0;
@@ -247,9 +268,20 @@ class Player : AnimationSprite
 
     public float HealthUpdate(float pHealthChange)
     {
-        float healthChange = pHealthChange;
+
+        if (pHealthChange != 0 && iFrameCooldown <= 0)
+        {
+
+            float healthChange = pHealthChange;
+            currentHealth = currentHealth + healthChange;
+
+            iFrameCooldown = iFrameDuration;
+
+        }
+
         currentHealth = Mathf.Clamp(currentHealth, 0, 100);
-        currentHealth = currentHealth + healthChange;
+
+
         return currentHealth;
         
     }
@@ -305,8 +337,8 @@ class Player : AnimationSprite
             if (col is Enemy)
             {
                 Console.WriteLine(col.name + " hit player");
-                HealthUpdate(-1);
-                col.Destroy();
+                HealthUpdate(-10);
+                HealthCoolDown = 0;
             }
         }
     }
@@ -314,16 +346,17 @@ class Player : AnimationSprite
 
     public void GetCardAbility(int cardNumber)
     {
+        CardPassiveTurret();
         switch (cardNumber)
         {
             case 0:
                 CardAttack();
                 break;
             case 1:
-                CardHealth();
+                CardAtkSpeed();
                 break;
             case 2:
-                CardAtkSpeed();
+                CardHealth();
                 break;
             case 3:
                 CardPassiveFish();
@@ -387,6 +420,7 @@ class Player : AnimationSprite
     void CardPassiveTurret()
     {
         Console.WriteLine("CardPassiveTurret chosen");
+        AddChild(new PassiveTurret());
     }
 
 

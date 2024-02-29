@@ -9,7 +9,7 @@ class ShootingEnemy2 : ShootingEnemy
     // Pufferfish: (Very) Low HP, Mid DMG, Very Low SPD, Low Proj size, Cone attack (not implemented yet)
 
     public ShootingEnemy2(string fileName = "sprite_rangedEnemy2.png", int cols = 4, int rows = 2,
-                       int hp = 5,
+                       int hp = 3,
                        int dmg = 5,
                        float spd = .5f,
                        float projSize = .2f
