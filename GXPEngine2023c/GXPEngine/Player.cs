@@ -219,11 +219,11 @@ class Player : AnimationSprite
                     break;
 
                 case "slow":
-                    PlayerSecondarys.Add(new PlayerSecondary((speed / 5) * bulletXRotHelp, (speed / 5) * bulletYRotHelp, sliderInput, "SecondarySlowed.png"));
+                    PlayerSecondarys.Add(new PlayerSecondarySlowed((speed / 5) * bulletXRotHelp, (speed / 5) * bulletYRotHelp, sliderInput, "SecondarySlowed.png"));
                     break;
 
                 case "poison":
-                    PlayerSecondarys.Add(new PlayerSecondary((speed / 5) * bulletXRotHelp, (speed / 5) * bulletYRotHelp, sliderInput, "SecondaryPoison.png"));
+                    PlayerSecondarys.Add(new PlayerSecondaryPoison((speed / 5) * bulletXRotHelp, (speed / 5) * bulletYRotHelp, sliderInput, "SecondaryPoison.png"));
                     break;
 
             }
