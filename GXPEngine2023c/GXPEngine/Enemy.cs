@@ -154,8 +154,9 @@ class Enemy : AnimationSprite
                 soundSystem.PlaySound(soundSystem.LoadSound("Torpedo Hit on Enemy.wav", false), 8, false, channelVolume8, 0);
                 //new Sound("Torpedo Hit on Enemy.wav", false, true).Play();
             }
-            if (col is CoolPlayerBullet)
+            if (col is CoolPlayerBullet || col is PlayerSecondarySlowed)
             {
+                Console.WriteLine("HIT COOL");
                 statusBulletHit = "slowed";
 
 
@@ -163,16 +164,15 @@ class Enemy : AnimationSprite
                 //new Sound("TorpedoHitsoundFreeze.wav", false, true).Play();
             }
             
-            if (col is PoisonPlayerBullet) 
+            if (col is PoisonPlayerBullet || col is PlayerSecondaryPoison) 
             {
+                Console.WriteLine("HIT POISON");
                 statusBulletHit = "poisoned";
 
 
                 soundSystem.PlaySound(soundSystem.LoadSound("TorpedoHitsoundPoison.wav", false), 10, false, channelVolume10, 0);
                 //new Sound("TorpedoHitsoundPoison.wav", false, true).Play();
             }
-            
-
         }
 
     }
