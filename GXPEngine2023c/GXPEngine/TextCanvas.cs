@@ -14,7 +14,7 @@ public class TextCanvas : EasyDraw
     private Level level;
     private Sprite backgroundUI;
     private MyGame myGame;
-    private Font gameFont;
+    public static Font gameFont = new Font("04b", 25);
 
     private static int cornerOfset = 51;
 
@@ -41,7 +41,6 @@ public class TextCanvas : EasyDraw
     public TextCanvas() : base(Game.main.width, Game.main.height, false)
     {
         backgroundUI = new Sprite("sprite_fullUI.png", false);
-        gameFont = new Font("04b", 25);
     }
 
     public void Update()
