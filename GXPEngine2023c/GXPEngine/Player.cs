@@ -49,6 +49,8 @@ class Player : AnimationSprite
     private float bulletXRotHelp, bulletYRotHelp;
     private List<PlayerBullet> playerBullets = new List<PlayerBullet>();
     private List<PlayerSecondary> PlayerSecondarys = new List<PlayerSecondary>();
+    private List<Enemy> AllEnemys;
+    private Enemy[] foundEnemies;
     private Level level;
 
     private bool isDashing = false;
@@ -64,7 +66,6 @@ class Player : AnimationSprite
     public Player() : base("sprite_sub.png", 1, 1)
     {
         SetOrigin(width/2, height/2);
-
         scale = .5f;
         //speed = 2f;
         maxHealth = baseMaxHealth;
@@ -75,11 +76,15 @@ class Player : AnimationSprite
         //dashSpeed = 3;
 
         //currentFuel = 510;
+        AllEnemys = new List<Enemy>();
+
+        //Enemy[] foundEnemies = game.FindObjectsOfType<Enemy>();
     }
-    
+
     void Update()
     {
         if (((MyGame)game).isPaused) return;
+
         Movement();
         Dashing();
         Attacking();
@@ -87,8 +92,15 @@ class Player : AnimationSprite
         Gameover();
         DataVoid();
 
-
-
+        Enemy[] foundEnemies = game.FindObjectsOfType<Enemy>();
+        if (foundEnemies == null) return;
+        if (Input.GetKeyDown(Key.U))
+        {
+            for (int i = 0; i < foundEnemies.Length; i++)
+            {
+                foundEnemies[i].UltTest();
+            }
+        }
     }
 
     void Movement()
@@ -217,6 +229,17 @@ class Player : AnimationSprite
         playerBullets.Last().rotation = rotation + 180;
         level.AddChild(playerBullets.Last());
         reloadCooldown += reloadTime * 1000;
+    }
+
+    void Ultimate()
+    {
+        if (Input.GetKey(Key.U))
+        {
+            for(int i = 0; i < AllEnemys.Count; i++)
+            {
+                Console.WriteLine(AllEnemys[i]);
+            }
+        }
     }
 
 

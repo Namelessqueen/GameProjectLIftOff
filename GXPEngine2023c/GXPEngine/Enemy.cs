@@ -2,6 +2,7 @@ using GXPEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,6 +25,7 @@ class Enemy : AnimationSprite
     private TextCanvas canvas;
     public string status;           // needs to be public because status affects speed and speed is type specific
     public int enemyType;
+    private float UltDamage;
 
     private int health;
     private int damageTaken;
@@ -86,6 +88,13 @@ class Enemy : AnimationSprite
 
         Animate();
 
+    }
+
+    public void UltTest()
+    {
+        UltDamage = health * 0.3f;
+        health = (int)UltDamage;
+        Console.WriteLine("ULT");
     }
 
 
@@ -198,7 +207,7 @@ class Enemy : AnimationSprite
             level.SomethingDied(x, y);
             //parent.RemoveChild(this);
             parent.RemoveChild(this);
-            canvas.XPUpdate(25); //XP added
+            canvas.XPUpdate(5); //XP added
             //level.RemoveChild(this);  // AAAAAAAAAAAAAAAAAAAAAAAAAAAA
         }
 
