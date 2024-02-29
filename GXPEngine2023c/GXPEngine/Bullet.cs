@@ -1,4 +1,4 @@
-﻿using GXPEngine;
+using GXPEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,15 +26,13 @@ class Bullet : Sprite
         if (((MyGame)game).isPaused) return;
         x += vx;
         y += vy;
-        rotation += 5;
         
-        // Destroy if off screen
-        if (x < -level.x || x > -level.x + game.width || 
-            y < -level.y || y > -level.y + game.height)
+        if (x < level.x - 50 || x > level.x + game.width + 50 ||
+            y < level.y - 50 || y > level.y + game.height + 50)
         {
-            //Console.WriteLine("Enemy bullet despawned");
+            Console.WriteLine("bullet destroyed");
             LateDestroy();
         }
-
+        // TODO: Check whether offscreen / hit test, and then remove!
     }
 }
