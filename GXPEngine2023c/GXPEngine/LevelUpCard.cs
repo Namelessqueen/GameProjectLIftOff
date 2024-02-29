@@ -10,6 +10,7 @@ class LevelUpCard : GameObject
 {
     private int allCardsCount = 11;  // total number of ability cards
     private float cardHeight = 400; // position based on pixels, bigger number moves it lower
+    private int selectionCooldown = 100;
 
     private int cardAmount;     // number of cards being drawn, defaults to 3
     private int cardNumber;     // specifies the card used
@@ -57,15 +58,16 @@ class LevelUpCard : GameObject
 
     void CardSelection()
     {
-
-        if (Input.GetKeyDown(Key.A)) cardSelected--;
-        if (Input.GetKeyDown(Key.D)) cardSelected++;
+        selectionCooldown -= Time.deltaTime;
+        if (selectionCooldown > 0) return;
+        if (Input.GetKeyDown(Key.A)) cardSelected--; selectionCooldown = 100;
+        if (Input.GetKeyDown(Key.D)) cardSelected++; selectionCooldown = 100;
         if (cardSelected < 0) cardSelected = arrowxPos.Count - 1;
         if (cardSelected >= arrowxPos.Count) cardSelected = 0;
 
         selectionArrow.SetXY(arrowxPos[cardSelected], cardHeight);
 
-        if (Input.GetKeyDown(Key.ENTER)) SelectCard();
+        if (Input.GetKeyDown(Key.U)) SelectCard();
 
     }
 

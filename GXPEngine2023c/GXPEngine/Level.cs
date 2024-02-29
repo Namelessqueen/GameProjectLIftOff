@@ -200,6 +200,14 @@ class Level : GameObject
         deathExplosion.SetXY(xpos, ypos);
         AddChild(deathExplosion);
 
+        /*player = game.FindObjectOfType<Player>();
+        if (player == null)
+        {
+            MyGame supergame = game.FindObjectOfType<MyGame>();
+            supergame.GameOver();
+
+        }*/
+
 
     }
 
@@ -223,6 +231,7 @@ class Level : GameObject
 
     void Update()
     {
+        
         if (((MyGame)game).isPaused) return;
         EnemySpawning();
         HandleScroll();

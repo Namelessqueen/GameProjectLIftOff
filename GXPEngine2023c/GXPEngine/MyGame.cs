@@ -1,6 +1,7 @@
 using System;                                   // System contains a lot of default C# libraries 
 using GXPEngine;                                // GXPEngine contains the engine
-using System.Drawing;                           // System.Drawing contains drawing tools such as Color definitions
+using System.Drawing;
+using System.Runtime.CompilerServices;                           // System.Drawing contains drawing tools such as Color definitions
 
 public class MyGame : Game {
 
@@ -12,11 +13,28 @@ public class MyGame : Game {
 
     public MyGame() : base(1377, 768, false, false, 1366, 768, true)     
 	{
+        AddChild(new MainMenu());
+    }
+
+    public void GameStart()
+    {
+        
         //text
+        MainMenu mainMenu = game.FindObjectOfType<MainMenu>();
+        mainMenu.LateDestroy();
         canvas = new TextCanvas();
         //AddChild(new ArduinoInput());
         AddChild(new Level());
         AddChild(canvas);
+
+    }
+
+    public void GameOver() 
+    {
+        Level level = game.FindObjectOfType<Level>();
+        level.LateDestroy();
+        canvas.LateDestroy();
+        AddChild(new MainMenu("checkers.png"));
     }
 
     public bool XPReset()
@@ -26,7 +44,8 @@ public class MyGame : Game {
 	
 	void Update() {
 
-		if (canvas.XPUpdate(0) >= canvas.XPNeeded() || Input.GetKeyDown(Key.P))
+		if (canvas == null) return;
+        if (canvas.XPUpdate(0) >= canvas.XPNeeded() || Input.GetKeyDown(Key.P))
 		{
 			AddChild(new LevelUpCard());
             resetXP = true;

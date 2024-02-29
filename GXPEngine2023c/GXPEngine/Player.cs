@@ -334,8 +334,10 @@ class Player : AnimationSprite
     {
         if (currentHealth<1)
         {
-            //Destroy();
+            LateDestroy();
             level.SomethingDied(x, y);
+            MyGame supergame = game.FindObjectOfType<MyGame>();
+            supergame.GameOver();
         }
     }
     void collisionPlayer()
