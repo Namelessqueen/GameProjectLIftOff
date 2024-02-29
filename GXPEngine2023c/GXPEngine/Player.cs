@@ -54,6 +54,7 @@ class Player : AnimationSprite
     private List<Enemy> AllEnemys;
     private Enemy[] foundEnemies;
     private Level level;
+    private int lengthFoundEnemies = 1;
 
     private bool isDashing = false;
     private int dashSpeed = 3;
@@ -95,16 +96,10 @@ class Player : AnimationSprite
         collisionPlayer();
         Gameover();
         DataVoid();
+        Ultimate();
 
-        Enemy[] foundEnemies = game.FindObjectsOfType<Enemy>();
-        if (foundEnemies == null) return;
-        if (Input.GetKeyDown(Key.U))
-        {
-            for (int i = 0; i < foundEnemies.Length; i++)
-            {
-                foundEnemies[i].UltTest();
-            }
-        }
+
+
     }
 
     void IFrameFunctions()
@@ -252,16 +247,28 @@ class Player : AnimationSprite
         reloadCooldown += reloadTime * 1000;
     }
 
+    //Ultability
+    public int AmmountEnemy()
+    {
+        return lengthFoundEnemies;
+    }
     void Ultimate()
     {
-        if (Input.GetKey(Key.U))
+        
+        Enemy[] foundEnemies = game.FindObjectsOfType<Enemy>();
+        if (foundEnemies == null) return;
+        Console.WriteLine(foundEnemies.Length);
+        lengthFoundEnemies = foundEnemies.Length;
+        for (int i = 0; i < foundEnemies.Length; i++)
         {
-            for(int i = 0; i < AllEnemys.Count; i++)
+            if (Input.GetKeyDown(Key.U))
             {
-                Console.WriteLine(AllEnemys[i]);
+                foundEnemies[i].UltTest();
             }
         }
+        
     }
+    
 
 
    //STATS UPDATES

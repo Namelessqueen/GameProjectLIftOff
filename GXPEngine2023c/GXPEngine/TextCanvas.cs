@@ -30,6 +30,8 @@ public class TextCanvas : EasyDraw
     private float XPPosY = cornerOfset + 48;
     private float wavePosX = Game.main.width/2;
     private float wavePosY = 40;
+    private float UltPosX = 50;
+    private float UltPosY = 135;
 
     public TextCanvas() : base(Game.main.width, Game.main.height, false)
     {
@@ -51,6 +53,7 @@ public class TextCanvas : EasyDraw
         FuelBar();
         XPBar();
         WaveText();
+        UltBar();
 
     }
 
@@ -58,7 +61,7 @@ public class TextCanvas : EasyDraw
     {
             ShapeAlign(CenterMode.Min, CenterMode.Min);
             Fill(255); Rect(healthPosX, healthPosY, 410, 25);
-            Fill(255, 0, 0); Rect(healthPosX, healthPosY, Mathf.Clamp((player.HealthUpdate(0) * 4.1f), 0, 509), 25);
+            Fill(102, 255, 102); Rect(healthPosX, healthPosY, Mathf.Clamp((player.HealthUpdate(0) * 4.1f), 0, 509), 25);
 
     }
 
@@ -80,6 +83,14 @@ public class TextCanvas : EasyDraw
             multiplierXP += 0.2f;
             currentXP = 0;
         }
+    }
+
+    void UltBar()
+    {
+        ShapeAlign(CenterMode.Min, CenterMode.Min);
+        Fill(255); Rect(UltPosX, UltPosY, 412, 12);
+        Fill(102, 255, 102); Rect(UltPosX, UltPosY, 350,12);
+
     }
     void WaveText()
     {
