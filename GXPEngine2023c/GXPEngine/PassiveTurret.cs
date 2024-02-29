@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 class PassiveTurret : AnimationSprite
 {
     private float bulletSpeed = 1.5f;        // The speed bullets will travel at
-    private float reloadTime = .9f;     // Time in seconds until turret shoots again
+    private float reloadTime = .2f;     // Time in seconds until turret shoots again
     //private byte animTime = 3;         // (frames) frames before next animation frame starts
 
     private float reloadCooldown;

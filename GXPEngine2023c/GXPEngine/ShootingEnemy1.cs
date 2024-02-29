@@ -11,7 +11,7 @@ class ShootingEnemy1 : ShootingEnemy
     public ShootingEnemy1(string fileName = "sprite_rangedEnemy1.png", int cols = 4, int rows = 2,
                        int hp = 2,
                        int dmg = 5,
-                       float spd = .5f,
+                       float spd = .8f,
                        float projSize = .5f
                         ) : base(fileName, cols, rows, hp, dmg, spd, projSize)
     {

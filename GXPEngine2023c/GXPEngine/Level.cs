@@ -11,7 +11,7 @@ class Level : GameObject
 {
     private int xBoundarySize = 500;    // how many pixels can the player be from the sides before scrolling starts
     private int yBoundarySize = 250;    // same but top and bottom
-    private int waveTime = 10;          // max time in seconds until next wave spawns
+    private int waveTime = 30;          // max time in seconds until next wave spawns
     private float enemyWaveRangeMultiplier = 1.05f;  // how much the range increases every wave
     private float meleeEnemyMinSpawnRange = 2;
     private float meleeEnemyMaxSpawnRange = 3;
@@ -34,7 +34,7 @@ class Level : GameObject
     public Level()
     {
         //Background:
-        background = new Sprite("background 3.png", false, false);
+        background = new Sprite("FINAL BACKGROUND.png", false, false);
         //background.scale = 4;   
 
         random = new Random();

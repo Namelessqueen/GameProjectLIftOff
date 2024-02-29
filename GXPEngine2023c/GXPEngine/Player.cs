@@ -23,7 +23,7 @@ class Player : AnimationSprite
     private int baseAttack = 5;         // attack at start
     private float speed = 2f;   // own speed
 
-    private int playerMinDistanceFromBorder = 100;  // this is about the level itself, not the camera
+    private int playerMinDistanceFromBorder = 35;  // this is about the level itself, not the camera
 
     private float cardHpIncrease = 1.2f;
     private float cardAtkIncrease = 1.2f;
@@ -127,7 +127,7 @@ class Player : AnimationSprite
     public void Dashing()
     {
         dashCooldown++;
-        if (Input.GetKeyDown(Key.O) && isDashing == false && dashCooldown > 100) 
+        if (Input.GetKeyDown(Key.O) && isDashing == false && dashCooldown > 50) 
         { 
             isDashing = true;   
             dashCooldown = 0;

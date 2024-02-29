@@ -19,7 +19,7 @@ public class Card : Sprite
 
     }
 
-
+    
     public void GetAbility()
     {
         player = game.FindObjectOfType<Player>();
