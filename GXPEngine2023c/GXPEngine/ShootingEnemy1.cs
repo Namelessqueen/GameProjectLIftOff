@@ -9,7 +9,7 @@ class ShootingEnemy1 : ShootingEnemy
     // Squid: (Very) Low HP, Mid DMG, Very Low SPD, Mid Proj size
 
     public ShootingEnemy1(string fileName = "sprite_rangedEnemy1.png", int cols = 4, int rows = 2,
-                       int hp = 3,
+                       int hp = 2,
                        int dmg = 5,
                        float spd = .5f,
                        float projSize = .5f

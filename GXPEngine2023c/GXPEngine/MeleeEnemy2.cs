@@ -9,8 +9,8 @@ class MeleeEnemy2 : MeleeEnemy
     // Crab: Mid HP, Mid DMG, Mid SPD
    
     public MeleeEnemy2(string fileName = "sprite_meleeEnemy2.png", int cols = 4, int rows = 2,
-                       int hp = 7,
-                       int dmg = 5,
+                       int hp = 4,
+                       int dmg = 3,
                        float spd = 1.2f
                         ) : base(fileName, cols, rows, hp, dmg, spd)
     {

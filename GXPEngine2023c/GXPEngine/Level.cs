@@ -14,9 +14,9 @@ class Level : GameObject
     private int waveTime = 10;          // max time in seconds until next wave spawns
     private float enemyWaveRangeMultiplier = 1.05f;  // how much the range increases every wave
     private float meleeEnemyMinSpawnRange = 2;
-    private float meleeEnemyMaxSpawnRange = 5;
+    private float meleeEnemyMaxSpawnRange = 3;
     private float rangedEnemyMinSpawnRange = 1;
-    private float rangedEnemyMaxSpawnRange = 3;
+    private float rangedEnemyMaxSpawnRange = 2;
 
     public int waveNumber;
 
