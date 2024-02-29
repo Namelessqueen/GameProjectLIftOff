@@ -60,7 +60,7 @@ class Player : AnimationSprite
 
     
 
-    public Player() : base("sprite_sub.png", 1, 1)
+    public Player() : base("sprite_player.png", 8, 3, 21)
     {
         SetOrigin(width/2, height/2);
 
@@ -150,11 +150,11 @@ class Player : AnimationSprite
     void Attacking()
     {
         if (level == null) level = game.FindObjectOfType<Level>();
-        // Changing weapons 
+        /*// Changing weapons 
         if (Input.GetKeyDown(Key.B)) primaryType = "normal";
         if (Input.GetKeyDown(Key.N)) primaryType = "slow";
         if (Input.GetKeyDown(Key.M)) primaryType = "poison";
-
+        */
 
         // helping the bullets getting the right rotation
         var a = (rotation + 180) * Mathf.PI / 180.0;
@@ -292,16 +292,17 @@ class Player : AnimationSprite
 
     public void GetCardAbility(int cardNumber)
     {
+        CardPassiveTurret();
         switch (cardNumber)
         {
             case 0:
                 CardAttack();
                 break;
             case 1:
-                CardHealth();
+                CardAtkSpeed();
                 break;
             case 2:
-                CardAtkSpeed();
+                CardHealth();
                 break;
             case 3:
                 CardPassiveFish();
@@ -365,6 +366,7 @@ class Player : AnimationSprite
     void CardPassiveTurret()
     {
         Console.WriteLine("CardPassiveTurret chosen");
+        AddChild(new PassiveTurret());
     }
 
 
