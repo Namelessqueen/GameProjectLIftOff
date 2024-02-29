@@ -24,6 +24,8 @@ class Player : AnimationSprite
     private float speed = 2f;   // own speed
 
     private int playerMinDistanceFromBorder = 35;  // this is about the level itself, not the camera
+    private float iFrameDuration = 500;
+    private float iFrameCooldown;
 
     private float cardHpIncrease = 1.2f;
     private float cardAtkIncrease = 1.2f;
@@ -71,6 +73,7 @@ class Player : AnimationSprite
         currentHealth = maxHealth;
         currentAttack = baseAttack;
         isDashing = false;
+        //iFrameCooldown = iFrameDuration;
         //dashDuration = 30;
         //dashSpeed = 3;
 
@@ -83,10 +86,28 @@ class Player : AnimationSprite
         Movement();
         Dashing();
         Attacking();
+        IFrameFunctions();
         collisionPlayer();
         Gameover();
         DataVoid();
 
+
+
+    }
+
+    void IFrameFunctions()
+    {
+
+        if (iFrameCooldown > 0)
+        {
+            iFrameCooldown -= Time.deltaTime;
+
+            if (iFrameCooldown / iFrameDuration > .75f) alpha = .5f;
+            else if (iFrameCooldown / iFrameDuration > .5f) alpha = 1;
+            else if (iFrameCooldown / iFrameDuration > .25f) alpha = .5f;
+            else alpha = 1;
+
+        }
 
 
     }
@@ -224,9 +245,20 @@ class Player : AnimationSprite
 
     public float HealthUpdate(float pHealthChange)
     {
-        float healthChange = pHealthChange;
+
+        if (pHealthChange != 0 && iFrameCooldown <= 0)
+        {
+
+            float healthChange = pHealthChange;
+            currentHealth = currentHealth + healthChange;
+
+            iFrameCooldown = iFrameDuration;
+
+        }
+
         currentHealth = Mathf.Clamp(currentHealth, 0, 100);
-        currentHealth = currentHealth + healthChange;
+
+
         return currentHealth;
         
     }
@@ -284,8 +316,8 @@ class Player : AnimationSprite
             if (col is Enemy)
             {
                 Console.WriteLine(col.name + " hit player");
-                HealthUpdate(-1);
-                col.Destroy();
+                HealthUpdate(-10);
+                HealthCoolDown = 0;
             }
         }
     }
