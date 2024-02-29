@@ -50,7 +50,7 @@ public class MyGame : Game {
         AddChild(new MainMenu("Game over screen2.png"));
         AddChild(deathCanvas);
         deathCanvas.TextFont(TextCanvas.gameFont); deathCanvas.TextAlign(CenterMode.Center,CenterMode.Center);
-        deathCanvas.Text("You're final wave is : " + level.WaveNumber(), game.width / 2, game.height / 3);
+        deathCanvas.Text("Your final wave is : " + level.WaveNumber(), game.width / 2, game.height / 3);
     }
 
     public bool XPReset()
