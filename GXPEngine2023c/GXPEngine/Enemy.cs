@@ -198,7 +198,7 @@ class Enemy : AnimationSprite
             level.SomethingDied(x, y);
             //parent.RemoveChild(this);
             parent.RemoveChild(this);
-            canvas.XPUpdate(5); //XP added
+            canvas.XPUpdate(25); //XP added
             //level.RemoveChild(this);  // AAAAAAAAAAAAAAAAAAAAAAAAAAAA
         }
 

@@ -12,6 +12,7 @@ public class TextCanvas : EasyDraw
 {
     private Player player;
     private Sprite backgroundUI;
+    private MyGame myGame;
 
     private static int cornerOfset = 51;
 
@@ -35,6 +36,7 @@ public class TextCanvas : EasyDraw
     {
         
         player = game.FindObjectOfType<Player>();
+        myGame = game.FindObjectOfType<MyGame>();
 
         DrawSprite(backgroundUI);
         NoStroke();
@@ -42,7 +44,7 @@ public class TextCanvas : EasyDraw
         HealthBar();
         FuelBar();
         XPBar();
-
+        if (myGame == null) return;
         //Console.WriteLine(currentXP);
 
     }
@@ -66,19 +68,26 @@ public class TextCanvas : EasyDraw
         ShapeAlign(CenterMode.Min, CenterMode.Min);
         Fill(255); Rect(XPPosX, XPPosY, 415, 9);
         Fill(102, 255, 153); Rect(XPPosX, XPPosY, Mathf.Clamp(XPUpdate(0) *(4.15f / multiplierXP), 0, (4.15f/ multiplierXP) * neededXP), 9);
+
+        if (myGame == null) return;
+        if (currentXP >= neededXP)
+        {
+            multiplierXP += 0.2f;
+            currentXP = 0;
+        }
     }
 
     public float XPUpdate(float pChange)
     {
         float change = pChange;
         neededXP = 100 * multiplierXP;
-        if (currentXP >= neededXP)
-        {
-            multiplierXP += 0.2f;
-            currentXP = 0;
-        }
+       
         currentXP = currentXP + change;
         return currentXP;
+    }
+    public float XPNeeded()
+    {
+        return neededXP;
     }
 }
 

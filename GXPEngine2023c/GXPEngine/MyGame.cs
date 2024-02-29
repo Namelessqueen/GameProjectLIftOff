@@ -4,8 +4,10 @@ using System.Drawing;                           // System.Drawing contains drawi
 
 public class MyGame : Game {
 
-	public bool isPaused;   // THIS IS IN ALMOST EVERY UPDATE FUNCTION if (((MyGame)game).isPaused) return;
-
+	public bool isPaused;
+    private bool resetXP = false;
+    
+    // THIS IS IN ALMOST EVERY UPDATE FUNCTION if (((MyGame)game).isPaused) return;
     private TextCanvas canvas;
 
     public MyGame() : base(1377, 768, false, true, 1366, 768, true)     
@@ -17,13 +19,19 @@ public class MyGame : Game {
         AddChild(canvas);
     }
 
+    public bool XPReset()
+    {
+        return resetXP;
+    }
 	
 	void Update() {
 
-		if (Input.GetKeyDown(Key.P))
+		if (canvas.XPUpdate(0) >= canvas.XPNeeded())
 		{
 			AddChild(new LevelUpCard());
-		}
+            resetXP = true;
+        }
+        else resetXP = false;
 
 
         if (Input.GetKeyDown(Key.O))

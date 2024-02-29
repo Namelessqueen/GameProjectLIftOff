@@ -123,7 +123,7 @@ class Level : GameObject
 
 
             }
-
+            
             // spawn ranged enemies
             rangedEnemiesSpawning = Utils.Random((int)rangedEnemyMinSpawnRange, (int)rangedEnemyMaxSpawnRange+1);
             rangedEnemyMinSpawnRange *= enemyWaveRangeMultiplier;
