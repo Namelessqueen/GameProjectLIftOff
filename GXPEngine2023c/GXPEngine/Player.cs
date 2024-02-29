@@ -42,6 +42,7 @@ class Player : AnimationSprite
     private int HealthCoolDown;
     private float currentFuel = 510;
     private int FuelCooldown;
+    private float currentUlt;
 
     private int maxHealth;
 
@@ -96,7 +97,7 @@ class Player : AnimationSprite
         collisionPlayer();
         Gameover();
         DataVoid();
-        Ultimate();
+        Ultimate(); UltValue(0.005f);
 
 
 
@@ -266,9 +267,11 @@ class Player : AnimationSprite
         lengthFoundEnemies = foundEnemies.Length;
         for (int i = 0; i < foundEnemies.Length; i++)
         {
-            if (Input.GetKeyDown(Key.U))
-            {
-                foundEnemies[i].UltTest();
+            if ((Input.GetKeyDown(Key.U) && UltValue(0) >= 100) || Input.GetKeyDown(Key.Q))
+            {   
+                if (i >= foundEnemies.Length/2) foundEnemies[i].UltDamagaPercent();
+                if (i < foundEnemies.Length/2) foundEnemies[i].UltDamagaKill();
+                currentUlt = 0;
             }
         }
         
@@ -277,23 +280,24 @@ class Player : AnimationSprite
 
 
    //STATS UPDATES
-
-    public float HealthUpdate(float pHealthChange)
+   
+    public float UltValue(float pChange)
     {
+          float Change = pChange;
+          currentUlt += Change;
 
-        if (pHealthChange != 0 && iFrameCooldown <= 0)
+          return currentUlt;
+    }
+    public float HealthUpdate(float pChange)
+    {
+        if (pChange != 0 && iFrameCooldown <= 0)
         {
-
-            float healthChange = pHealthChange;
-            currentHealth = currentHealth + healthChange;
+            float Change = pChange;
+            currentHealth += Change;
 
             iFrameCooldown = iFrameDuration;
-
         }
-
         currentHealth = Mathf.Clamp(currentHealth, 0, 100);
-
-
         return currentHealth;
         
     }

@@ -79,7 +79,7 @@ public class TextCanvas : EasyDraw
         player.InputSlider();
         ShapeAlign(CenterMode.Center, CenterMode.Max);
         Fill(255); Rect(sliderPosX, sliderPosY, 13, 510);
-        Fill(247, 219, 116); Rect(sliderPosX, sliderPosY, 13, player.InputSlider() * 5.1f);
+        Fill(247, 219, 116); Rect(sliderPosX, sliderPosY, 13, Mathf.Clamp(player.InputSlider() * 5.1f, 0 , 510));
     }
     void XPBar()
     {
@@ -99,7 +99,7 @@ public class TextCanvas : EasyDraw
     {
         ShapeAlign(CenterMode.Min, CenterMode.Min);
         Fill(255); Rect(UltPosX, UltPosY, 412, 12);
-        Fill(255, 0, 0); Rect(UltPosX, UltPosY, 350,12);
+        Fill(255, 0, 0); Rect(UltPosX, UltPosY, Mathf.Clamp((player.UltValue(0) * 4.12f),0, 412),12);
 
     }
     void WaveText()

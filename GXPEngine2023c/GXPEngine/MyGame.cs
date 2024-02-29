@@ -14,7 +14,6 @@ public class MyGame : Game {
 	{
         //text:
         canvas = new TextCanvas();
-
         AddChild(new Level());
         AddChild(canvas);
     }
