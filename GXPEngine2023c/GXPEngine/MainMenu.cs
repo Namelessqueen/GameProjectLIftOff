@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 public class MainMenu : GameObject
 {
-    float channelVolume17 = .5f;    // TitleScreen_BGM_Loopable.wav
+    float channelVolume17 = 1f;    // TitleScreen_BGM_Loopable.wav
     FMODSoundSystem soundSystem;
 
     public MainMenu(string bgImg = "STARTING SCREEN2.png")

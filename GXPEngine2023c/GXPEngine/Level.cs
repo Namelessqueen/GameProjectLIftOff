@@ -19,7 +19,7 @@ class Level : GameObject
     private float rangedEnemyMinSpawnRange = 1;
     private float rangedEnemyMaxSpawnRange = 2;
 
-    float channelVolume17 = .5f; // Ingame_BGM_Loopable.wav
+    float channelVolume17 = 1f; // Ingame_BGM_Loopable.wav
 
     public int waveNumber;
 

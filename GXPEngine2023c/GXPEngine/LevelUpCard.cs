@@ -1,4 +1,4 @@
-﻿using GXPEngine;
+using GXPEngine;
 using GXPEngine.Core;
 using System;
 using System.Collections.Generic;
@@ -13,8 +13,8 @@ class LevelUpCard : GameObject
     private float cardHeight = 400; // position based on pixels, bigger number moves it lower
     private int selectionCooldown = 100;
 
-    private float channelVolume14 = .8f; // Universal ping_select_menu_sound.wav
-
+    private float channelVolume14 = .1f; // Universal ping_select_menu_sound.wav
+    
     private int cardAmount;     // number of cards being drawn, defaults to 3
     private int cardNumber;     // specifies the card used
     private Random random;

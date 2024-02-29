@@ -6,8 +6,8 @@ using GXPEngine.Core;                           // System.Drawing contains drawi
 
 public class MyGame : Game {
 
-    private float channelVolume15 = .8f; // LevelUp.wav
-    private float channelVolume16 = .8f; // EngineStart (Only use if neccesary).wav
+    private float channelVolume15 = .3f; // LevelUp.wav
+    private float channelVolume16 = 2f; // EngineStart (Only use if neccesary).wav
 
 
     public bool isPaused;
@@ -61,7 +61,7 @@ public class MyGame : Game {
 	void Update() {
 
 		if (canvas == null) return;
-        if (canvas.XPUpdate(0) >= canvas.XPNeeded()/* || Input.GetKeyDown(Key.P)*/)
+        if (canvas.XPUpdate(0) >= canvas.XPNeeded() || Input.GetKeyDown(Key.X))
 		{
 			AddChild(new LevelUpCard());
             resetXP = true;

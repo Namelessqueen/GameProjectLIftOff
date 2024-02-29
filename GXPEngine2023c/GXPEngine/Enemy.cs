@@ -23,8 +23,8 @@ class Enemy : AnimationSprite
     private byte ranged1AnimTime = 10;
     private byte ranged2AnimTime = 10;
 
-    private float channelVolume8  = .8f; // Torpedo Hit on Enemy.wav
-    private float channelVolume9  = .8f; // TorpedoHitsoundFreeze.wav
+    private float channelVolume8  = .5f; // Torpedo Hit on Enemy.wav
+    private float channelVolume9  = .5f; // TorpedoHitsoundFreeze.wav
     private float channelVolume10 = .8f; // TorpedoHitsoundPoison.wav
     private float channelVolume11 = .8f; // DeathOfMonster[i].wav
     private float channelVolume12 = .8f; // Universal Freeze sound.wav

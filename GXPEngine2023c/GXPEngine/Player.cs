@@ -34,7 +34,7 @@ class Player : AnimationSprite
     float channelVolume1 = .1f; // Engine Humming.wav
     float channelVolume2 = .8f; // Dash.wav
     float channelVolume3 = .8f; // Secondary.wav
-    float channelVolume4 = .8f; // Shooting Sound.wav
+    float channelVolume4 = .4f; // Shooting Sound.wav
     float channelVolume5 = .8f; // UltimateSound.wav
     float channelVolume6 = .8f; // PlayerIsHitSound.wav
     float channelVolume7 = .8f; // DeathOfPlayer.wav
