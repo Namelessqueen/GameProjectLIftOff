@@ -208,10 +208,26 @@ class Player : AnimationSprite
             reloadCooldown -= Time.deltaTime;
             return;
         }
+        
 
         if ((Input.GetKey(Key.H) || Input.GetKeyDown(Key.H)) && fuelUpdate() > 1)
         {
-            PlayerSecondarys.Add(new PlayerSecondary((speed / 5) * bulletXRotHelp, (speed / 5) * bulletYRotHelp, sliderInput, "square.png"));
+            switch (secondaryType)
+            {
+                case "normal":
+                    PlayerSecondarys.Add(new PlayerSecondary((speed / 5) * bulletXRotHelp, (speed / 5) * bulletYRotHelp, sliderInput));
+                    break;
+
+                case "slow":
+                    PlayerSecondarys.Add(new PlayerSecondary((speed / 5) * bulletXRotHelp, (speed / 5) * bulletYRotHelp, sliderInput, "SecondarySlowed.png"));
+                    break;
+
+                case "poison":
+                    PlayerSecondarys.Add(new PlayerSecondary((speed / 5) * bulletXRotHelp, (speed / 5) * bulletYRotHelp, sliderInput, "SecondaryPoison.png"));
+                    break;
+
+            }
+
             PlayerSecondarys.Last().SetXY(x + (9 * bulletXRotHelp), y + (9 * bulletYRotHelp));
             level.AddChild(PlayerSecondarys.Last());
             reloadCooldown += reloadTime * 250;
@@ -263,7 +279,7 @@ class Player : AnimationSprite
         
         Enemy[] foundEnemies = game.FindObjectsOfType<Enemy>();
         if (foundEnemies == null) return;
-        Console.WriteLine(foundEnemies.Length);
+        //Console.WriteLine(foundEnemies.Length);
         lengthFoundEnemies = foundEnemies.Length;
         for (int i = 0; i < foundEnemies.Length; i++)
         {
@@ -272,6 +288,7 @@ class Player : AnimationSprite
                 if (i >= foundEnemies.Length/2) foundEnemies[i].UltDamagaPercent();
                 if (i < foundEnemies.Length/2) foundEnemies[i].UltDamagaKill();
                 currentUlt = 0;
+
             }
         }
         

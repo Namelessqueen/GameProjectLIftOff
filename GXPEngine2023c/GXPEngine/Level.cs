@@ -53,9 +53,8 @@ class Level : GameObject
 
     void EnemySpawning()
     {
-        
+
         timePassed += Time.deltaTime;
-        Console.WriteLine(player.AmmountEnemy());
         
         if (timePassed/1000 >= waveTime || enemies.Count == 0 || player.AmmountEnemy() == 0)
         {

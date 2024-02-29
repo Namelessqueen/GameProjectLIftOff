@@ -138,17 +138,17 @@ class Enemy : AnimationSprite
 
                 col.LateDestroy();
             }
-            if (col is CoolPlayerBullet)
+            if (col is CoolPlayerBullet || col is PlayerSecondarySlowed)
             {
+                Console.WriteLine("HIT COOL");
                 statusBulletHit = "slowed";
             }
             
-            if (col is PoisonPlayerBullet) 
+            if (col is PoisonPlayerBullet || col is PlayerSecondaryPoison) 
             {
+                Console.WriteLine("HIT POISON");
                 statusBulletHit = "poisoned";
             }
-            
-
         }
 
     }
