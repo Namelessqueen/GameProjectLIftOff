@@ -10,11 +10,11 @@ public class MyGame : Game {
     // THIS IS IN ALMOST EVERY UPDATE FUNCTION if (((MyGame)game).isPaused) return;
     private TextCanvas canvas;
 
-    public MyGame() : base(1377, 768, false, true, 1366, 768, true)     
+    public MyGame() : base(1377, 768, false, false, 1366, 768, true)     
 	{
-        //text:
+        //text
         canvas = new TextCanvas();
-
+        AddChild(new ArduinoInput());
         AddChild(new Level());
         AddChild(canvas);
     }

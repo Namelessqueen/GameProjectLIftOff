@@ -21,7 +21,7 @@ class Player : AnimationSprite
     
     private int baseMaxHealth = 100;    // max hp at start
     private int baseAttack = 5;         // attack at start
-    private float speed = 2f;   // own speed
+    private float speed = 4f;   // own speed
 
     private int playerMinDistanceFromBorder = 35;  // this is about the level itself, not the camera
     private float iFrameDuration = 500;
@@ -54,12 +54,13 @@ class Player : AnimationSprite
     private List<Enemy> AllEnemys;
     private Enemy[] foundEnemies;
     private Level level;
+    private ArduinoInput arduinoInput;
 
     private bool isDashing = false;
     private int dashSpeed = 3;
     private int dashTimer;
     private int dashCooldown;
-    private int dashDuration = 30;
+    private int dashDuration = 15;
 
     private int sliderInput;
 
@@ -69,15 +70,12 @@ class Player : AnimationSprite
     {
         SetOrigin(width/2, height/2);
         scale = .5f;
-        //speed = 2f;
         maxHealth = baseMaxHealth;
         currentHealth = maxHealth;
         currentAttack = baseAttack;
         isDashing = false;
-        //iFrameCooldown = iFrameDuration;
-        //dashDuration = 30;
-        //dashSpeed = 3;
 
+        arduinoInput = game.FindObjectOfType<ArduinoInput>();
         //currentFuel = 510;
         AllEnemys = new List<Enemy>();
 
@@ -151,10 +149,15 @@ class Player : AnimationSprite
 
         // 5508, 3072
 
+        Console.WriteLine(game.currentFps);
+        sliderInput = arduinoInput.SliderValue();
+        //Console.WriteLine("player called slider input: "+ sliderInput);
         //slider input
+        //sliderInput = arduinoInput.sliderValue;
+        /*
         sliderInput = (int)Mathf.Clamp(sliderInput, 0, 100);
         if (Input.GetKey(Key.UP)) sliderInput++;
-        if (Input.GetKey(Key.DOWN)) sliderInput--;
+        if (Input.GetKey(Key.DOWN)) sliderInput--;*/
     }
 
     public void Dashing()
