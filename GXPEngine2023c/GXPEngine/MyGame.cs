@@ -22,11 +22,11 @@ public class MyGame : Game {
     {
         AddChild(new MainMenu());
         soundSystem = new FMODSoundSystem();
-        //AddChild(new ArduinoInput()); ///////////////////////////////////////////////////////////
     }
 
     public void GameStart()
     {
+        AddChild(new ArduinoInput()); ///////////////////////////////////////////////////////////
         
         //text
         MainMenu mainMenu = game.FindObjectOfType<MainMenu>();
@@ -47,8 +47,8 @@ public class MyGame : Game {
         Level level = game.FindObjectOfType<Level>();
         level.LateDestroy();
         canvas.LateDestroy();
-        /*ArduinoInput arduinoInput = game.FindObjectOfType<ArduinoInput>();
-        if (arduinoInput != null) arduinoInput.LateDestroy();*/
+        ArduinoInput arduinoInput = game.FindObjectOfType<ArduinoInput>();
+        if (arduinoInput != null) arduinoInput.LateDestroy();
         AddChild(new MainMenu("Game over screen2.png"));
         AddChild(deathCanvas);
         deathCanvas.TextFont(TextCanvas.gameFont); deathCanvas.TextAlign(CenterMode.Center,CenterMode.Center);

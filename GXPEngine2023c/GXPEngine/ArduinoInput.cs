@@ -24,7 +24,7 @@ public class ArduinoInput : GameObject
             port.DtrEnable = true;
             port.Open();
         }
-
+        
     }
 
     public int SliderValue()
