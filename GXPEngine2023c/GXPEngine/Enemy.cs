@@ -37,8 +37,8 @@ class Enemy : AnimationSprite
     public int enemyType;
     private float UltDamage;
 
-    private int health;
-    private int damageTaken;
+    private float health;
+    private float damageTaken;
     private float damageAnimTime;
     private float poisonTime;
     private float fishTime;
@@ -136,7 +136,7 @@ class Enemy : AnimationSprite
                
                 if (!fishHitAble) continue;
                 
-                damageTaken++;
+                damageTaken += player.currentAttack/5;
                 fishHitAble = false;
                 fishTime = passiveFishIFrames;
 
@@ -144,7 +144,7 @@ class Enemy : AnimationSprite
             }
             else if (col is PlayerBullet)
             {
-                damageTaken++;
+                damageTaken += player.currentAttack/5;
 
                 Console.WriteLine(col.name + " hit an enemy");
 

@@ -48,7 +48,7 @@ class Player : AnimationSprite
 
     private bool isAttacking;
     private float reloadCooldown;
-    private float currentAttack;
+    public float currentAttack;
     private float currentHealth;
     private int HealthCoolDown;
     private float currentFuel = 510;
@@ -538,7 +538,7 @@ class Player : AnimationSprite
     {
         Console.WriteLine("CardAttack chosen");
         float newAttack = currentAttack * cardAtkIncrease;
-        currentAttack = (int)newAttack;
+        currentAttack = newAttack;
 
     }
 
