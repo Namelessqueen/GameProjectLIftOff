@@ -92,15 +92,13 @@ class Player : AnimationSprite
         isDashing = false;
 
         //arduinoInput = game.FindObjectOfType<ArduinoInput>(); /////////////////////////////////////////
-        //currentFuel = 510;
+
         AllEnemys = new List<Enemy>();
 
-        
         
         soundSystem = new FMODSoundSystem();
         soundSystem.PlaySound(soundSystem.LoadSound("Engine Humming.wav", true), 1, false, channelVolume1, 0);
 
-        //Enemy[] foundEnemies = game.FindObjectsOfType<Enemy>();
     }
 
     void Update()
@@ -130,7 +128,6 @@ class Player : AnimationSprite
             // idle "idle" 0 move/idle (1)
             frameStart = 0;
             frameNumber = 1;
-            //SetFrame(frameStart);
         }
         if (animationType == "prim atk" && secShutdownAnimFinished)
         {
@@ -174,10 +171,8 @@ class Player : AnimationSprite
             }
         }
 
-
         SetCycle(frameStart, frameNumber);
         Animate(.3f);
-
 
     }
 
@@ -226,13 +221,12 @@ class Player : AnimationSprite
 
         // (5508, (3072), 2754)
 
-        //Console.WriteLine(game.currentFps);
+
+        // slider input
         //sliderInput = arduinoInput.SliderValue(); ////////////////////////////////////////////
         //Console.WriteLine("player called slider input: "+ sliderInput);
-        // slider input
-        //sliderInput = arduinoInput.sliderValue;
 
-        
+        // no slider arduino input
         sliderInput = (int)Mathf.Clamp(sliderInput, 0, 100); //////////////////////////////////
         if (Input.GetKey(Key.UP)) sliderInput++; //////////////////////////////////////////////
         if (Input.GetKey(Key.DOWN)) sliderInput--; ////////////////////////////////////////////
@@ -248,9 +242,7 @@ class Player : AnimationSprite
             SetColor(1f, 1f, .0f);
             dashTimer = 0;
 
-
             soundSystem.PlaySound(soundSystem.LoadSound("Dash.wav", false), 2, false, channelVolume2, 0);
-            //new Sound("Dash.wav", false, true).Play();
 
         }
         if (isDashing)
@@ -284,7 +276,6 @@ class Player : AnimationSprite
         bulletYRotHelp = (0 * sina + -5 * cosa);
 
 
-
         // Pressing J makes you attack
         if (Input.GetKey(Key.J) || Input.GetKeyDown(Key.J))
         {
@@ -295,11 +286,6 @@ class Player : AnimationSprite
 
         if (Input.GetKey(Key.K) || Input.GetKeyDown(Key.K)) animationType = "sec atk";
 
-
-       
-            
-       
-        // animationType == "sec atk"
 
         if (reloadCooldown/1000 > 0)
         {
@@ -361,9 +347,7 @@ class Player : AnimationSprite
         level.AddChild(playerBullets.Last());
         reloadCooldown += reloadTime * 1000;
 
-
         soundSystem.PlaySound(soundSystem.LoadSound("Shooting Sound.wav", false), 4, false, channelVolume4, 0);
-        //new Sound("Shooting Sound.wav", false, true).Play();
     }
 
     //Ultability
@@ -391,9 +375,7 @@ class Player : AnimationSprite
                 if (i < foundEnemies.Length/2) foundEnemies[i].UltDamagaKill();
                 currentUlt = 0;
 
-
                 soundSystem.PlaySound(soundSystem.LoadSound("UltimateSound.wav", false), 5, false, channelVolume5, 0);
-                //new Sound("UltimateSound.wav", false, true).Play();
             }
         }
         
@@ -419,9 +401,7 @@ class Player : AnimationSprite
 
             iFrameCooldown = iFrameDuration;
 
-
             soundSystem.PlaySound(soundSystem.LoadSound("PlayerIsHitSound.wav", false), 6, false, channelVolume6, 0);
-            //new Sound("PlayerIsHitSound.wav", false, true).Play();
         }
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         return currentHealth;     
@@ -437,7 +417,7 @@ class Player : AnimationSprite
 
     void DataVoid()
     {
-        Console.WriteLine(maxHealth);
+        //Console.WriteLine(maxHealth);
         if (((MyGame)game).isPaused) return;
         HealthCoolDown++;
         if (HealthCoolDown > 300)
@@ -454,7 +434,6 @@ class Player : AnimationSprite
 
     public float fuelUpdate()
     {
-       
         currentFuel = Mathf.Clamp(currentFuel, 0, 509);
         FuelCooldown++;
        
@@ -470,9 +449,7 @@ class Player : AnimationSprite
             MyGame supergame = game.FindObjectOfType<MyGame>();
             supergame.GameOver();
 
-
             soundSystem.PlaySound(soundSystem.LoadSound("DeathOfPlayer.wav", false), 7, false, channelVolume7, 0);
-            //new Sound("DeathOfPlayer.wav", false, true).Play();
         }
     }
     void collisionPlayer()
@@ -485,14 +462,14 @@ class Player : AnimationSprite
             if (col is Bullet)
             {  
                 col.Destroy();
-                Console.WriteLine(col.name + " hit player");
+                //Console.WriteLine(col.name + " hit player");
                 HealthUpdate(-5);
                 HealthCoolDown = 0;
                 
             }
             if (col is Enemy)
             {
-                Console.WriteLine(col.name + " hit player");
+                //Console.WriteLine(col.name + " hit player");
                 HealthUpdate(-10);
                 HealthCoolDown = 0;
             }
@@ -545,7 +522,7 @@ class Player : AnimationSprite
 
     void CardAttack()
     {
-        Console.WriteLine("CardAttack chosen");
+        //Console.WriteLine("CardAttack chosen");
         float newAttack = currentAttack * cardAtkIncrease;
         currentAttack = newAttack;
 
@@ -553,7 +530,7 @@ class Player : AnimationSprite
 
     void CardHealth()
     {
-        Console.WriteLine("CardHealth chosen");
+        //Console.WriteLine("CardHealth chosen");
         healthMultiplier += 0.2f;
         /*
         float newHealth = maxHealth * cardHpIncrease;
@@ -562,7 +539,7 @@ class Player : AnimationSprite
 
     void CardAtkSpeed()
     {
-        Console.WriteLine("CardAtkSpeed chosen");
+        //Console.WriteLine("CardAtkSpeed chosen");
         float newAtkSpd = reloadTime / cardAtkSpdIncrease;
         reloadTime = newAtkSpd;
 
@@ -570,13 +547,13 @@ class Player : AnimationSprite
 
     void CardPassiveFish()
     {
-        Console.WriteLine("CardPassiveFish chosen");
+        //Console.WriteLine("CardPassiveFish chosen");
         AddChild(new PassiveFish());
     }
 
     void CardPassiveTurret()
     {
-        Console.WriteLine("CardPassiveTurret chosen");
+        //Console.WriteLine("CardPassiveTurret chosen");
         AddChild(new PassiveTurret());
     }
 

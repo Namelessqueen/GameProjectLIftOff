@@ -30,7 +30,7 @@ class Bullet : Sprite
         if (x < level.x - 50 || x > level.x + game.width + 50 ||
             y < level.y - 50 || y > level.y + game.height + 50)
         {
-            Console.WriteLine("bullet destroyed");
+            //Console.WriteLine("bullet destroyed");
             LateDestroy();
         }
         // TODO: Check whether offscreen / hit test, and then remove!

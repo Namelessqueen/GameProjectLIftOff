@@ -37,8 +37,7 @@ class Level : GameObject
     public Level()
     {
         //Background:
-        background = new Sprite("FINAL BACKGROUND.png", false, false);
-        //background.scale = 4;   
+        background = new Sprite("FINAL BACKGROUND.png", false, false); 
 
         random = new Random();
         player = new Player();
@@ -62,7 +61,7 @@ class Level : GameObject
         if (timePassed/1000 >= waveTime || enemies.Count == 0 || player.AmmountEnemy() == 0)
         {
             waveNumber++;
-            Console.WriteLine("new wave");
+            //Console.WriteLine("new wave");
 
             // spawn melee enemies
             meleeEnemiesSpawning = Utils.Random((int)meleeEnemyMinSpawnRange, (int)meleeEnemyMaxSpawnRange+1);
@@ -185,8 +184,8 @@ class Level : GameObject
             // reset timer
             // timePassed -= waveTime*1000;     // DOESN'T WORK IF WAVE SPAWNS BECAUSE NO ENEMIES ON SCREEN
             timePassed = 0;
-            Console.WriteLine("new timePassed: " + timePassed);
-            Console.WriteLine("waveNumber: " + waveNumber);
+            //Console.WriteLine("new timePassed: " + timePassed);
+            //Console.WriteLine("waveNumber: " + waveNumber);
         }
 
 
@@ -201,15 +200,6 @@ class Level : GameObject
         DeathExplosion deathExplosion = new DeathExplosion();
         deathExplosion.SetXY(xpos, ypos);
         AddChild(deathExplosion);
-
-        /*player = game.FindObjectOfType<Player>();
-        if (player == null)
-        {
-            MyGame supergame = game.FindObjectOfType<MyGame>();
-            supergame.GameOver();
-
-        }*/
-
 
     }
 

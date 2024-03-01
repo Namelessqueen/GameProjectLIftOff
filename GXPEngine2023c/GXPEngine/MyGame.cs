@@ -68,14 +68,12 @@ public class MyGame : Game {
 			AddChild(new LevelUpCard());
             resetXP = true;
 
-
             soundSystem.PlaySound(soundSystem.LoadSound("LevelUp.wav", false), 15, false, channelVolume15, 0);
-            //new Sound("LevelUp.wav", false, true).Play();
         }
         else resetXP = false;
 
 
-        if (Input.GetKeyDown(Key.O))
+        if (Input.GetKeyDown(Key.U))
         {
             Console.WriteLine(GetDiagnostics());
         }

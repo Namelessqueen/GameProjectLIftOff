@@ -29,7 +29,7 @@ public class MainMenu : GameObject
         if (Input.GetKeyDown(Key.P))
         {
             MyGame supergame = game.FindObjectOfType<MyGame>();
-            Console.WriteLine("smt happening");
+            //Console.WriteLine("smt happening");
             supergame.GameStart();
 
         }

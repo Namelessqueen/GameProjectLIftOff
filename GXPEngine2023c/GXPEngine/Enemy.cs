@@ -115,12 +115,12 @@ class Enemy : AnimationSprite
     {
         UltDamage = health * 0.5f;
         health = (int)UltDamage;
-        Console.WriteLine("ULT Percent");
+        //Console.WriteLine("ULT Percent");
     }
     public void UltDamagaKill()
     {
         health = 0;
-        Console.WriteLine("ULT Kill");
+        //Console.WriteLine("ULT Kill");
     }
 
 
@@ -146,38 +146,31 @@ class Enemy : AnimationSprite
                 fishHitAble = false;
                 fishTime = passiveFishIFrames;
 
-                Console.WriteLine(col.name + " hit an enemy");
+                //Console.WriteLine(col.name + " hit an enemy");
             }
             else if (col is PlayerBullet)
             {
                 damageTaken += player.currentAttack/5;
-
-                Console.WriteLine(col.name + " hit an enemy");
-
+                //Console.WriteLine(col.name + " hit an enemy");
                 col.LateDestroy();
 
-
                 soundSystem.PlaySound(soundSystem.LoadSound("Torpedo Hit on Enemy.wav", false), 8, false, channelVolume8, 0);
-                //new Sound("Torpedo Hit on Enemy.wav", false, true).Play();
             }
             if (col is CoolPlayerBullet || col is PlayerSecondarySlowed)
             {
-                Console.WriteLine("HIT COOL");
+                //Console.WriteLine("HIT COOL");
                 statusBulletHit = "slowed";
 
-
                 soundSystem.PlaySound(soundSystem.LoadSound("TorpedoHitsoundFreeze.wav", false), 9, false, channelVolume9, 0);
-                //new Sound("TorpedoHitsoundFreeze.wav", false, true).Play();
             }
             
             if (col is PoisonPlayerBullet || col is PlayerSecondaryPoison) 
             {
-                Console.WriteLine("HIT POISON");
+                //Console.WriteLine("HIT POISON");
                 statusBulletHit = "poisoned";
 
 
                 soundSystem.PlaySound(soundSystem.LoadSound("TorpedoHitsoundPoison.wav", false), 10, false, channelVolume10, 0);
-                //new Sound("TorpedoHitsoundPoison.wav", false, true).Play();
             }
         }
 

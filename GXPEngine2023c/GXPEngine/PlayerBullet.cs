@@ -25,12 +25,10 @@ class PlayerBullet : AnimationSprite
         if (((MyGame)game).isPaused) return;
         x += vx;
         y += vy;
-        // TODO: Check whether offscreen / hit test, and then remove!
         // Destroy if off screen
         if (x < -level.x || x > -level.x + game.width ||
             y < -level.y || y > -level.y + game.height)
         {
-            //Console.WriteLine("Enemy bullet despawned");
             LateDestroy();
         }
     }
@@ -87,7 +85,7 @@ class PlayerSecondary : PlayerBullet
 
         if (coolDown > (float)slider)
         {
-            Console.WriteLine("Removed SecondaryBullet");
+            //Console.WriteLine("Removed SecondaryBullet");
             Destroy();
         }
     }
