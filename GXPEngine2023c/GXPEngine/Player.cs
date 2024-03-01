@@ -221,10 +221,10 @@ class Player : AnimationSprite
 
         lastRotation = rotation;
 
-        x = Mathf.Clamp(x, 0 + playerMinDistanceFromBorder, 5508 - playerMinDistanceFromBorder);
-        y = Mathf.Clamp(y, 0 + playerMinDistanceFromBorder, 3072 - playerMinDistanceFromBorder);
+        x = Mathf.Clamp(x, 0 + playerMinDistanceFromBorder, 3072 - playerMinDistanceFromBorder);
+        y = Mathf.Clamp(y, 0 + playerMinDistanceFromBorder, 2754 - playerMinDistanceFromBorder);
 
-        // 5508, 3072
+        // (5508, (3072), 2754)
 
         //Console.WriteLine(game.currentFps);
         //sliderInput = arduinoInput.SliderValue(); ////////////////////////////////////////////
