@@ -18,8 +18,8 @@ public class MyGame : Game {
     private EasyDraw deathCanvas;
     FMODSoundSystem soundSystem;
 
-    public MyGame() : base(1377, 768, false, false, 1366, 768, true)     
-	{
+    public MyGame() : base(1377, 768, false, false, 1366, 768, true)
+    {
         AddChild(new MainMenu());
         soundSystem = new FMODSoundSystem();
     }
