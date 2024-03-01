@@ -48,7 +48,7 @@ class Player : AnimationSprite
 
     private bool isAttacking;
     private float reloadCooldown;
-    private float currentAttack;
+    public float currentAttack;
     private float currentHealth;
     private float maxHealth;
     private float healthMultiplier = 1f;
@@ -548,7 +548,7 @@ class Player : AnimationSprite
     {
         Console.WriteLine("CardAttack chosen");
         float newAttack = currentAttack * cardAtkIncrease;
-        currentAttack = (int)newAttack;
+        currentAttack = newAttack;
 
     }
 
