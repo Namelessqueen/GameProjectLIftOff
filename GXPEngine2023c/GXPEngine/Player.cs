@@ -42,9 +42,11 @@ class Player : AnimationSprite
 
     private string primaryType = "normal";
     private string secondaryType = "normal";
+    private string animationType;
+    private bool secStartupAnimFinished;
+    private bool secShutdownAnimFinished;
 
     private bool isAttacking;
-    private int attackState;
     private float reloadCooldown;
     private float currentAttack;
     private float currentHealth;
@@ -111,7 +113,69 @@ class Player : AnimationSprite
         Gameover();
         DataVoid();
         Ultimate(); UltValue(0.005f);
+        Animation();
 
+
+    }
+
+    void Animation() 
+    {
+        int frameStart = 0;
+        int frameNumber = 1;
+
+        if (animationType == "idle")
+        {
+            // idle "idle" 0 move/idle (1)
+            frameStart = 0;
+            frameNumber = 1;
+            //SetFrame(frameStart);
+        }
+        if (animationType == "prim atk" && secShutdownAnimFinished)
+        {
+            // prim atk "prim atk" 1-5 prim atk (5)
+            frameStart = 1;
+            frameNumber = 5;
+            /*float numberyay = (1 - ((reloadTime * 1000) - reloadCooldown) / 1000) * 5;
+            SetFrame(((int)numberyay + 0) % 5 + 1);
+            return;*/
+
+        }
+
+        if (animationType == "sec atk")
+        {
+            // sec atk "sec atk" 13 sec atk (1)
+            frameStart = 13;
+            frameNumber = 1;
+
+            if (!secStartupAnimFinished)
+            {
+                // sec atk startup "sec atk" 6-12 wind-up sec atk (7)
+                frameStart = 6;
+                frameNumber = 7;
+                if (_currentFrame == 11)
+                {
+                    secStartupAnimFinished = true;
+                    secShutdownAnimFinished = false;
+                }
+            }
+        }
+
+        if (animationType != "sec atk" && !secShutdownAnimFinished)
+        {
+            // sec atk shut down !"sec atk" 14-20 wind-down sec atk (7)
+            frameStart = 14;
+            frameNumber = 7;
+            if (currentFrame == 19) 
+            {
+                secShutdownAnimFinished = true; 
+                secStartupAnimFinished = false;
+            }
+        }
+
+
+        SetCycle(frameStart, frameNumber);
+        Console.WriteLine("aaaaaaaaaaa");
+        Animate(.3f);
 
 
     }
@@ -136,6 +200,7 @@ class Player : AnimationSprite
     void Movement()
     {
         SetColor(1f, 1f, 1f);
+        animationType = "idle";
 
         rotation = 0;
 
@@ -220,11 +285,20 @@ class Player : AnimationSprite
 
 
         // Pressing J makes you attack
-        if (Input.GetKey(Key.J) || Input.GetKeyDown(Key.J)) isAttacking = true;
-      
+        if (Input.GetKey(Key.J) || Input.GetKeyDown(Key.J))
+        {
+            isAttacking = true; 
+            animationType = "prim atk";
+        }
         else isAttacking = false;
 
-      
+        if (Input.GetKey(Key.K) || Input.GetKeyDown(Key.K)) animationType = "sec atk";
+
+
+       
+            
+       
+        // animationType == "sec atk"
 
         if (reloadCooldown/1000 > 0)
         {
@@ -264,12 +338,8 @@ class Player : AnimationSprite
             new Sound("Secondary.wav", false, true).Play(false, 0, channelVolume3);
         }
 
-
         if (!isAttacking) return;
 
-
-
-        
         switch (primaryType)
         {
             case "normal": 
@@ -289,7 +359,6 @@ class Player : AnimationSprite
         playerBullets.Last().rotation = rotation + 180;
         level.AddChild(playerBullets.Last());
         reloadCooldown += reloadTime * 1000;
-
 
 
         soundSystem.PlaySound(soundSystem.LoadSound("Shooting Sound.wav", false), 4, false, channelVolume4, 0);
@@ -483,8 +552,8 @@ class Player : AnimationSprite
     void CardAtkSpeed()
     {
         Console.WriteLine("CardAtkSpeed chosen");
-        float newAtkSpd = reloadCooldown / cardAtkSpdIncrease;
-        reloadCooldown = newAtkSpd;
+        float newAtkSpd = reloadTime / cardAtkSpdIncrease;
+        reloadTime = newAtkSpd;
 
     }
 
