@@ -66,7 +66,8 @@ public class TextCanvas : EasyDraw
     {
             ShapeAlign(CenterMode.Min, CenterMode.Min);
             Fill(255); Rect(healthPosX, healthPosY, 410, 25);
-            Fill(102, 255, 102); Rect(healthPosX, healthPosY, Mathf.Clamp((player.HealthUpdate(0) * 4.1f), 0, 509), 25);
+            Fill(102, 255, 102); Rect(healthPosX, healthPosY, 
+                Mathf.Clamp(player.HealthUpdate(0) * (4.1f / player.MultiplierHealth()), 0, player.MaxHealth() * (4.1f / player.MultiplierHealth())), 25); ;
 
     }
 

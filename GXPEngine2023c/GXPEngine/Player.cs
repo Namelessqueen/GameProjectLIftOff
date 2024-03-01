@@ -48,12 +48,14 @@ class Player : AnimationSprite
     private float reloadCooldown;
     private float currentAttack;
     private float currentHealth;
+    private float maxHealth;
+    private float healthMultiplier = 1f;
     private int HealthCoolDown;
-    private float currentFuel = 510;
+    private float currentFuel = 510f;
     private int FuelCooldown;
     private float currentUlt;
 
-    private int maxHealth;
+
 
 
     private float lastXPos, lastYPos;
@@ -353,13 +355,21 @@ class Player : AnimationSprite
             soundSystem.PlaySound(soundSystem.LoadSound("PlayerIsHitSound.wav", false), 6, false, channelVolume6, 0);
             //new Sound("PlayerIsHitSound.wav", false, true).Play();
         }
-        currentHealth = Mathf.Clamp(currentHealth, 0, 100);
-        return currentHealth;
-        
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        return currentHealth;     
+    }
+    public float MaxHealth()
+    {
+        maxHealth = 100 * healthMultiplier; return maxHealth;
+    }
+    public float MultiplierHealth()
+    {
+        return healthMultiplier;
     }
 
     void DataVoid()
     {
+        Console.WriteLine(maxHealth);
         if (((MyGame)game).isPaused) return;
         HealthCoolDown++;
         if (HealthCoolDown > 300)
@@ -476,8 +486,10 @@ class Player : AnimationSprite
     void CardHealth()
     {
         Console.WriteLine("CardHealth chosen");
+        healthMultiplier += 0.2f;
+        /*
         float newHealth = maxHealth * cardHpIncrease;
-        maxHealth = (int)newHealth;
+        maxHealth = (int)newHealth;*/
     }
 
     void CardAtkSpeed()
