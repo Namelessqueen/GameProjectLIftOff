@@ -548,7 +548,7 @@ class Player : AnimationSprite
     void CardPassiveFish()
     {
         //Console.WriteLine("CardPassiveFish chosen");
-        AddChild(new PassiveFish());
+        level.AddChild(new PassiveFish());
     }
 
     void CardPassiveTurret()

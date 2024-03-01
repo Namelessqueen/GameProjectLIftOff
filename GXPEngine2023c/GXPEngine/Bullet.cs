@@ -17,7 +17,7 @@ class Bullet : Sprite
 
         vx = pVx;
         vy = pVy;
-        level = lLevel;
+        //level = lLevel;
         damage = dmg;
     }
 
@@ -26,11 +26,10 @@ class Bullet : Sprite
         if (((MyGame)game).isPaused) return;
         x += vx;
         y += vy;
-        
-        if (x < level.x - 50 || x > level.x + game.width + 50 ||
-            y < level.y - 50 || y > level.y + game.height + 50)
+        if (level == null) level = game.FindObjectOfType<Level>();
+        if (x < -level.x || x > -level.x + game.width ||
+            y < -level.y || y > -level.y + game.height)
         {
-            //Console.WriteLine("bullet destroyed");
             LateDestroy();
         }
         // TODO: Check whether offscreen / hit test, and then remove!

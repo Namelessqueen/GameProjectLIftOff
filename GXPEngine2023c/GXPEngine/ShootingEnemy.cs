@@ -32,7 +32,7 @@ class ShootingEnemy : Enemy
     {
         scale = 1;
         SetOrigin(width / 2, height / 2);
-        
+        level = game.FindObjectOfType<Level>();
         bulletSize = projSize;
         speed = spd;
         damage = dmg;
