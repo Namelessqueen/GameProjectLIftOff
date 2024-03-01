@@ -28,7 +28,7 @@ class ShootingEnemy : Enemy
                        int dmg = 1,
                        float spd = 1,
                        float projSize = 1
-                       ) : base(fileName, cols, rows, hp)
+                       ) : base(fileName, cols, rows, hp, dmg)
     {
         scale = 1;
         SetOrigin(width / 2, height / 2);

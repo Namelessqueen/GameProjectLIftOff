@@ -21,7 +21,7 @@ class MeleeEnemy : Enemy
                       int hp = 1, 
                       int dmg = 1, 
                       float spd = 1
-                      ) : base(fileName, cols, rows, hp)
+                      ) : base(fileName, cols, rows, hp, dmg)
     {
 
         damage = dmg;

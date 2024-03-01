@@ -176,7 +176,6 @@ class Player : AnimationSprite
 
 
         SetCycle(frameStart, frameNumber);
-        Console.WriteLine("aaaaaaaaaaa");
         Animate(.3f);
 
 

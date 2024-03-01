@@ -36,6 +36,9 @@ class Enemy : AnimationSprite
     public string status;           // needs to be public because status affects speed and speed is type specific
     public int enemyType;
     private float UltDamage;
+    private float damage;
+    private float waveStatIncreaseAtk = 1.1f;
+    private float waveStatIncreaseHp = 1.2f;
 
     private float health;
     private float damageTaken;
@@ -52,7 +55,7 @@ class Enemy : AnimationSprite
 
     FMODSoundSystem soundSystem;
 
-    public Enemy(string fileName = "square.png", int cols = 1, int rows = 1, int eHealth = 10) : base(fileName, cols, rows)
+    public Enemy(string fileName = "square.png", int cols = 1, int rows = 1, int eHealth = 10, float dmg = 1) : base(fileName, cols, rows)
     {
         health = eHealth;
         SetOrigin(width / 2, height / 2);
@@ -61,6 +64,9 @@ class Enemy : AnimationSprite
         player = game.FindObjectOfType<Player>();   
         fishTime = passiveFishIFrames;
         soundSystem = new FMODSoundSystem();
+        damage = dmg;
+        health *= level.waveNumber * waveStatIncreaseHp;
+        damage *= level.waveNumber * waveStatIncreaseAtk;
     }
 
 
@@ -130,7 +136,7 @@ class Enemy : AnimationSprite
         {
             GameObject col = collisions[i];
             if (col is Enemy || col is Bullet) continue;
-
+            if (col is Player) player.HealthUpdate(-damage);
             if (col is PassiveFish)
             {
                
