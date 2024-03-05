@@ -69,7 +69,7 @@ class Player : AnimationSprite
     private Enemy[] foundEnemies;
     private Level level;
     private int lengthFoundEnemies = 1;
-    private ArduinoInput arduinoInput;    ////////////////////////////////////////////////
+    //private ArduinoInput arduinoInput;    ////////////////////////////////////////////////
 
     private bool isDashing = false;
     private int dashSpeed = 2;
@@ -91,7 +91,7 @@ class Player : AnimationSprite
         currentAttack = baseAttack;
         isDashing = false;
 
-        arduinoInput = game.FindObjectOfType<ArduinoInput>(); /////////////////////////////////////////
+        //arduinoInput = game.FindObjectOfType<ArduinoInput>(); /////////////////////////////////////////
 
         AllEnemys = new List<Enemy>();
 
@@ -223,7 +223,7 @@ class Player : AnimationSprite
 
 
         // slider input
-        sliderInput = arduinoInput.SliderValue(); ////////////////////////////////////////////
+        //sliderInput = arduinoInput.SliderValue(); ////////////////////////////////////////////
         //Console.WriteLine("player called slider input: "+ sliderInput);
 
         // no slider arduino input

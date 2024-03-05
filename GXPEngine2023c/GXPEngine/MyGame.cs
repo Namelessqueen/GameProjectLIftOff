@@ -26,7 +26,7 @@ public class MyGame : Game {
 
     public void GameStart()
     {
-        AddChild(new ArduinoInput()); ///////////////////////////////////////////////////////////
+        //AddChild(new ArduinoInput()); ///////////////////////////////////////////////////////////
         
         //text
         MainMenu mainMenu = game.FindObjectOfType<MainMenu>();
