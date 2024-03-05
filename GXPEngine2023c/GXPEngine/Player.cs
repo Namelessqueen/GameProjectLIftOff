@@ -58,8 +58,6 @@ class Player : AnimationSprite
     private float currentUlt;
 
 
-
-
     private float lastXPos, lastYPos;
     private float lastRotation;
     private float bulletXRotHelp, bulletYRotHelp;
@@ -463,14 +461,14 @@ class Player : AnimationSprite
             {  
                 col.Destroy();
                 //Console.WriteLine(col.name + " hit player");
-                HealthUpdate(-5);
+                //HealthUpdate(-5);
                 HealthCoolDown = 0;
                 
             }
             if (col is Enemy)
             {
                 //Console.WriteLine(col.name + " hit player");
-                HealthUpdate(-10);
+                //HealthUpdate(-10);
                 HealthCoolDown = 0;
             }
         }
@@ -531,7 +529,7 @@ class Player : AnimationSprite
     void CardHealth()
     {
         //Console.WriteLine("CardHealth chosen");
-        healthMultiplier += 0.2f;
+        healthMultiplier *= cardHpIncrease;
         /*
         float newHealth = maxHealth * cardHpIncrease;
         maxHealth = (int)newHealth;*/

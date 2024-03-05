@@ -30,6 +30,12 @@ class Enemy : AnimationSprite
     private float channelVolume12 = .8f; // Universal Freeze sound.wav
     private float channelVolume13 = .8f; // Universal poison sound.wav
 
+    private float waveStatIncreaseAtk = 1.1f;
+    private float waveStatIncreaseHp = 1.2f;
+    
+    float xpGain = 5;
+    float ultGain = 3f;
+
     public Level level;
     private Player player;
     private TextCanvas canvas;
@@ -37,8 +43,6 @@ class Enemy : AnimationSprite
     public int enemyType;
     private float UltDamage;
     private float damage;
-    private float waveStatIncreaseAtk = 1.1f;
-    private float waveStatIncreaseHp = 1.2f;
 
     private float health;
     private float damageTaken;
@@ -238,8 +242,8 @@ class Enemy : AnimationSprite
             level.SomethingDied(x, y);
             //parent.RemoveChild(this);
             parent.RemoveChild(this);
-            canvas.XPUpdate(5); //XP added
-            player.UltValue(3f); // Ult value
+            canvas.XPUpdate(xpGain); //XP added
+            player.UltValue(ultGain); // Ult value
             //level.RemoveChild(this);  // AAAAAAAAAAAAAAAAAAAAAAAAAAAA
             Random random = new Random();
 
